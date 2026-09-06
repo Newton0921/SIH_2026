@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block title %}Analyze Email{% endblock %}
+{% block meta_description %}Upload an .eml file for AI-powered threat detection, geolocation and forensic analysis{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width:900px;">
+
+  <!-- Hero -->
+  <div class="text-center pt-4 pb-5">
+    <div class="hero-icon mb-4">
+      <i class="bi bi-shield-shaded" style="font-size:4rem;background:linear-gradient(135deg,#00d4ff,#7b61ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;"></i>
+    </div>
+    <h1 class="display-5 fw-bold mb-2">Email Threat Intelligence</h1>
+    <p class="lead text-muted mb-0">AI-powered phishing detection &middot; Geolocation tracing &middot; Forensic reporting</p>
+    <p class="text-muted small mt-2"><i class="bi bi-info-circle me-1"></i>All attribution outputs are probabilistic indicators, never certainties. See disclaimer in footer.</p>
+  </div>
+
+  <!-- Upload Card -->
+  <div class="card glass-card mb-5" id="upload-card">
+    <div class="card-body p-5">
+      <form action="{{ url_for('analyze') }}" method="post" enctype="multipart/form-data" id="upload-form">
+        <div class="upload-zone mb-4" id="drop-zone">
+          <input type="file" name="email_file" id="email_file" accept=".eml" class="d-none" required/>
+          <label for="email_file" class="upload-label d-flex flex-column align-items-center justify-content-center h-100 w-100" style="cursor:pointer;">
+            <i class="bi bi-envelope-arrow-up upload-icon mb-3"></i>
+            <h5 class="fw-semibold mb-1" id="file-label">Drop .eml file here or click to browse</h5>
+            <small class="text-muted">RFC 5322 email files only &middot; Max 10 MB</small>
+          </label>
+        </div>
+
+        <div class="d-grid">
+          <button type="submit" class="btn btn-analyze btn-lg py-3" id="analyze-btn">
+            <i class="bi bi-cpu me-2"></i>Run Full Threat Analysis
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Feature Cards -->
+  <div class="row g-4 mb-5">
+    {% set features = [
+      ("bi-cpu-fill","#00d4ff","ML Classifier","TF-IDF + Logistic Regression trained on 13K+ phishing samples with 97.7% accuracy"),
+      ("bi-geo-alt-fill","#7b61ff","GeoIP Tracing","Parse Received chain, plot hop-by-hop geolocation with Leaflet.js"),
+      ("bi-diagram-3-fill","#ff6b35","Campaign Graph","NetworkX correlation across all emails — detect coordinated campaigns"),
+      ("bi-file-earmark-pdf-fill","#00ff88","Forensic Report","One-click PDF export with full signal breakdown and attribution indicators"),
+    ] %}
+    {% for icon, color, title, desc in features %}
+    <div class="col-md-6">
+      <div class="feature-card h-100">
+        <div class="feature-icon mb-3" style="color:{{ color }};">
+          <i class="bi {{ icon }}"></i>
+        </div>
+        <h6 class="fw-semibold mb-2">{{ title }}</h6>
+        <p class="text-muted small mb-0">{{ desc }}</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Quick link to dashboard -->
+  <div class="text-center">
+    <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary px-4">
+      <i class="bi bi-grid-3x3-gap me-2"></i>View Analysis Dashboard
+    </a>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+const dropZone = document.getElementById('drop-zone');
+const fileInput = document.getElementById('email_file');
+const fileLabel = document.getElementById('file-label');
+const form      = document.getElementById('upload-form');
+const btn       = document.getElementById('analyze-btn');
+
+// Highlight drag
+['dragenter','dragover'].forEach(e => dropZone.addEventListener(e, ev => { ev.preventDefault(); dropZone.classList.add('drag-over'); }));
+['dragleave','drop'].forEach(e => dropZone.addEventListener(e, ev => { ev.preventDefault(); dropZone.classList.remove('drag-over'); }));
+
+dropZone.addEventListener('drop', ev => {
+  const files = ev.dataTransfer.files;
+  if (files.length > 0) {
+    fileInput.files = files;
+    fileLabel.textContent = files[0].name;
+    dropZone.classList.add('file-selected');
+  }
+});
+
+fileInput.addEventListener('change', () => {
+  if (fileInput.files.length > 0) {
+    fileLabel.textContent = fileInput.files[0].name;
+    dropZone.classList.add('file-selected');
+  }
+});
+
+form.addEventListener('submit', () => {
+  btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Analyzing...';
+  btn.disabled = true;
+});
+</script>
+{% endblock %}

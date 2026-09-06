@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}Audit Log{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-4">
+  <div class="d-flex align-items-center justify-content-between mb-4">
+    <div>
+      <h1 class="h3 fw-bold mb-0"><i class="bi bi-journal-check me-2 text-primary"></i>Audit Log</h1>
+      <small class="text-muted">Chain-of-custody record &mdash; append-only</small>
+    </div>
+    <form action="{{ url_for('admin_purge') }}" method="post" class="d-flex gap-2 align-items-end" onsubmit="return confirm('Purge email bodies older than this many days?')">
+      <div>
+        <label class="form-label small text-muted mb-1">Retention Days</label>
+        <input type="number" name="days" class="form-control form-control-sm" value="90" style="width:90px;"/>
+      </div>
+      <button type="submit" class="btn btn-sm btn-outline-danger px-3">
+        <i class="bi bi-trash me-1"></i>Purge Bodies
+      </button>
+    </form>
+  </div>
+
+  <div class="card glass-card">
+    <div class="card-body p-0">
+      {% if entries %}
+      <div class="table-responsive">
+        <table class="table table-dark table-sm table-hover mb-0">
+          <thead>
+            <tr>
+              <th>ID</th><th>Action</th><th>Record</th><th>Actor (IP)</th><th>Timestamp</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for e in entries %}
+            <tr>
+              <td class="text-muted small">{{ e.id }}</td>
+              <td>
+                {% set action_icons = {
+                  'upload_email': 'upload',
+                  'view_detail': 'eye',
+                  'export_pdf': 'file-earmark-pdf',
+                  'view_dashboard': 'grid-3x3-gap',
+                  'purge_body': 'trash',
+                } %}
+                <i class="bi bi-{{ action_icons.get(e.action, 'circle') }} me-1 text-info"></i>
+                <small class="font-mono">{{ e.action }}</small>
+              </td>
+              <td>
+                {% if e.record_id %}
+                  <a href="{{ url_for('detail', email_id=e.record_id) }}" class="text-muted small">#{{ e.record_id }}</a>
+                {% else %}
+                  <span class="text-muted small">—</span>
+                {% endif %}
+              </td>
+              <td><small class="font-mono text-muted">{{ e.actor }}</small></td>
+              <td><small class="text-muted">{{ (e.timestamp or '')[:19]|replace('T',' ') }} UTC</small></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <div class="text-center py-5">
+        <i class="bi bi-journal text-muted" style="font-size:3rem;"></i>
+        <p class="text-muted mt-3">No audit entries yet</p>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

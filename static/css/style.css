@@ -1,0 +1,838 @@
+/* ==========================================================================
+   ThreatLens — Precision Skeuomorphic Hardware Console Design System
+   Directly derived from the skeuomorphic workshop reference specifications
+   (Tactile milled chassis, vulcanite textures, chrome top-plates, 
+    physical 3D depression buttons, recessed instrument bays & dials)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. SKEUOMORPHIC DESIGN TOKENS
+   -------------------------------------------------------------------------- */
+:root {
+  /* Workbench & Base Atmosphere */
+  --bench-mat: radial-gradient(circle at 50% 30%, #1c202a 0%, #0a0c10 100%);
+  --vulcanite-surface: #141720;
+  --vulcanite-dots: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+
+  /* Machined Metallic Plates */
+  --chrome-plate: linear-gradient(180deg, #f0f2f5 0%, #c4cad4 45%, #9aa1ad 55%, #dbe0e8 100%);
+  --gunmetal-plate: linear-gradient(180deg, #2b303d 0%, #1d212b 45%, #151820 55%, #232834 100%);
+  --gunmetal-plate-hover: linear-gradient(180deg, #343b4b 0%, #242936 45%, #1b1e27 55%, #2a313f 100%);
+  --brass-plate: linear-gradient(135deg, #f7d486 0%, #d4a34b 50%, #9e6f24 100%);
+  --steel-chassis: linear-gradient(180deg, #181b24 0%, #101218 100%);
+  --knurled-chrome: conic-gradient(
+    #e2e5ea 0deg, #8a93a0 45deg, #e2e5ea 90deg, #8a93a0 135deg,
+    #e2e5ea 180deg, #8a93a0 225deg, #e2e5ea 270deg, #8a93a0 315deg, #e2e5ea 360deg
+  );
+
+  /* Tactical Color Accents */
+  --accent-cyan: #00d4ff;
+  --accent-cyan-dark: #0088b3;
+  --accent-cyan-lip: #004d66;
+  --accent-red: #e63946;
+  --accent-red-lip: #5a0a11;
+  --accent-amber: #e5b869;
+  --accent-amber-lip: #6e4e10;
+  --accent-green: #2ecc71;
+  --accent-green-lip: #145a32;
+  --accent-purple: #845ef7;
+  --accent-purple-lip: #3c1e82;
+
+  /* Typography */
+  --font-chassis: 'Chakra Petch', sans-serif;
+  --font-mono: 'Space Mono', 'JetBrains Mono', monospace;
+  --font-body: 'Inter', -apple-system, sans-serif;
+
+  /* Text colors */
+  --text-main: #f0f2f5;
+  --text-muted: #8c95a5;
+  --text-engraved: rgba(255, 255, 255, 0.9);
+
+  /* Physical Shadows & Reliefs */
+  --chassis-shadow: 
+    0 35px 80px rgba(0, 0, 0, 0.95),
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.18),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.8);
+
+  --plate-shadow: 
+    0 10px 25px rgba(0, 0, 0, 0.65),
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.25),
+    inset 0 -2px 3px rgba(0, 0, 0, 0.6);
+
+  --inset-bay-shadow: 
+    inset 0 5px 15px rgba(0, 0, 0, 0.95),
+    inset 0 1px 3px rgba(0, 0, 0, 0.9),
+    0 1px 0 rgba(255, 255, 255, 0.12);
+
+  --emboss-text: 0 1px 0 rgba(255, 255, 255, 0.3), 0 -1px 2px #000;
+  --engrave-text: 0 -1px 0 rgba(0, 0, 0, 0.9), 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+/* --------------------------------------------------------------------------
+   2. BASE WORKBENCH ATMOSPHERE
+   -------------------------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: var(--bench-mat) fixed !important;
+  color: var(--text-main) !important;
+  font-family: var(--font-body) !important;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Micro-perforated bench mat overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: var(--vulcanite-dots);
+  background-size: 8px 8px;
+  opacity: 0.8;
+  pointer-events: none;
+  z-index: 0;
+}
+
+main, .container, .container-fluid {
+  position: relative;
+  z-index: 1;
+}
+
+/* --------------------------------------------------------------------------
+   3. TOP CHROME / MACHINED STEEL NAV-PLATE
+   -------------------------------------------------------------------------- */
+#main-nav.navbar {
+  background: var(--gunmetal-plate) !important;
+  border-bottom: 2px solid #3c4456 !important;
+  box-shadow: var(--plate-shadow) !important;
+  padding: 0.75rem 1.5rem !important;
+  z-index: 1030;
+}
+
+#main-nav .container-fluid {
+  max-width: 1350px;
+}
+
+/* Brand Identity with Pilot Gem */
+.navbar-brand {
+  font-family: var(--font-chassis) !important;
+  font-size: 1.35rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  color: #ffffff !important;
+  text-shadow: var(--emboss-text) !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.navbar-brand .brand-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #00f2fe, #0077b6) !important;
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.7),
+    inset 0 1.5px 2px #fff,
+    inset 0 -2px 3px #003755,
+    0 0 12px rgba(0, 212, 255, 0.5) !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  color: #fff !important;
+  border: 1px solid #48cae4;
+}
+
+.navbar-brand .brand-text {
+  font-family: var(--font-chassis);
+  letter-spacing: 0.14em;
+  font-weight: 700;
+}
+
+.navbar-brand .badge {
+  background: var(--chrome-plate) !important;
+  color: #1a1d24 !important;
+  font-family: var(--font-mono) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.12em !important;
+  box-shadow:
+    0 2px 4px rgba(0,0,0,0.5),
+    inset 0 1px 1px #fff !important;
+  border: 1px solid #788292 !important;
+}
+
+/* Tactile Switchboard Nav Buttons */
+.navbar-nav .nav-item {
+  margin: 0 3px;
+}
+
+.navbar-nav .nav-link {
+  background: linear-gradient(180deg, #242936 0%, #151821 100%) !important;
+  border: 1px solid #0d0f14 !important;
+  border-radius: 5px !important;
+  padding: 0.45rem 1rem !important;
+  font-family: var(--font-mono) !important;
+  font-size: 0.78rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  color: #9aa2b2 !important;
+  box-shadow:
+    0 3px 0 #0d0f14,
+    0 4px 6px rgba(0, 0, 0, 0.5),
+    inset 0 1px 1px rgba(255, 255, 255, 0.18) !important;
+  position: relative;
+  top: 0;
+  transition: all 0.08s ease !important;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #ffffff !important;
+  filter: brightness(1.15) !important;
+}
+
+.navbar-nav .nav-link:active {
+  top: 2px !important;
+  box-shadow:
+    0 1px 0 #0d0f14,
+    0 2px 3px rgba(0, 0, 0, 0.7),
+    inset 0 1px 2px rgba(0, 0, 0, 0.6) !important;
+}
+
+.navbar-nav .nav-link.active {
+  background: linear-gradient(180deg, #0099cc 0%, #006688 100%) !important;
+  color: #ffffff !important;
+  border-color: #00445a !important;
+  box-shadow:
+    inset 0 2px 4px rgba(0, 0, 0, 0.6),
+    0 1px 0 rgba(255, 255, 255, 0.15) !important;
+  top: 1px !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8) !important;
+}
+
+/* --------------------------------------------------------------------------
+   4. CHASSIS RIG CARDS & PANELS (Direct Camera / Horology Reference)
+   -------------------------------------------------------------------------- */
+.card,
+.glass-card,
+.feature-card,
+.stat-card {
+  position: relative;
+  background: var(--steel-chassis) !important;
+  border: 2px solid #2e3444 !important;
+  border-radius: 14px !important;
+  box-shadow: var(--chassis-shadow) !important;
+  overflow: hidden;
+}
+
+/* Rivet details on primary chassis corners */
+.card#upload-card::before,
+.card#upload-card::after {
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--brass-plate);
+  box-shadow:
+    inset 0 1px 1px #fff,
+    inset 0 -1px 1px #4a3007,
+    0 2px 4px rgba(0, 0, 0, 0.7);
+  z-index: 10;
+}
+.card#upload-card::before { top: 12px; left: 12px; }
+.card#upload-card::after { top: 12px; right: 12px; }
+
+.card-header {
+  background: linear-gradient(180deg, #242936 0%, #181b23 100%) !important;
+  border-bottom: 2px solid #2e3444 !important;
+  padding: 1rem 1.4rem !important;
+  font-family: var(--font-chassis) !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  color: #ffffff !important;
+  text-shadow: var(--emboss-text) !important;
+}
+
+/* --------------------------------------------------------------------------
+   5. MECHANICAL 3D BUTTONS (Tactile Physical Depression on Click)
+   -------------------------------------------------------------------------- */
+/* Primary Buttons & Threat Analysis Execution Button */
+.btn-primary,
+.btn-analyze {
+  background: linear-gradient(180deg, #00c0f0 0%, #008eb8 50%, #007294 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid #004b61 !important;
+  border-radius: 6px !important;
+  font-family: var(--font-mono) !important;
+  font-size: 0.85rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.1em !important;
+  cursor: pointer !important;
+  box-shadow:
+    0 4px 0 #003d4f,
+    0 6px 12px rgba(0, 0, 0, 0.7),
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.5) !important;
+  position: relative !important;
+  top: 0 !important;
+  transition: all 0.08s ease !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.btn-primary:hover,
+.btn-analyze:hover {
+  filter: brightness(1.1) !important;
+  color: #fff !important;
+}
+
+.btn-primary:active,
+.btn-analyze:active {
+  top: 3px !important;
+  box-shadow:
+    0 1px 0 #003d4f,
+    0 2px 4px rgba(0, 0, 0, 0.8),
+    inset 0 1px 2px rgba(0, 0, 0, 0.5) !important;
+}
+
+.btn-analyze.btn-lg {
+  font-size: 1rem !important;
+  padding: 1.1rem 2rem !important;
+  letter-spacing: 0.14em !important;
+}
+
+/* Danger Buttons (Quarantine / Purge / Shutter Red) */
+.btn-danger,
+.btn-outline-danger {
+  background: linear-gradient(180deg, #e63946 0%, #b81d2c 50%, #8f121e 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid #5a0a11 !important;
+  border-radius: 6px !important;
+  font-family: var(--font-mono) !important;
+  font-size: 0.82rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  cursor: pointer !important;
+  box-shadow:
+    0 4px 0 #40050b,
+    0 6px 12px rgba(0, 0, 0, 0.65),
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.4) !important;
+  position: relative !important;
+  top: 0 !important;
+  transition: all 0.08s ease !important;
+}
+
+.btn-danger:hover,
+.btn-outline-danger:hover {
+  color: #fff !important;
+  filter: brightness(1.1) !important;
+}
+
+.btn-danger:active,
+.btn-outline-danger:active {
+  top: 3px !important;
+  box-shadow:
+    0 1px 0 #40050b,
+    0 2px 4px rgba(0, 0, 0, 0.8),
+    inset 0 1px 2px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Secondary & Gunmetal Utility Buttons */
+.btn-secondary,
+.btn-outline-secondary {
+  background: var(--gunmetal-plate) !important;
+  color: #dbe2ef !important;
+  border: 1px solid #101217 !important;
+  border-radius: 6px !important;
+  font-family: var(--font-mono) !important;
+  font-size: 0.82rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  cursor: pointer !important;
+  box-shadow:
+    0 3px 0 #0b0d11,
+    0 5px 9px rgba(0, 0, 0, 0.6),
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.22) !important;
+  position: relative !important;
+  top: 0 !important;
+  transition: all 0.08s ease !important;
+}
+
+.btn-secondary:hover,
+.btn-outline-secondary:hover {
+  color: #ffffff !important;
+  background: var(--gunmetal-plate-hover) !important;
+}
+
+.btn-secondary:active,
+.btn-outline-secondary:active {
+  top: 2px !important;
+  box-shadow:
+    0 1px 0 #0b0d11,
+    0 2px 3px rgba(0, 0, 0, 0.8),
+    inset 0 1px 2px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Outline Primary (e.g. Export PDF) */
+.btn-outline-primary {
+  background: linear-gradient(180deg, #1b2d3d 0%, #111d27 100%) !important;
+  color: #00d4ff !important;
+  border: 1px solid #005a73 !important;
+  border-radius: 6px !important;
+  font-family: var(--font-mono) !important;
+  font-weight: 700 !important;
+  box-shadow:
+    0 3px 0 #002d3a,
+    0 5px 8px rgba(0,0,0,0.6),
+    inset 0 1px 1px rgba(0,212,255,0.3) !important;
+  position: relative !important;
+  top: 0 !important;
+}
+
+.btn-outline-primary:hover {
+  color: #fff !important;
+  background: linear-gradient(180deg, #243e54 0%, #172836 100%) !important;
+}
+
+.btn-outline-primary:active {
+  top: 2px !important;
+  box-shadow: 0 1px 0 #002d3a, 0 2px 3px rgba(0,0,0,0.8) !important;
+}
+
+/* --------------------------------------------------------------------------
+   6. RECESSED APERTURE BAY (Upload Zone)
+   -------------------------------------------------------------------------- */
+.upload-zone {
+  background: linear-gradient(180deg, #0c0e13 0%, #060709 100%) !important;
+  border: 2px dashed #3a4254 !important;
+  border-radius: 12px !important;
+  box-shadow: var(--inset-bay-shadow) !important;
+  padding: 3.5rem 2rem !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  position: relative;
+}
+
+.upload-zone:hover,
+.upload-zone.drag-over {
+  border-color: #00d4ff !important;
+  box-shadow:
+    inset 0 5px 25px rgba(0, 212, 255, 0.2),
+    inset 0 0 15px rgba(0, 0, 0, 0.95),
+    0 0 18px rgba(0, 212, 255, 0.35) !important;
+}
+
+.upload-zone.file-selected {
+  border-color: #2ecc71 !important;
+  box-shadow:
+    inset 0 5px 25px rgba(46, 204, 113, 0.2),
+    0 0 15px rgba(46, 204, 113, 0.3) !important;
+}
+
+.upload-icon {
+  font-size: 4rem !important;
+  color: #00d4ff !important;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 14px rgba(0, 212, 255, 0.5)) !important;
+  transition: transform 0.2s ease;
+}
+
+.upload-zone:hover .upload-icon {
+  transform: translateY(-4px) scale(1.05);
+}
+
+#file-label {
+  font-family: var(--font-chassis) !important;
+  letter-spacing: 0.06em !important;
+  color: #ffffff !important;
+  text-shadow: var(--emboss-text) !important;
+}
+
+/* --------------------------------------------------------------------------
+   7. STAT METERS & PHYSICAL COUNTER BLOCKS
+   -------------------------------------------------------------------------- */
+.stat-card {
+  padding: 1.4rem 1.2rem !important;
+  cursor: pointer;
+  transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.15s ease !important;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  border-color: #4b5468 !important;
+}
+
+.stat-card:active {
+  transform: translateY(1px);
+}
+
+.stat-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #101217 0%, #08090c 100%) !important;
+  border: 1px solid #2c3240 !important;
+  box-shadow:
+    inset 0 2px 6px #000,
+    0 1px 0 rgba(255, 255, 255, 0.15) !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+}
+
+.stat-number {
+  font-family: var(--font-mono) !important;
+  font-size: 1.9rem !important;
+  font-weight: 700 !important;
+  line-height: 1.1;
+  text-shadow: 0 0 12px currentColor, 0 2px 4px #000 !important;
+}
+
+.stat-label {
+  font-family: var(--font-chassis) !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  color: var(--text-muted) !important;
+  margin-top: 0.2rem;
+}
+
+/* --------------------------------------------------------------------------
+   8. SWITCHBOARD FILTERS & FORM CONTROLS
+   -------------------------------------------------------------------------- */
+#filter-form {
+  background: linear-gradient(180deg, #13161d 0%, #0d0f14 100%);
+  border-radius: 8px;
+  padding: 0.6rem 0.8rem;
+}
+
+.form-control,
+.form-select {
+  background: linear-gradient(180deg, #0e1015 0%, #07080b 100%) !important;
+  border: 1px solid #2c3240 !important;
+  border-radius: 5px !important;
+  color: #e6ebf5 !important;
+  font-family: var(--font-mono) !important;
+  font-size: 0.8rem !important;
+  box-shadow:
+    inset 0 2px 5px rgba(0, 0, 0, 0.95),
+    0 1px 0 rgba(255, 255, 255, 0.08) !important;
+  padding: 0.45rem 0.75rem !important;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #00d4ff !important;
+  box-shadow:
+    inset 0 2px 6px rgba(0, 0, 0, 0.95),
+    0 0 0 2px rgba(0, 212, 255, 0.3),
+    0 0 12px rgba(0, 212, 255, 0.3) !important;
+  color: #fff !important;
+}
+
+.form-label {
+  font-family: var(--font-mono) !important;
+  font-size: 0.7rem !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  color: #8c95a5 !important;
+}
+
+/* --------------------------------------------------------------------------
+   9. FLIGHT DATA RECORDER LEDGER (Tables)
+   -------------------------------------------------------------------------- */
+.table-responsive {
+  border-radius: 0 0 12px 12px;
+}
+
+.table {
+  --bs-table-bg: transparent !important;
+  margin-bottom: 0 !important;
+  font-family: var(--font-mono) !important;
+  font-size: 0.82rem !important;
+}
+
+.table thead th {
+  background: linear-gradient(180deg, #242936 0%, #171922 100%) !important;
+  border-bottom: 2px solid #363d4e !important;
+  color: #ced6e2 !important;
+  font-family: var(--font-chassis) !important;
+  font-size: 0.8rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  padding: 0.85rem 1rem !important;
+  text-shadow: 0 1px 1px #000;
+}
+
+.table tbody tr {
+  background: #12141a !important;
+  border-bottom: 1px solid #20242e !important;
+  transition: background 0.12s ease;
+}
+
+.table tbody tr:nth-child(even) {
+  background: #0f1116 !important;
+}
+
+.table tbody tr:hover {
+  background: #1a1e27 !important;
+}
+
+.table td {
+  padding: 0.85rem 1rem !important;
+  vertical-align: middle !important;
+  border-color: #222632 !important;
+}
+
+/* --------------------------------------------------------------------------
+   10. HARDWARE STAMP BADGES & INDICATORS
+   -------------------------------------------------------------------------- */
+.badge {
+  font-family: var(--font-mono) !important;
+  font-weight: 700 !important;
+  font-size: 0.72rem !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  padding: 0.35rem 0.7rem !important;
+  border-radius: 4px !important;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.6),
+    inset 0 1px 1px rgba(255, 255, 255, 0.35),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.5) !important;
+  border: 1px solid rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Physical Outcome Enamels */
+.outcome-badge {
+  font-family: var(--font-chassis) !important;
+  font-size: 0.82rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  padding: 0.5rem 1.3rem !important;
+  border-radius: 6px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.7),
+    inset 0 1px 1px rgba(255, 255, 255, 0.45),
+    inset 0 -1.5px 2px rgba(0, 0, 0, 0.6) !important;
+}
+
+.outcome-quarantine,
+.badge.bg-danger {
+  background: linear-gradient(180deg, #e63946 0%, #a81926 100%) !important;
+  border: 1px solid #5a0a11 !important;
+  color: #fff !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9) !important;
+}
+
+.outcome-flag-for-manual-review,
+.badge.bg-warning {
+  background: linear-gradient(180deg, #f5b041 0%, #d68910 50%, #b9770e 100%) !important;
+  border: 1px solid #7e4e04 !important;
+  color: #1a1202 !important;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+}
+
+.outcome-deliver,
+.badge.bg-success {
+  background: linear-gradient(180deg, #2ecc71 0%, #198744 100%) !important;
+  border: 1px solid #0f4f27 !important;
+  color: #fff !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9) !important;
+}
+
+/* Auth Badges */
+.auth-badge {
+  background: linear-gradient(180deg, #1e2430 0%, #12151c 100%) !important;
+  border: 1px solid #2d3444 !important;
+  color: #9aa2b2 !important;
+}
+
+.auth-badge.auth-pass {
+  background: linear-gradient(180deg, #1f6b3e 0%, #144629 100%) !important;
+  border-color: #0d2f1b !important;
+  color: #a3f7c5 !important;
+}
+
+.auth-badge.auth-fail {
+  background: linear-gradient(180deg, #8b1e28 0%, #541117 100%) !important;
+  border-color: #380a0f !important;
+  color: #ffb3b8 !important;
+}
+
+/* --------------------------------------------------------------------------
+   11. INSTRUMENT DIAL & DETAIL CONSOLE (detail.html)
+   -------------------------------------------------------------------------- */
+.score-gauge-wrap {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  margin: 0 auto;
+  border-radius: 50%;
+  background: radial-gradient(circle, #0c0e13 56%, #151821 78%, #242a38 100%);
+  border: 4px solid #363d4e;
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.85),
+    inset 0 3px 8px rgba(0, 0, 0, 0.95),
+    0 1px 0 rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.score-gauge-wrap canvas {
+  display: block;
+  width: 180px !important;
+  height: 180px !important;
+}
+
+.score-gauge-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.score-big {
+  font-family: var(--font-chassis) !important;
+  font-size: 3.2rem !important;
+  font-weight: 700 !important;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.score-sub {
+  font-family: var(--font-mono) !important;
+  font-size: 0.68rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+  color: var(--text-muted) !important;
+  margin-top: 4px;
+}
+
+/* Leaflet Radar Screen Frame */
+#routeMap {
+  border-radius: 10px !important;
+  border: 2px solid #2d3444 !important;
+  box-shadow: var(--inset-bay-shadow) !important;
+}
+
+/* Raw Header & Code Bunkers */
+pre.bg-dark {
+  background: linear-gradient(180deg, #090b0e 0%, #040507 100%) !important;
+  border: 1px solid #262c37 !important;
+  box-shadow: var(--inset-bay-shadow) !important;
+  color: #00ff88 !important;
+  font-family: var(--font-mono) !important;
+  font-size: 0.8rem !important;
+  padding: 1.2rem !important;
+}
+
+/* Feature cards in homepage */
+.feature-card {
+  padding: 1.8rem 1.6rem !important;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease !important;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  border-color: #444e64 !important;
+}
+
+.feature-icon {
+  font-size: 2.2rem !important;
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.7));
+}
+
+.feature-card h6 {
+  font-family: var(--font-chassis) !important;
+  font-size: 1.05rem !important;
+  letter-spacing: 0.06em !important;
+  color: #ffffff !important;
+  text-shadow: var(--emboss-text) !important;
+}
+
+/* Breadcrumbs */
+.breadcrumb-item a {
+  color: #00d4ff !important;
+  text-decoration: none !important;
+  font-family: var(--font-mono) !important;
+  font-size: 0.82rem !important;
+}
+
+.breadcrumb-item.active {
+  color: #9aa2b2 !important;
+  font-family: var(--font-mono) !important;
+}
+
+/* Accordion */
+.accordion-item {
+  background: transparent !important;
+  border: 1px solid #2d3444 !important;
+  margin-bottom: 0.5rem;
+  border-radius: 8px !important;
+  overflow: hidden;
+}
+
+.accordion-button {
+  background: linear-gradient(180deg, #222733 0%, #161821 100%) !important;
+  color: #ffffff !important;
+  font-family: var(--font-chassis) !important;
+  letter-spacing: 0.06em !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
+}
+
+.accordion-button:not(.collapsed) {
+  background: linear-gradient(180deg, #2a3140 0%, #1c202a 100%) !important;
+  color: #00d4ff !important;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.6) !important;
+}
+
+.accordion-body {
+  background: #0f1116 !important;
+}
+
+/* --------------------------------------------------------------------------
+   12. ACCESSIBILITY & FOCUS HARNESS
+   -------------------------------------------------------------------------- */
+:focus-visible {
+  outline: 2px solid #00d4ff !important;
+  outline-offset: 3px !important;
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.7) !important;
+}
+
+/* --------------------------------------------------------------------------
+   13. RESPONSIVE MEDIA QUERIES
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  #main-nav.navbar {
+    padding: 0.5rem 1rem !important;
+  }
+  .navbar-nav .nav-link {
+    margin: 4px 0 !important;
+  }
+  .upload-zone {
+    padding: 2rem 1rem !important;
+  }
+  .stat-number {
+    font-size: 1.5rem !important;
+  }
+}

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<title>ThreatLens Forensic Report — Email #{{ email.id }}</title>
+<style>
+  /* xhtml2pdf compatible styles — no flexbox, no grid, tables only */
+  @page { margin: 1.8cm 2cm; }
+  body { font-family: Arial, Helvetica, sans-serif; font-size: 11pt; color: #1a1a2e; background: #fff; }
+  h1 { font-size: 20pt; color: #16213e; border-bottom: 3px solid #0f3460; padding-bottom: 8pt; margin-bottom: 12pt; }
+  h2 { font-size: 13pt; color: #0f3460; border-bottom: 1px solid #ccc; padding-bottom: 4pt; margin-top: 18pt; margin-bottom: 8pt; }
+  h3 { font-size: 11pt; color: #0f3460; margin-top: 12pt; margin-bottom: 6pt; }
+  table { width: 100%; border-collapse: collapse; margin-bottom: 12pt; }
+  th { background: #16213e; color: #fff; padding: 6pt 8pt; text-align: left; font-size: 10pt; }
+  td { padding: 5pt 8pt; border-bottom: 1px solid #e0e0e0; font-size: 10pt; vertical-align: top; }
+  tr:nth-child(even) td { background: #f8f9ff; }
+  .label-cell { font-weight: bold; color: #0f3460; width: 35%; }
+  .score-box { display: inline-block; padding: 8pt 20pt; border-radius: 4pt; color: #fff; font-size: 22pt; font-weight: bold; }
+  .outcome-quarantine { background: #c0392b; }
+  .outcome-review { background: #e67e22; }
+  .outcome-deliver { background: #27ae60; }
+  .badge-pass { color: #27ae60; font-weight: bold; }
+  .badge-fail { color: #c0392b; font-weight: bold; }
+  .badge-unknown { color: #888; }
+  .indicator { padding: 3pt 0; border-bottom: 1px solid #eee; font-size: 9.5pt; font-family: Courier, monospace; }
+  .warning-box { border: 1px solid #e67e22; background: #fef9f0; padding: 8pt 10pt; border-radius: 3pt; margin: 8pt 0; }
+  .disclaimer { background: #fff3cd; border: 1px solid #ffc107; padding: 10pt; border-radius: 3pt; font-size: 9pt; margin-top: 20pt; }
+  .masked-note { background: #e8f4f8; border: 1px solid #3498db; padding: 6pt 10pt; border-radius: 3pt; font-size: 9pt; margin-bottom: 12pt; }
+  .footer { border-top: 1px solid #ccc; padding-top: 8pt; font-size: 8.5pt; color: #888; margin-top: 24pt; }
+  .attr-flag { font-weight: bold; color: #0f3460; }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<h1>ThreatLens &mdash; Forensic Analysis Report</h1>
+<table>
+  <tr>
+    <td class="label-cell">Report ID</td>
+    <td>TLNS-{{ email.id }}-{{ generated_at|replace(' ','')|replace(':','') }}</td>
+    <td class="label-cell">Generated</td>
+    <td>{{ generated_at }}</td>
+  </tr>
+  <tr>
+    <td class="label-cell">Platform</td>
+    <td>ThreatLens PS 26106</td>
+    <td class="label-cell">View</td>
+    <td>{% if masked %}<strong>MASKED (PII REDACTED)</strong>{% else %}Full Investigation{% endif %}</td>
+  </tr>
+</table>
+
+{% if masked %}
+<div class="masked-note">
+  <strong>Note:</strong> This report has been generated in masked mode. Email addresses and body content have been redacted for external sharing.
+</div>
+{% endif %}
+
+<!-- Risk Score -->
+<h2>Risk Assessment</h2>
+<table>
+  <tr>
+    <td style="width:50%;">
+      <span class="score-box outcome-{{ email.outcome|replace(' ','-')|replace('flag-for-manual-review','review') }}">
+        {{ "%.0f"|format(email.score or 0) }} / 100
+      </span>
+      <div style="margin-top:8pt;font-size:11pt;">
+        <strong>Outcome:</strong>
+        {{ email.outcome|upper|replace('-',' ') }}
+      </div>
+    </td>
+    <td style="width:50%;">
+      {% if signals.get('attribution_flag') %}
+      <div class="attr-flag">Attribution: {{ signals.attribution_flag|upper|replace('-',' ') }}</div>
+      {% if signals.get('attribution_confidence') %}
+      <div>Confidence: {{ "%.0f%%"|format(signals.attribution_confidence * 100) }}</div>
+      {% endif %}
+      <div style="font-size:9pt;color:#888;margin-top:4pt;">{{ signals.get('attribution_note','') }}</div>
+      {% endif %}
+    </td>
+  </tr>
+</table>
+
+<!-- Email Identity -->
+<h2>Email Identity</h2>
+<table>
+  <tr><td class="label-cell">Subject</td><td>{{ email.subject or '(none)' }}</td></tr>
+  <tr><td class="label-cell">From Address</td><td>{{ email.from_addr or '—' }}</td></tr>
+  <tr><td class="label-cell">From Domain</td><td>{{ email.from_domain or '—' }}</td></tr>
+  <tr><td class="label-cell">Filename</td><td>{{ email.filename or '—' }}</td></tr>
+  <tr><td class="label-cell">Date Received</td><td>{{ email.date_received or '—' }}</td></tr>
+  <tr><td class="label-cell">Campaign ID</td><td>{% if email.campaign_id %}C{{ email.campaign_id }} ({{ email.campaign_size or 1 }} emails){% else %}Not clustered{% endif %}</td></tr>
+</table>
+
+<!-- Authentication -->
+<h2>Authentication Results</h2>
+<table>
+  <tr>
+    <th>Protocol</th><th>Result</th><th>Source</th>
+  </tr>
+  <tr>
+    <td>SPF</td>
+    <td class="badge-{% if signals.get('spf') == 'pass' %}pass{% elif signals.get('spf') in ('fail','permerror') %}fail{% else %}unknown{% endif %}">{{ signals.get('spf','—') }}</td>
+    <td>{{ signals.get('auth_source','—') }}</td>
+  </tr>
+  <tr>
+    <td>DKIM</td>
+    <td class="badge-{% if signals.get('dkim') == 'pass' %}pass{% elif signals.get('dkim') == 'fail' %}fail{% else %}unknown{% endif %}">{{ signals.get('dkim','—') }}</td>
+    <td>{{ signals.get('auth_source','—') }}</td>
+  </tr>
+  <tr>
+    <td>DMARC</td>
+    <td class="badge-{% if signals.get('dmarc') == 'pass' %}pass{% elif signals.get('dmarc') == 'fail' %}fail{% else %}unknown{% endif %}">{{ signals.get('dmarc','—') }}</td>
+    <td>{{ signals.get('auth_source','—') }}</td>
+  </tr>
+</table>
+{% if signals.get('auth_note') %}
+<div class="warning-box" style="font-size:9pt;">{{ signals.auth_note }}</div>
+{% endif %}
+
+<!-- Classification -->
+<h2>Content Classification</h2>
+<table>
+  <tr><td class="label-cell">ML Final Label</td><td>{{ signals.get('final_label','—')|upper }}</td></tr>
+  <tr><td class="label-cell">ML Confidence</td><td>{{ "%.1f%%"|format((signals.get('ml_confidence',0) or 0)*100) }}</td></tr>
+  <tr><td class="label-cell">Heuristic Sub-type</td><td>{{ signals.get('heuristic_subtype','—') }}</td></tr>
+</table>
+
+<!-- Origin Intelligence -->
+<h2>Origin Intelligence</h2>
+<table>
+  <tr><td class="label-cell">Origin IP</td><td>{{ signals.get('origin_ip','—') }}</td></tr>
+  <tr><td class="label-cell">Location</td><td>{{ signals.get('city','—') }}, {{ signals.get('country','—') }}</td></tr>
+  <tr><td class="label-cell">Coordinates</td><td>{% if signals.get('lat') %}{{ signals.lat }}, {{ signals.lon }}{% else %}—{% endif %}</td></tr>
+  <tr><td class="label-cell">ASN / Org</td><td>{{ signals.get('asn_org','—') }}</td></tr>
+  <tr><td class="label-cell">TOR Exit Node</td><td>{% if signals.get('is_tor') %}<span class="badge-fail">YES</span>{% else %}No{% endif %}</td></tr>
+  <tr><td class="label-cell">Botnet C2 (Feodo)</td><td>{% if signals.get('is_botnet_c2') %}<span class="badge-fail">YES</span>{% else %}No{% endif %}</td></tr>
+  <tr><td class="label-cell">Cloud/Hosting</td><td>{% if signals.get('is_cloud_host') %}Yes — {{ signals.get('asn_org','') }}{% else %}No{% endif %}</td></tr>
+  <tr><td class="label-cell">Domain Age</td><td>{% if signals.get('domain_age_days') %}{{ signals.domain_age_days }} days{% else %}Unknown{% endif %} ({{ signals.get('domain_age_status','—') }})</td></tr>
+  <tr><td class="label-cell">MX Suspicious</td><td>{% if signals.get('mx_suspicious') %}Yes — {{ signals.get('mx_host','') }}{% else %}No{% endif %}</td></tr>
+  <tr><td class="label-cell">Homograph Match</td><td>{% if signals.get('homograph_match') %}{{ signals.homograph_match }} ({{ signals.get('homograph_score','—') }}% similar){% else %}None{% endif %}</td></tr>
+</table>
+
+<!-- Indicators -->
+{% if signals.get('indicators') %}
+<h2>Detection Indicators ({{ signals.indicators|length }})</h2>
+{% for ind in signals.indicators %}
+<div class="indicator">{{ loop.index }}. {{ ind }}</div>
+{% endfor %}
+{% endif %}
+
+<!-- Header Anomalies -->
+{% if signals.get('anomalies') %}
+<h2>Header Anomalies ({{ signals.anomalies|length }})</h2>
+{% for anom in signals.anomalies %}
+<div class="indicator" style="color:#c0392b;">{{ loop.index }}. {{ anom }}</div>
+{% endfor %}
+{% endif %}
+
+<!-- Infrastructure Flags -->
+{% if signals.get('infrastructure_flags') %}
+<h2>Infrastructure Flags</h2>
+{% for flag in signals.infrastructure_flags %}
+<div class="indicator" style="color:#c0392b;">{{ loop.index }}. {{ flag }}</div>
+{% endfor %}
+{% endif %}
+
+<!-- Score Breakdown -->
+<h2>Score Breakdown</h2>
+{% set bd = signals.get('breakdown', {}) %}
+<table>
+  <tr><th>Component</th><th>Raw Weight</th></tr>
+  {% for k, v in (bd or {}).items() %}
+  <tr><td>{{ k|replace('_',' ')|title }}</td><td>{{ "%.4f"|format(v) }}</td></tr>
+  {% endfor %}
+  <tr><td><strong>Total Score</strong></td><td><strong>{{ "%.1f"|format(email.score or 0) }} / 100</strong></td></tr>
+</table>
+
+<!-- Disclaimer -->
+<div class="disclaimer">
+  <strong>IMPORTANT DISCLAIMER:</strong>
+  All attribution outputs in this report are probabilistic indicators derived from structural, behavioral, and reputation signals.
+  They represent investigative leads — not conclusions, accusations, or factual claims about specific individuals or organizations.
+  No open-source system can reliably identify a named threat actor. Manual expert review is required before taking any action.
+  This report was generated by ThreatLens (PS 26106) for investigative support purposes only.
+</div>
+
+<div class="footer">
+  ThreatLens &bull; AI-Powered Email Threat Detection &bull; PS 26106 &bull; Generated {{ generated_at }}
+</div>
+
+</body>
+</html>
