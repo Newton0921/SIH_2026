@@ -1,0 +1,688 @@
+Delivered-To: newt0n00921@gmail.com
+Received: by 2002:a05:7208:5386:b0:107:22c1:b4a5 with SMTP id t6csp1673054rbd;
+        Sun, 9 Aug 2026 08:13:21 -0700 (PDT)
+X-Received: by 2002:a05:6a21:6daa:b0:3c4:3672:ba6 with SMTP id adf61e73a8af0-3cbadc15329mr24837765637.22.1786288401127;
+        Sun, 09 Aug 2026 08:13:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786288401; cv=none;
+        d=google.com; s=arc-20260327;
+        b=U5oroOhP2gqZE0hodOTBuwoRzx8aKsfpLY7yVipMcRgextkuiB8XRUGw80/TMLBU9r
+         KUdU1Yampf4nybAg9py0dlnmQAZKe9A8/4DP8BSa8vaiUUM2eq8dc771TRHkvTsUPkza
+         rZCZctH6QATWpQ/oD7qO+Np6w8WByA53wTuWaziusFqq8ydFaUIR2MXq6tFwMiwkhb7Z
+         mzpJR+8VrkHiKRsIv2OlAmYFQ0aRxa6giWj8IMbwagV3Yg3TI1ZYqwTnSJmHBODlT9KF
+         f0gWcM5jOi8mshW2wYYkW+8pK7ng1C+gMMWkoGPmzLqa3zoWMQETkhpIaexGZqfqPuWm
+         C+XQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=to:list-unsubscribe-post:list-unsubscribe:list-id:reply-to:subject
+         :message-id:mime-version:from:date:content-transfer-encoding
+         :dkim-signature:dkim-signature;
+        bh=gl0xNuqNDx/HQGes0YaAKBjDDe0uBz0Bobqnzr9Atqk=;
+        fh=2Hw6KoHhaxnmgzgZFGmR42Eotl7fEhJNnUSeW4lyOLg=;
+        b=Mg6FNWNJZ8NQEhKMEbik0ubX6242o55XYufkyHvMsw82UaYVNquH9i/gFzUqPqVfAx
+         o7eTBTbJsjOHa12s5e3+WyWi/l3N9pfic2pNcenDgEJvaRJnfhGhUvGPYz3h7aCLc337
+         E+Bjb6qWm9bfSe6U9BCQfLMvAKHHjGD9lg04YuLaeEfNxnV8Ro5t8EHW/WayQb8THYlx
+         25/kBin/tMljhrtgPw6xkWTqH4HJ4Gvjg0f6jSqzabjHybvJvZUo0MIRc/LL/ykJyz6D
+         vpHBRrncLLYa8bNVNG8lFgZVmyjITQ0vyy2rB21Y0y76gbXwtxrrDsuZ/oFEyeCEH2Cu
+         +sdw==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@chess.com header.s=s1 header.b=bO+tRvIk;
+       dkim=pass header.i=@sendgrid.info header.s=smtpapi header.b=i1+oRYFV;
+       spf=pass (google.com: domain of bounces+60068995-1267-newt0n00921=gmail.com@email.chess.com designates 167.89.81.203 as permitted sender) smtp.mailfrom="bounces+60068995-1267-newt0n00921=gmail.com@email.chess.com";
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=chess.com
+Return-Path: <bounces+60068995-1267-newt0n00921=gmail.com@email.chess.com>
+Received: from o3.email.chess.com (o3.email.chess.com. [167.89.81.203])
+        by mx.google.com with ESMTPS id 41be03b00d2f7-cbe9f2c6b01si7067299a12.316.2026.08.09.08.13.20
+        for <newt0n00921@gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 09 Aug 2026 08:13:21 -0700 (PDT)
+Received-SPF: pass (google.com: domain of bounces+60068995-1267-newt0n00921=gmail.com@email.chess.com designates 167.89.81.203 as permitted sender) client-ip=167.89.81.203;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@chess.com header.s=s1 header.b=bO+tRvIk;
+       dkim=pass header.i=@sendgrid.info header.s=smtpapi header.b=i1+oRYFV;
+       spf=pass (google.com: domain of bounces+60068995-1267-newt0n00921=gmail.com@email.chess.com designates 167.89.81.203 as permitted sender) smtp.mailfrom="bounces+60068995-1267-newt0n00921=gmail.com@email.chess.com";
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=chess.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chess.com;
+	h=content-transfer-encoding:content-type:date:from:mime-version:subject:
+	reply-to:list-id:list-unsubscribe:list-unsubscribe-post:to:cc:content-type:
+	date:feedback-id:from:subject:to;
+	s=s1; t=1786288399;
+	bh=gl0xNuqNDx/HQGes0YaAKBjDDe0uBz0Bobqnzr9Atqk=;
+	b=bO+tRvIkMjiPDwQk12nJjUvnHUIAL9X9XODCJBeMTEdOXWaKtAeUzp7lHXtWQWHGkAj7
+	Eij+7A7suIGKkYTkgcaBOKKAWXMWoRX5o5ozRljY0RpkuigtpxpZL669qi/wizdVVNRlO7
+	bbqkoHZM+J5E/F11Rp+5vcn5yL4turuSvHv0VFqpLSMvG/5YpSKXQl2rQrUJsurZcHDdE+
+	JcYupgN7x89eV0xdPz3yG1no3L9VqwmGtJVZjEkbPfYThXDnqcqBnC1f+l21WoF835acB5
+	nRZgMR0Qlcn7iEgiXk5cNhR/2oCed+DUVkaPEhW2Gqoo0ZSrbGJMIAfYaMQpsg5w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sendgrid.info;
+	h=content-transfer-encoding:content-type:date:from:mime-version:subject:
+	reply-to:list-id:list-unsubscribe:list-unsubscribe-post:to:cc:content-type:
+	date:feedback-id:from:subject:to;
+	s=smtpapi; t=1786288399;
+	bh=gl0xNuqNDx/HQGes0YaAKBjDDe0uBz0Bobqnzr9Atqk=;
+	b=i1+oRYFV3WYVbTUjRwDwppKcc0Anm6pQPvTfx0XN8AunMMOeSuf98uKYk/AvPUFOJ4rs
+	aW1k2SJIJsa56qdKCSRe1Qk+h2QzD/18bpS/sPUXDe5WH4R2Bdl2K4gKIO45h9ls1T+NdQ
+	NlDg1mjOdy0oyJvmmPgqa6OHQcKd66Ybs=
+Received: by recvd-7d6b7d77f9-xft9d with SMTP id recvd-7d6b7d77f9-xft9d-1-6A78990F-56
+	2026-08-09 15:13:19.558429995 +0000 UTC m=+1023590.487797217
+Received: from NjAwNjg5OTU (unknown)
+	by geopod-ismtpd-66 (SG) with HTTP
+	id ZFn-TzhqQzK0sRflIWV0Vg
+	Sun, 09 Aug 2026 15:13:19.526 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset=utf-8
+Date: Sun, 09 Aug 2026 15:13:19 +0000 (UTC)
+From: "Chess.com" <streaks@chess.com>
+Mime-Version: 1.0
+Message-ID: <ZFn-TzhqQzK0sRflIWV0Vg@geopod-ismtpd-66>
+Subject: Your 1 Day Streak is Paused! =?UTF-8?B?4o+477iP?=
+Reply-To: no-reply@chess.com
+List-ID: Streaks reminders Chess.com <streaks@chess.com>
+List-Unsubscribe:
+ <https://www.chess.com/unsubscribe/email/notification.email.streaks_reminders?hash=2118669033&userUuid=d29f031a-9182-11f1-801b-fb2ce338393a&messageType=NOTIFICATION_GENERIC&utm_content=775519d7-5a5e-436a-abb8-546756e12c66&utm_campaign=LCM_EML_ENG_ACT_Streaks_V2_Paused_Streak_D1_28H_enhc>
+List-Unsubscribe-Post: List-Unsubscribe=One-Click
+X-SG-EID: 
+ =?us-ascii?Q?u001=2EdxFNEujFHtG=2FFL0cBbezFVFrY2Yf4LTjTuuifaBMlFj=2FuHZsEASGO05d0?=
+ =?us-ascii?Q?WDXQcMVN9uKlxAqiZZKESJyJ3gz0+WY3KzOaKy9?=
+ =?us-ascii?Q?zZi2ioNkUNNI07oOt0fnfhvUFkov4W5uMvJ4ixP?=
+ =?us-ascii?Q?QfYE20Ehm2mmEVe34vKUCTTBNDrak5q8bNlAQ7M?=
+ =?us-ascii?Q?PSwVRVL516iaq0p2HKfHbTY2dgW+fQLOMoJK8OP?=
+ =?us-ascii?Q?GmjAJmInSYghHctyk38Kpo=3D?=
+X-SG-ID: 
+ =?us-ascii?Q?u001=2ESdBcvi+Evd=2FbQef8eZF3BpTL9BgbK5wfSJMJGMsmprADlVFd0pvI+w47b?=
+ =?us-ascii?Q?ztAKyraFBAJuZxLoUbHoOyOgsT0v=2F5vXqBUh942?=
+ =?us-ascii?Q?2g6kOy6eSxJN5H0gp+JC5ZvH=2Fu1x30IgArYCiDc?=
+ =?us-ascii?Q?pmtVg8KZF1hPu7ICEeckZBbLqTOPROtOOuDnAb+?=
+ =?us-ascii?Q?XUoeJtgCfCzhi8dlfo2Tie4o08cc3nCWJTJ8Oys?=
+ =?us-ascii?Q?mnxWimsLXC0exaPC2yxKnVBQqH=2FOQbN2W2nh0Y9?=
+ =?us-ascii?Q?LKT4t+m3DGF=2FzdG2MX9Y9LCveaLPJ2OCzVc2Arz?=
+ =?us-ascii?Q?ppKWKbEZYbzdzBNuCJDizmlq20XEUT6xXf1ftg7?=
+ =?us-ascii?Q?wsVw+gZZ0PeQBYvpPKT0lJ4q4NPnjFqciOGlqPQ?=
+ =?us-ascii?Q?R1pz0pM8OLItCvv3vVI7YujGbGmqbjbqFt53fTD?=
+ =?us-ascii?Q?DZttCm+GFXuc4tvJ9I6tgJVhS8SgM2KXG7fr57f?=
+ =?us-ascii?Q?EGOKbTMvbs6HbMoje9YlC7kJPNemkAHC+WiP7bU?=
+ =?us-ascii?Q?7Pxe0EVD7Hj6N=2FhwV=2Foa17JgYoQ1QONVgEe8TNR?=
+ =?us-ascii?Q?ZSW02VAnSjKelUHs54Zn5BfLZrL5oGVuv51MPw7?=
+ =?us-ascii?Q?1BxQ=2FPi5g9oGiOCwUwhPKRHRTLFPtpPLFuyAuVM?=
+ =?us-ascii?Q?fBdf9vMpjrN8AVoUWLppvzvDw3Bebq226m3aVj8?=
+ =?us-ascii?Q?MZg+BnYveHekesYlrx7B0aGeLHbgS9p9mO3qYQ0?=
+ =?us-ascii?Q?u8NQ=2FTJ7JSZcGo48EDfiiq8egNwB3fAgm4E1IP2?=
+ =?us-ascii?Q?U0THvo6ZRZoBXh1BsjRdmvOafYSA0oDgmvZJJlt?=
+ =?us-ascii?Q?G+G6ztuOxw9k5gWXE=2FPJ5NQUIRqowUHd=2FxoYQP=2F?=
+ =?us-ascii?Q?1R3KSwY1QLmMubrcnFuC4Smj=2FCBxO=2F58mI0GjPG?=
+ =?us-ascii?Q?ADQOwkY=2FQK2+vZi5nKYrZjSC+MB6aExVsttzCk4?=
+ =?us-ascii?Q?EUK2h1oDgf4v6kBfxCP+Yl6iUTKzhj0j2n9votg?=
+ =?us-ascii?Q?zYbta=2F+luGlEc6rgw5bN37qiPhlPDD4T5JvdWun?=
+ =?us-ascii?Q?KI5exdHh8dQ21LW8vLeLVKgNjlsSKlw+1cprrEY?=
+ =?us-ascii?Q?xgoh97sqYQYlIq=2FtSYeDqddSXmWxr8EQWY40myt?=
+ =?us-ascii?Q?jxKSE1svkTHTNnfBUU1p4doL6PWSQJYWQeDf2wi?=
+ =?us-ascii?Q?dU9lt5a2LvPcXB=2FL5XOfUr=2FkSOMLS0zquE9ffxc?=
+ =?us-ascii?Q?t5l5dU1fnsBAIcI6OJlsSsSUfHN05ShnHXyqFKq?=
+ =?us-ascii?Q?kSWOu5d3L2yKcwylOcRLEZYL0rVvc3B1l5T7Y0W?=
+ =?us-ascii?Q?2hsNeK=2FeLzKwryVKxWtnovfkttY+qyhMLTfQi=2Fl?=
+ =?us-ascii?Q?mvmveUxbQ9zOxBxxRv6JCKb3CthDmnLrIBdP7EC?=
+ =?us-ascii?Q?d9ZpH0cOD2zHg+QNQnRsSNOGIrz13ioiH1Ew=3D=3D?=
+To: newt0n00921@gmail.com
+X-Entity-ID: u001.hDLtllJZNrKfaKxPzK/Wxw==
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.=
+w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html><head><meta http-equiv=
+=3DContent-Type content=3D"text/html; charset=3Dutf-8"><meta name=3Dviewpor=
+t content=3D"width=3Ddevice-width,initial-scale=3D1"><meta name=3Dcolor-sch=
+eme content=3D"light dark"><meta name=3Dsupported-color-schemes content=3D"=
+light dark"><style>@font-face{font-family:Montserrat;font-style:normal;font=
+-weight:700;font-display:swap;src:url(https://fonts.gstatic.com/s/montserra=
+t/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCuM70w-.ttf)format("truetype")}@font=
+-face{font-family:Montserrat;font-style:normal;font-weight:800;font-display=
+:swap;src:url(https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm=
+4532VJOt5-QNFgpCvr70w-.ttf)format("truetype")}@font-face{font-family:Montse=
+rrat;font-style:normal;font-weight:900;font-display:swap;src:url(https://fo=
+nts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCvC70w-.t=
+tf)format("truetype")}body{background-color:#f9f9f9;margin:0!important;padd=
+ing:0!important}table{border-spacing:0;color:#312e2b;font-family:sans-serif=
+}td{padding:0}img{border:0}a{color:#3a729c}.wrapper{table-layout:fixed;-web=
+kit-text-size-adjust:100%;-ms-text-size-adjust:100%;background-color:#f9f9f=
+9;width:100%}.webkit{max-width:600px;margin:0 auto}.outer{background-color:=
+#fff;width:100%;max-width:600px;margin:0 auto;font-family:Arial,sans-serif}=
+#chess-logo{padding-top:17px;padding-bottom:9px}:root{color-scheme:light da=
+rk;supported-color-schemes:light dark}*{font-family:Arial,Helvetica,sans-se=
+rif}.montserrat{font-family:Montserrat,Arial,sans-serif}@media screen and (=
+max-width:599px){.mobile-h1{font-size:36px!important}.mobile-padding{paddin=
+g-left:10px!important;padding-right:10px!important}.mobile-button{padding:1=
+6px 24px!important;font-size:26px!important}}@media (prefers-color-scheme:d=
+ark){.dm-background{background-color:#2f2e29!important}.dm-light-text{color=
+:#fff!important}.footer-link a{color:#009fd9!important}.button,.outlook{bac=
+kground-color:#fa742c!important}.button a{color:#fff!important;background-c=
+olor:#fa742c!important;border-color:#fa742c!important}}u+div .wrapper .gmai=
+l-blend-screen{mix-blend-mode:screen;background:#000}u+div .wrapper .gmail-=
+blend-difference{mix-blend-mode:difference;background:#000}</style></head><=
+body class=3Dsdui-opm-modal-body-c2R1aS><span class=3Dpreheader style=3Dcol=
+or:transparent;display:none;height:0;max-height:0;max-width:0;opacity:0;ove=
+rflow:hidden;mso-hide:all;visibility:hidden;width:0;>Play a game or solve a=
+ Puzzle before midnight to keep going!</span><div align=3Dcenter class=3D"w=
+rapper dm-background" style=3Dwidth:100%;table-layout:fixed;-webkit-text-si=
+ze-adjust:100%;-ms-text-size-adjust:100%;background-color:#f9f9f9;><div sty=
+le=3Ddisplay:none;max-height:0px;overflow:hidden;>=C2=A0=E2=80=8C=C2=A0=E2=
+=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=
+=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=
+=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=
+=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=
+=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=
+=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=
+=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=
+=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=
+=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=
+=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=
+=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=
+=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=
+=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=
+=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=
+=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=
+=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=
+=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=
+=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=
+=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=
+=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=
+=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=
+=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=
+=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=
+=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=
+=80=8C</div><table role=3Dpresentation class=3D"outer dm-background" align=
+=3Dcenter style=3D"border-spacing:0;color:#312e2b;margin:0 auto;width:100%;=
+max-width:600px;font-family:Arial, sans-serif;background-color:#f9f9f9;bord=
+er-radius:5px;"><tr><td align=3Dcenter valign=3Dtop id=3Dchess-logo style=
+=3D"padding-bottom:21px !important;padding-top:17px;-webkit-text-size-adjus=
+t:100%;-ms-text-size-adjust:100%;mso-table-lspace:0pt;mso-table-rspace:0pt;=
+font-family:Arial, &#39;Helvetica Neue&#39;, Helvetica, sans-serif;"><a hre=
+f=3Dhttps://links.chess.com/uni/ls/click?upn=3Du001.p1cMHIykM1qChSY4fGxDtMc=
+FIPywGFzaX6pLWu4D-2BZAoWKBFLQaU4E9SrjYCkHafJrFVypcNTeDnjn9uuJayolGJrEnad1sA=
+tKfnSRhhVAoh8ZSuif0ZiCTKy-2BewoxT5aMfaSmB21fURgIcv7lJZaVzihKNuDOg516zKSsxJk=
+9XaPivEABtFMlhtbR5tHQU6TpwXdNl-2Fxje0pv3pyUgO-2FYElMt911-2BwWBQ5qquHv-2Fsos=
+tMiRkxTnlEsG8t7HIsYTnJQC_YwDotihA9j-2Fi3H8ddYTy6ODFltMHjsgCzNR73Ic7VAackgnr=
+zDTtCx4lF7X7HWTmiRawoaRBFH8w-2BlE8dkfj1qWQhhS22R8LhNSV-2Fn4C5DpB6rv-2FSjdid=
+kUNauMUk-2FGlJw74dUFvrlFbxYQwWKzy5jBkc2fAPqgFWahPrf9mv1heRJRGTLduNr10Sg8EcC=
+5UKdz2N-2FCD8g4vo18oznEezl35btr7uZ9ngeJKOmViuOJ-2FQVht72WVMTnKFSK2bGMkQGOGN=
+AvqAkUbZpXjyezfl6qBKjqxZ8vJI-2FJaTvr7HykxHn5GItIqOpVJYMEU-2FHR2DcK3foqmlF0B=
+1DBIh1jPtU-2BXYmiqQ64x77AKlC4pjVgQj14qKzcs0IC4jBKzGEuGuMeinJwyewnEuIvKWJ0lG=
+fazosruzzeMq1UQkFykGHhXa7T0pvfMhJQdQ0WecMkmmBx-2BUnd89Rpvs5lWMJ7ij1tIcKPp5P=
+PMjwZHFoB5BxVOnlmlJvz7hpiUNAHrOf-2FakzbGdZjv0ZPnPd2Pvnb39JrqvyFLFYgVFhR7DxG=
+HJryYUmlB-2FuIEBXslOVJnNMUqpi4Bzvoe70W4B7pwM46T061-2BxvA2qe76c2-2BJG87HBUoV=
+Tl3pZDKFjT0Meq-2FrhDVjZ17plsNv1dBsn-2Bfheirb8JJ4B4lZAe0E2VuqVSyoIp-2BMg4glp=
+mch72OU-2FlRKEk64mM2Gmxbg-2BUU171fvKao9LHbLsTLFRXJGsmLl0aH-2BD0V6umqEgZ9aXe=
+6s8NFSbdtQ0D-2B61FjX6uB2cvO5LbSIUkny3u2TTpYJoA00Vx03sAjPsWIkwPUy4lc-2FBzQx2=
+ezUwprg3R2YOJ-2BVqWxQ0ctgzbwEJqKcpBr8d5AQmycYCAizkuQ7l9yb-2B-2Bk6ke13d6NHRA=
+Jc5FJl-2F1MC4lmilGVlz-2B4-2FhvEOoVwXopoDnXtsWAkTlg3XHn48cqvLUkqEFEGa159-2BH=
+gEVNQgQ02E-2Fh7jGFNv3Bk9zFtlKv77-2FVnycX3jv1xAs4DwfFk-2BKqE-2BbKG-2Bxid-2BE=
+bJ6cKgRpcuJTONycJJe-2Fy9mCsIReRG-2F1KR4lXNq20IDNBGr6IluqUlhdP-2B8rh6lx68oal=
+ZlZLYeqvCDRi90Tvo7vN00O5RsVVw-2FuF3Qts-2Bu1hAb6JKKVtDFzGCk7-2BLkWio1xniOZCX=
+SbNNNUaCGe7bFuoeEqpV2xfksDcvfg7AU3M-2BjhEPCXGrXqxx6mf-2BsarAmjGuO83sI4wZ10H=
+q30LV7TdkTIvLf-2BOKFJguzhNwRX2AivGCwKHsh-2BkkrFtgOhNV-2B4Rla-2BOj-2FISnq9RL=
+2j84SX-2Bfj5z16nZiECkYLDx7JhjElUyHgPgwOF0XhmS-2B7mlzjXS-2FOxLVOvqDUdbt1iryj=
+vu4-2Bq8Y8kfM3KNQkYSncUQz07YefAuJpxxxS-2FmkVlQm-2BvCdsnbN0hcobajLESs-2Fl5t-=
+2B1zucqFww4xCcyC536paAdB3JjY-2BeDkBn2f target=3D_blank rel=3Dnoopener unive=
+rsal=3Dtrue><img src=3Dhttps://images.chesscomfiles.com/uploads/ad_image/15=
+119.83bb2fcc.png alt=3DChess.com style=3Dborder-width:0;width:152px;font-si=
+ze:18px;line-height:45px; width=3D152></a></td></tr></table><div class=3Dwe=
+bkit style=3D"max-width:602px;margin:0 auto 0 auto;"><table align=3Dcenter =
+role=3Dpresentation cellpadding=3D0 cellspacing=3D0 border=3D0 style=3D"bor=
+der:1px solid #e7e6e5;border-radius:20px;border-collapse:separate;mso-table=
+-lspace:0pt;mso-table-rspace:0pt;width:100%;max-width:600px;"><tr><td style=
+=3Dpadding:0;overflow:hidden;border-radius:19px;><table role=3Dpresentation=
+ class=3Douter align=3Dcenter style=3D"border-spacing:0;color:#312e2b;margi=
+n:0 auto;width:100%;max-width:600px;font-family:Arial,sans-serif;background=
+-color:#312e2b;background:linear-gradient(#312e2b, #312e2b);border-radius:5=
+px;"><tr><td class=3Dmobile-padding style=3D"padding:48px 36px 0;text-align=
+:center;background:linear-gradient(#312e2b, #312e2b);background-color:#312e=
+2b;"><div class=3Dgmail-blend-screen><div class=3D"gmail-blend-difference m=
+ontserrat mobile-h1" style=3Dfont-size:48px;font-weight:800;line-height:1.1=
+;margin:0;text-align:center;color:#fff;>Unpause Your Streak</div></div></td=
+></tr><tr><td align=3Dcenter style=3D"text-align:center;padding:36px 0 0;ba=
+ckground:linear-gradient(#312e2b, #312e2b);background-color:#312e2b;"><a hr=
+ef=3Dhttps://links.chess.com/uni/ls/click?upn=3Du001.p1cMHIykM1qChSY4fGxDtL=
+DrE1QU2CkiyANzgv6tdl9ep7P-2F6RwnoJ7qQ2fO2Sv-2BYq-2FXKyihn6eJX4U60s-2FARAmzW=
+ji3IzuWb3L2WZ-2FijXMJKwClqQ-2Bq47UtHIXjr6LmMrW7hmlmOyH8QGwqUWVj6Y7-2FDhu4U-=
+2Fk1wi8HxHllvj1MfiRFNsep5ebNwDbad1-2B45lZm6IFEocsperT3wrBY1fhsvmuEGpNvJoy85=
+nJiBlVfWJWMZbpgWMhFTZxK6A3aC8ul_YwDotihA9j-2Fi3H8ddYTy6ODFltMHjsgCzNR73Ic7V=
+AackgnrzDTtCx4lF7X7HWTmiRawoaRBFH8w-2BlE8dkfj1qWQhhS22R8LhNSV-2Fn4C5DpB6rv-=
+2FSjdidkUNauMUk-2FGlJw74dUFvrlFbxYQwWKzy5jBkc2fAPqgFWahPrf9mv1heRJRGTLduNr1=
+0Sg8EcC5UKdz2N-2FCD8g4vo18oznEezl35btr7uZ9ngeJKOmViuOJ-2FQVht72WVMTnKFSK2bG=
+MkQGOGNAvqAkUbZpXjyezfl6qBKjqxZ8vJI-2FJaTvr7HykxHn5GItIqOpVJYMEU-2FHR2DcK3f=
+oqmlF0B1DBIh1jPtU-2BXYmiqQ64x77AKlC4pjVgQj14qKzcs0IC4jBKzGEuGuMeinJwyewnEuI=
+vKWJ0lGfazosruzzeMq1UQkFykGHhXa7T0pvfMhJQdQ0WecMkmmBx-2BUnd89Rpvs5lWMJ7ij1t=
+IcKPp5PPMjwZHFoB5BxVOnlmlJvz7hpiUNAHrOf-2FakzbGdZjv0ZPnPd2Pvnb39JrqvyFLFYgV=
+FhR7DxGHJryYUmlB-2FuIEBXslOVJnNMUqpi4Bzvoe70W4B7pwM46T061-2BxvA2qe76c2-2BJG=
+87HBUoVTl3pZDKFjT0Meq-2FrhDVjZ17plsNv1dBsn-2Bfheirb8JJ4B4lZAe0E2VuqVSyoIp-2=
+BMg4glpmch72OU-2FlRKEk64mM2Gmxbg-2BUU171fvKao9LHbLsTLFRXJGsmLl0aH-2BD0V6umq=
+EgZ9aXe6s8NFSbdtQ0D-2B61FjX6uB2cvO5LbSIUkny3u2TTpYJoA00Vx03sAjPsWIkwPUy4lc-=
+2FBzQx2ezUwprg3R2YOJ-2BVqWxQ0ctgzbwEJqKcpBr8d5AQmycYCAizkuQ7l9yb-2B-2Bk6ke1=
+3d6NHRAJc5FJl-2F1MC4lmilGVlz-2B4-2FhvEOoVwXopoDnXtsWAkTlg3XHn48cqvLUkqEFEGa=
+159-2BHgEVNQgQ02E-2Fh7jGFNv3Bk9zFtlKv77-2FVnycX3jv1xAs4DwfFk-2BKqE-2BbKG-2B=
+xid-2BEbJ6cKgRpcuJTONycJJe-2Fy9mCsIReRG-2F1KR4lXNq20IDNBGr6IluqUlhdP-2B8rh6=
+lx68oalZlZLYeqvCDRi90Tvo7vN00O5RsVVw-2FuF3Qts-2Bu1hAb6JKKVtDFzGCk7-2BLkWio1=
+xniOZCXSbNNNUaCGe7bFuoeEqpV2xfksDcvfg7AU3M-2BjhEPCXGrXqxx6mf-2BsarAmjGuO83s=
+I4wZ10Hq30LV7TdkTIvLf-2BOKFJguzhNwRX2AivGCwKHsh-2BkkrFtgOhNV-2B4Rla-2BOj-2F=
+ISnq9RL2j84SX-2Bfj5z16nZiECkYJogI0aAFaCzUYBzzH-2BVvMDjTyWxMjKD528XDyT1FUzvj=
+adTjnxOhsC9BmiA3nBjMLMLbkfOkwkGda2mMyHz51PyUe-2FJnqpzf0LaJZMHfftN54YZQJXF6f=
+jTl28YOqxRD3Zt7TnzCXV9mLUtePXBIDy target=3D_blank rel=3Dnoopener universal=
+=3Dtrue><img src=3Dhttps://assets-sdui.chess.com/image/sdui/streaks-paused-=
+illustration-v2.png width=3D540 alt=3D"Paused streak illustration" class=3D=
+mobile-padding style=3Dwidth:100%;max-width:540px;display:block;></a></td><=
+/tr><tr><td class=3Dmobile-padding style=3D"padding:36px 36px 0;text-align:=
+center;background:linear-gradient(#312e2b, #312e2b);background-color:#312e2=
+b;"><div class=3Dgmail-blend-screen><div class=3Dgmail-blend-difference sty=
+le=3Dfont-size:20px;font-weight:normal;line-height:1.5;margin:0;text-align:=
+center;color:#e0e0df;>Go for your highest streak! Play a game, do a puzzle,=
+ or review a game to keep your streak alive.</div></div></td></tr><tr><td c=
+lass=3Dmobile-padding style=3D"padding:36px 0 60px;text-align:center;backgr=
+ound:linear-gradient(#312e2b, #312e2b);background-color:#312e2b;"><table ro=
+le=3Dpresentation border=3D0 cellpadding=3D0 cellspacing=3D0 style=3Dborder=
+-spacing:0;font-family:sans-serif;color:#fff;display:inline-block;><tr><td =
+class=3D"button button-orange" align=3Dcenter valign=3Dtop style=3Dborder-r=
+adius:16px;overflow:hidden;background-color:#FA742C;><a class=3D"mobile-but=
+ton outlook outlook-orange dm-light-text montserrat" href=3Dhttps://links.c=
+hess.com/uni/ls/click?upn=3Du001.p1cMHIykM1qChSY4fGxDtLDrE1QU2CkiyANzgv6tdl=
+9ep7P-2F6RwnoJ7qQ2fO2Sv-2BYq-2FXKyihn6eJX4U60s-2FARAmzWji3IzuWb3L2WZ-2FijXM=
+JKwClqQ-2Bq47UtHIXjr6LmMrW7hmlmOyH8QGwqUWVj6Y7-2FDhu4U-2Fk1wi8HxHllvj1MfiRF=
+Nsep5ebNwDbad1-2B45lZm6IFEocsperT3wrBY1fhsvmuEGpNvJoy85nJiBlVfWJWMZbpgWMhFT=
+ZxK6A3aNt4__YwDotihA9j-2Fi3H8ddYTy6ODFltMHjsgCzNR73Ic7VAackgnrzDTtCx4lF7X7H=
+WTmiRawoaRBFH8w-2BlE8dkfj1qWQhhS22R8LhNSV-2Fn4C5DpB6rv-2FSjdidkUNauMUk-2FGl=
+Jw74dUFvrlFbxYQwWKzy5jBkc2fAPqgFWahPrf9mv1heRJRGTLduNr10Sg8EcC5UKdz2N-2FCD8=
+g4vo18oznEezl35btr7uZ9ngeJKOmViuOJ-2FQVht72WVMTnKFSK2bGMkQGOGNAvqAkUbZpXjye=
+zfl6qBKjqxZ8vJI-2FJaTvr7HykxHn5GItIqOpVJYMEU-2FHR2DcK3foqmlF0B1DBIh1jPtU-2B=
+XYmiqQ64x77AKlC4pjVgQj14qKzcs0IC4jBKzGEuGuMeinJwyewnEuIvKWJ0lGfazosruzzeMq1=
+UQkFykGHhXa7T0pvfMhJQdQ0WecMkmmBx-2BUnd89Rpvs5lWMJ7ij1tIcKPp5PPMjwZHFoB5BxV=
+OnlmlJvz7hpiUNAHrOf-2FakzbGdZjv0ZPnPd2Pvnb39JrqvyFLFYgVFhR7DxGHJryYUmlB-2Fu=
+IEBXslOVJnNMUqpi4Bzvoe70W4B7pwM46T061-2BxvA2qe76c2-2BJG87HBUoVTl3pZDKFjT0Me=
+q-2FrhDVjZ17plsNv1dBsn-2Bfheirb8JJ4B4lZAe0E2VuqVSyoIp-2BMg4glpmch72OU-2FlRK=
+Ek64mM2Gmxbg-2BUU171fvKao9LHbLsTLFRXJGsmLl0aH-2BD0V6umqEgZ9aXe6s8NFSbdtQ0D-=
+2B61FjX6uB2cvO5LbSIUkny3u2TTpYJoA00Vx03sAjPsWIkwPUy4lc-2FBzQx2ezUwprg3R2YOJ=
+-2BVqWxQ0ctgzbwEJqKcpBr8d5AQmycYCAizkuQ7l9yb-2B-2Bk6ke13d6NHRAJc5FJl-2F1MC4=
+lmilGVlz-2B4-2FhvEOoVwXopoDnXtsWAkTlg3XHn48cqvLUkqEFEGa159-2BHgEVNQgQ02E-2F=
+h7jGFNv3Bk9zFtlKv77-2FVnycX3jv1xAs4DwfFk-2BKqE-2BbKG-2Bxid-2BEbJ6cKgRpcuJTO=
+NycJJe-2Fy9mCsIReRG-2F1KR4lXNq20IDNBGr6IluqUlhdP-2B8rh6lx68oalZlZLYeqvCDRi9=
+0Tvo7vN00O5RsVVw-2FuF3Qts-2Bu1hAb6JKKVtDFzGCk7-2BLkWio1xniOZCXSbNNNUaCGe7bF=
+uoeEqpV2xfksDcvfg7AU3M-2BjhEPCXGrXqxx6mf-2BsarAmjGuO83sI4wZ10Hq30LV7TdkTIvL=
+f-2BOKFJguzhNwRX2AivGCwKHsh-2BkkrFtgOhNV-2B4Rla-2BOj-2FISnq9RL2j84SX-2Bfj5z=
+16nZiECkYKqgonIfDKRcy-2FHLV6dTrFLNm7KssvU2TI1KO7BE1hUxUVcyRT1E0xZWSyIgCwu9h=
+nG3C2Vrr-2FfQL1Rf6aTG4kinC6Ccf1ftjFVSMAir-2FaabY5brMCGtox48aZzPCo490tmsj4Qh=
+MuAU5-2FnsKD5G2ji style=3D"color:#fff;font-size:34px;font-weight:800;paddin=
+g:26px 34px;background-color:#FA742C;border:1px solid #FA742C;display:inlin=
+e-block;text-decoration:none;border-radius:16px;line-height:1.11;text-shado=
+w:0 1.56px 0 rgba(0, 0, 0, 0.25);" target=3D_blank rel=3Dnoopener universal=
+=3Dtrue><span class=3Dgmail-blend-screen><span class=3D"gmail-blend-differe=
+nce montserrat" style=3Dfont-weight:800;>Continue Streak</span></span></a><=
+/td></tr></table></td></tr></table></td></tr></table></div><div class=3D"we=
+bkit dm-background" style=3D"max-width:602px;margin:0 auto 0 auto;padding-b=
+ottom:15px;background-color:#f9f9f9;"><div style=3Dwidth:100%;max-width:600=
+px;><table role=3Dpresentation class=3D"outer dm-background" align=3Dcenter=
+ style=3D"border-spacing:0;color:#312e2b;margin:0 auto;width:100%;max-width=
+:600px;font-family:Arial,sans-serif;background-color:#f9f9f9;text-align:cen=
+ter;"><tr><td><table align=3Dcenter><tr><td class=3Dmobile-padding style=3D=
+"padding:20px 0px 20px;text-align:center;"><div style=3Dtext-align:center;>=
+<a href=3Dhttps://links.chess.com/ls/click?upn=3Du001.p1cMHIykM1qChSY4fGxDt=
+KaVXuyR8uq6r9AiQ-2FSK7uZHDyhru-2FYmIthT8PMsrfhLnerO0MPaDQjk4wr9H9al1V0Dqj4-=
+2FJ-2Bq-2BUujvtmuuDMlUrkczenyNC6ARCKjHBclHQZhf-2F-2F7AXhz1Q-2FUp1uQoJpU5Nq4=
+cg5dqN8LFj2mPgFArjNyTrffShc3-2FJ-2FxMVZb3-2FckYfn1JIKEz-2Bjb5p6Hfrf46-2FbwD=
+sHnm5N7iNSkwZaUHu4eqFumYPKnYgYAbOEo-2FR5nuoIrXEy7A7KUMwu9gUA-3D-3Dq4es_YwDo=
+tihA9j-2Fi3H8ddYTy6ODFltMHjsgCzNR73Ic7VAackgnrzDTtCx4lF7X7HWTmiRawoaRBFH8w-=
+2BlE8dkfj1qWQhhS22R8LhNSV-2Fn4C5DpB6rv-2FSjdidkUNauMUk-2FGlJw74dUFvrlFbxYQw=
+WKzy5jBkc2fAPqgFWahPrf9mv1heRJRGTLduNr10Sg8EcC5UKdz2N-2FCD8g4vo18oznEezl35b=
+tr7uZ9ngeJKOmViuOJ-2FQVht72WVMTnKFSK2bGMkQGOGNAvqAkUbZpXjyezfl6qBKjqxZ8vJI-=
+2FJaTvr7HykxHn5GItIqOpVJYMEU-2FHR2DcK3foqmlF0B1DBIh1jPtU-2BXYmiqQ64x77AKlC4=
+pjVgQj14qKzcs0IC4jBKzGEuGuMeinJwyewnEuIvKWJ0lGfazosruzzeMq1UQkFykGHhXa7T0pv=
+fMhJQdQ0WecMkmmBx-2BUnd89Rpvs5lWMJ7ij1tIcKPp5PPMjwZHFoB5BxVOnlmlJvz7hpiUNAH=
+rOf-2FakzbGdZjv0ZPnPd2Pvnb39JrqvyFLFYgVFhR7DxGHJryYUmlB-2FuIEBXslOVJnNMUqpi=
+4Bzvoe70W4B7pwM46T061-2BxvA2qe76c2-2BJG87HBUoVTl3pZDKFjT0Meq-2FrhDVjZ17plsN=
+v1dBsn-2Bfheirb8JJ4B4lZAe0E2VuqVSyoIp-2BMg4glpmch72OU-2FlRKEk64mM2Gmxbg-2BU=
+U171fvKao9LHbLsTLFRXJGsmLl0aH-2BD0V6umqEgZ9aXe6s8NFSbdtQ0D-2B61FjX6uB2cvO5L=
+bSIUkny3u2TTpYJoA00Vx03sAjPsWIkwPUy4lc-2FBzQx2ezUwprg3R2YOJ-2BVqWxQ0ctgzbwE=
+JqKcpBr8d5AQmycYCAizkuQ7l9yb-2B-2Bk6ke13d6NHRAJc5FJl-2F1MC4lmilGVlz-2B4-2Fh=
+vEOoVwXopoDnXtsWAkTlg3XHn48cqvLUkqEFEGa159-2BHgEVNQgQ02E-2Fh7jGFNv3Bk9zFtlK=
+v77-2FVnycX3jv1xAs4DwfFk-2BKqE-2BbKG-2Bxid-2BEbJ6cKgRpcuJTONycJJe-2Fy9mCsIR=
+eRG-2F1KR4lXNq20IDNBGr6IluqUlhdP-2B8rh6lx68oalZlZLYeqvCDRi90Tvo7vN00O5RsVVw=
+-2FuF3Qts-2Bu1hAb6JKKVtDFzGCk7-2BLkWio1xniOZCXSbNNNUaCGe7bFuoeEqpV2xfksDcvf=
+g7AU3M-2BjhEPCXGrXqxx6mf-2BsarAmjGuO83sI4wZ10Hq30LV7TdkTIvLf-2BOKFJguzhNwRX=
+2AivGCwKHsh-2BkkrFtgOhNV-2B4Rla-2BOj-2FISnq9RL2j84SX-2Bfj5z16nZiECkYJsexoIl=
+Cim9QmAqcR2XAdZHv8d-2BqwaKohjp-2Bd5art8HZuED21ZywzxzP2idAEwiou-2Fc-2BHxESiX=
+XKNcr4HScbdexEX3feBMcImP24uZDXZ4Gvhm3pXDPZe8bjWPaSS9AHf37-2F-2FAzev-2BLplUg=
+21n68z8 target=3D_blank rel=3Dnoopener style=3Ddisplay:inline-block;margin-=
+right:32px;><img src=3Dhttps://images.chesscomfiles.com/uploads/ad_image/14=
+705.b2eaa11b.png alt=3DYouTube style=3Ddisplay:inline-block;width:40px;heig=
+ht:auto;vertical-align:middle; width=3D40></a><a href=3Dhttps://links.chess=
+.com/ls/click?upn=3Du001.p1cMHIykM1qChSY4fGxDtCZzX5AtK4ZhdoCbQNI1NCQdV7Lqht=
+1vz0XQj5tZ9Wp544ik37gBibcXbm8OQIaKJxgb1AesaYtcAW2kHcBLdPRS3QPUmCOAv0UcR2uDa=
+tKLJ0qOs2KqxbOIACHviTd2qzwHorLYna3TBiK2-2BOHKANJIQa0Y0Y-2BZdyCQb9GmqReRIHIF=
+UBmf9fIJ14ziCTDlkEDTqGRcnhAge6SooSPSr-2BTCCxB2dgz8EsN5GLW4H71qAFoyTAY-2Fyel=
+UBAFTa2EmSw-3D-3D3-It_YwDotihA9j-2Fi3H8ddYTy6ODFltMHjsgCzNR73Ic7VAackgnrzDT=
+tCx4lF7X7HWTmiRawoaRBFH8w-2BlE8dkfj1qWQhhS22R8LhNSV-2Fn4C5DpB6rv-2FSjdidkUN=
+auMUk-2FGlJw74dUFvrlFbxYQwWKzy5jBkc2fAPqgFWahPrf9mv1heRJRGTLduNr10Sg8EcC5UK=
+dz2N-2FCD8g4vo18oznEezl35btr7uZ9ngeJKOmViuOJ-2FQVht72WVMTnKFSK2bGMkQGOGNAvq=
+AkUbZpXjyezfl6qBKjqxZ8vJI-2FJaTvr7HykxHn5GItIqOpVJYMEU-2FHR2DcK3foqmlF0B1DB=
+Ih1jPtU-2BXYmiqQ64x77AKlC4pjVgQj14qKzcs0IC4jBKzGEuGuMeinJwyewnEuIvKWJ0lGfaz=
+osruzzeMq1UQkFykGHhXa7T0pvfMhJQdQ0WecMkmmBx-2BUnd89Rpvs5lWMJ7ij1tIcKPp5PPMj=
+wZHFoB5BxVOnlmlJvz7hpiUNAHrOf-2FakzbGdZjv0ZPnPd2Pvnb39JrqvyFLFYgVFhR7DxGHJr=
+yYUmlB-2FuIEBXslOVJnNMUqpi4Bzvoe70W4B7pwM46T061-2BxvA2qe76c2-2BJG87HBUoVTl3=
+pZDKFjT0Meq-2FrhDVjZ17plsNv1dBsn-2Bfheirb8JJ4B4lZAe0E2VuqVSyoIp-2BMg4glpmch=
+72OU-2FlRKEk64mM2Gmxbg-2BUU171fvKao9LHbLsTLFRXJGsmLl0aH-2BD0V6umqEgZ9aXe6s8=
+NFSbdtQ0D-2B61FjX6uB2cvO5LbSIUkny3u2TTpYJoA00Vx03sAjPsWIkwPUy4lc-2FBzQx2ezU=
+wprg3R2YOJ-2BVqWxQ0ctgzbwEJqKcpBr8d5AQmycYCAizkuQ7l9yb-2B-2Bk6ke13d6NHRAJc5=
+FJl-2F1MC4lmilGVlz-2B4-2FhvEOoVwXopoDnXtsWAkTlg3XHn48cqvLUkqEFEGa159-2BHgEV=
+NQgQ02E-2Fh7jGFNv3Bk9zFtlKv77-2FVnycX3jv1xAs4DwfFk-2BKqE-2BbKG-2Bxid-2BEbJ6=
+cKgRpcuJTONycJJe-2Fy9mCsIReRG-2F1KR4lXNq20IDNBGr6IluqUlhdP-2B8rh6lx68oalZlZ=
+LYeqvCDRi90Tvo7vN00O5RsVVw-2FuF3Qts-2Bu1hAb6JKKVtDFzGCk7-2BLkWio1xniOZCXSbN=
+NNUaCGe7bFuoeEqpV2xfksDcvfg7AU3M-2BjhEPCXGrXqxx6mf-2BsarAmjGuO83sI4wZ10Hq30=
+LV7TdkTIvLf-2BOKFJguzhNwRX2AivGCwKHsh-2BkkrFtgOhNV-2B4Rla-2BOj-2FISnq9RL2j8=
+4SX-2Bfj5z16nZiECkYJQMVAuUYeiOUng7AnrX6S5YCpj8xqH9lxALjMcQspCOtQxxOA1TNHG4I=
+ZnIHli60LfKn6qE98jglBt8Bt-2F-2BpW-2FBqEZ7pV2I9bsilWQeNrIMqBdhqZoQ9AQ4Km1kHk=
+-2FoUrEKvboUdwK7G9TFoSJiVPE target=3D_blank rel=3Dnoopener style=3Ddisplay:=
+inline-block;margin-right:32px;><img src=3Dhttps://images.chesscomfiles.com=
+/uploads/ad_image/14701.c29378b1.png alt=3DTwitch style=3Ddisplay:inline-bl=
+ock;width:40px;height:auto;vertical-align:middle; width=3D40></a><a href=3D=
+https://links.chess.com/ls/click?upn=3Du001.p1cMHIykM1qChSY4fGxDtBBlX1fKkVq=
+8TW99lKoxuPAzF2Sq7k0hKTb7Z5xnRT0wT5Tfym8CH33Be0wfdbxBw9ygp5DBE9AQVXmtb70EHi=
+95Vi9hfA-2BpHtVpjB0PmGNAHQn6qoBOPZaTVg9Jzz3rJFk8lV9I0g-2ByfRIpek6ucmYS-2Ft4=
+aeeWZJw5L9P71Q0YdADMNQsJOP6-2FpB6zZkpsRtANMvf8X-2BxgWOUihko9dvuktNqFUDO-2BA=
+2exR1ZXA-2BKvbIXJYGzQ3XvVVm5va241-2B5g-3D-3Drdcn_YwDotihA9j-2Fi3H8ddYTy6ODF=
+ltMHjsgCzNR73Ic7VAackgnrzDTtCx4lF7X7HWTmiRawoaRBFH8w-2BlE8dkfj1qWQhhS22R8Lh=
+NSV-2Fn4C5DpB6rv-2FSjdidkUNauMUk-2FGlJw74dUFvrlFbxYQwWKzy5jBkc2fAPqgFWahPrf=
+9mv1heRJRGTLduNr10Sg8EcC5UKdz2N-2FCD8g4vo18oznEezl35btr7uZ9ngeJKOmViuOJ-2FQ=
+Vht72WVMTnKFSK2bGMkQGOGNAvqAkUbZpXjyezfl6qBKjqxZ8vJI-2FJaTvr7HykxHn5GItIqOp=
+VJYMEU-2FHR2DcK3foqmlF0B1DBIh1jPtU-2BXYmiqQ64x77AKlC4pjVgQj14qKzcs0IC4jBKzG=
+EuGuMeinJwyewnEuIvKWJ0lGfazosruzzeMq1UQkFykGHhXa7T0pvfMhJQdQ0WecMkmmBx-2BUn=
+d89Rpvs5lWMJ7ij1tIcKPp5PPMjwZHFoB5BxVOnlmlJvz7hpiUNAHrOf-2FakzbGdZjv0ZPnPd2=
+Pvnb39JrqvyFLFYgVFhR7DxGHJryYUmlB-2FuIEBXslOVJnNMUqpi4Bzvoe70W4B7pwM46T061-=
+2BxvA2qe76c2-2BJG87HBUoVTl3pZDKFjT0Meq-2FrhDVjZ17plsNv1dBsn-2Bfheirb8JJ4B4l=
+ZAe0E2VuqVSyoIp-2BMg4glpmch72OU-2FlRKEk64mM2Gmxbg-2BUU171fvKao9LHbLsTLFRXJG=
+smLl0aH-2BD0V6umqEgZ9aXe6s8NFSbdtQ0D-2B61FjX6uB2cvO5LbSIUkny3u2TTpYJoA00Vx0=
+3sAjPsWIkwPUy4lc-2FBzQx2ezUwprg3R2YOJ-2BVqWxQ0ctgzbwEJqKcpBr8d5AQmycYCAizku=
+Q7l9yb-2B-2Bk6ke13d6NHRAJc5FJl-2F1MC4lmilGVlz-2B4-2FhvEOoVwXopoDnXtsWAkTlg3=
+XHn48cqvLUkqEFEGa159-2BHgEVNQgQ02E-2Fh7jGFNv3Bk9zFtlKv77-2FVnycX3jv1xAs4Dwf=
+Fk-2BKqE-2BbKG-2Bxid-2BEbJ6cKgRpcuJTONycJJe-2Fy9mCsIReRG-2F1KR4lXNq20IDNBGr=
+6IluqUlhdP-2B8rh6lx68oalZlZLYeqvCDRi90Tvo7vN00O5RsVVw-2FuF3Qts-2Bu1hAb6JKKV=
+tDFzGCk7-2BLkWio1xniOZCXSbNNNUaCGe7bFuoeEqpV2xfksDcvfg7AU3M-2BjhEPCXGrXqxx6=
+mf-2BsarAmjGuO83sI4wZ10Hq30LV7TdkTIvLf-2BOKFJguzhNwRX2AivGCwKHsh-2BkkrFtgOh=
+NV-2B4Rla-2BOj-2FISnq9RL2j84SX-2Bfj5z16nZiECkYLkaBEfL91BGZfTzRrULNaVKwewi2-=
+2BANAjk3wVELR-2B7Yc1iJ7y1rx-2BkY1gihU6olqIuTjbK7ScBKA4-2F1fzqjJVNOxS6CMQLLg=
+6yTkj-2B-2Fo0DIQyU5VPPN-2FrIOmwrGKrx5zrKZ62J5-2FMYs0UFhsY-2Bds24 target=3D_=
+blank rel=3Dnoopener style=3Ddisplay:inline-block;margin-right:32px;><img s=
+rc=3Dhttps://images.chesscomfiles.com/uploads/ad_image/17071.18e5898e.png a=
+lt=3DTwitter style=3Ddisplay:inline-block;width:40px;height:auto;vertical-a=
+lign:middle; width=3D40></a><a href=3Dhttps://links.chess.com/ls/click?upn=
+=3Du001.p1cMHIykM1qChSY4fGxDtLDa6J-2Ff2uGl4VE-2FepJdTeSr3eYZ0-2BUnq3468xiiM=
+pU7WFv4S-2BDuOQV7HEGUg-2FVGLVzayDKvDHWwQkqA6zIJbPlYRVmdh8BWFaIRycRhs5AZRKbU=
+LxBHEQcwhuKMwAQMvxRZEzEFMpoIbbVppf6QNAdGmgOiHqFRfCskC9gEMLbl-2Btyag5jvRsrVk=
+dq-2BuvuUUQsENVCb27qWF2FE-2BaM7eCXLWMo-2B5ZSH79Li00rWYQ-2FTf7m0YNpqP208XlMb=
+AnD-2Byw-3D-3D5a4e_YwDotihA9j-2Fi3H8ddYTy6ODFltMHjsgCzNR73Ic7VAackgnrzDTtCx=
+4lF7X7HWTmiRawoaRBFH8w-2BlE8dkfj1qWQhhS22R8LhNSV-2Fn4C5DpB6rv-2FSjdidkUNauM=
+Uk-2FGlJw74dUFvrlFbxYQwWKzy5jBkc2fAPqgFWahPrf9mv1heRJRGTLduNr10Sg8EcC5UKdz2=
+N-2FCD8g4vo18oznEezl35btr7uZ9ngeJKOmViuOJ-2FQVht72WVMTnKFSK2bGMkQGOGNAvqAkU=
+bZpXjyezfl6qBKjqxZ8vJI-2FJaTvr7HykxHn5GItIqOpVJYMEU-2FHR2DcK3foqmlF0B1DBIh1=
+jPtU-2BXYmiqQ64x77AKlC4pjVgQj14qKzcs0IC4jBKzGEuGuMeinJwyewnEuIvKWJ0lGfazosr=
+uzzeMq1UQkFykGHhXa7T0pvfMhJQdQ0WecMkmmBx-2BUnd89Rpvs5lWMJ7ij1tIcKPp5PPMjwZH=
+FoB5BxVOnlmlJvz7hpiUNAHrOf-2FakzbGdZjv0ZPnPd2Pvnb39JrqvyFLFYgVFhR7DxGHJryYU=
+mlB-2FuIEBXslOVJnNMUqpi4Bzvoe70W4B7pwM46T061-2BxvA2qe76c2-2BJG87HBUoVTl3pZD=
+KFjT0Meq-2FrhDVjZ17plsNv1dBsn-2Bfheirb8JJ4B4lZAe0E2VuqVSyoIp-2BMg4glpmch72O=
+U-2FlRKEk64mM2Gmxbg-2BUU171fvKao9LHbLsTLFRXJGsmLl0aH-2BD0V6umqEgZ9aXe6s8NFS=
+bdtQ0D-2B61FjX6uB2cvO5LbSIUkny3u2TTpYJoA00Vx03sAjPsWIkwPUy4lc-2FBzQx2ezUwpr=
+g3R2YOJ-2BVqWxQ0ctgzbwEJqKcpBr8d5AQmycYCAizkuQ7l9yb-2B-2Bk6ke13d6NHRAJc5FJl=
+-2F1MC4lmilGVlz-2B4-2FhvEOoVwXopoDnXtsWAkTlg3XHn48cqvLUkqEFEGa159-2BHgEVNQg=
+Q02E-2Fh7jGFNv3Bk9zFtlKv77-2FVnycX3jv1xAs4DwfFk-2BKqE-2BbKG-2Bxid-2BEbJ6cKg=
+RpcuJTONycJJe-2Fy9mCsIReRG-2F1KR4lXNq20IDNBGr6IluqUlhdP-2B8rh6lx68oalZlZLYe=
+qvCDRi90Tvo7vN00O5RsVVw-2FuF3Qts-2Bu1hAb6JKKVtDFzGCk7-2BLkWio1xniOZCXSbNNNU=
+aCGe7bFuoeEqpV2xfksDcvfg7AU3M-2BjhEPCXGrXqxx6mf-2BsarAmjGuO83sI4wZ10Hq30LV7=
+TdkTIvLf-2BOKFJguzhNwRX2AivGCwKHsh-2BkkrFtgOhNV-2B4Rla-2BOj-2FISnq9RL2j84SX=
+-2Bfj5z16nZiECkYK7IgEs8cXbn3BHk4lWu-2FaCz-2FXb2mweKS3GhB9D91UPgAiDvtJtIRNZq=
+rU7vdSlQkSoNfFateTjbHLhJXQRQ1RVNRnBzFl7eepJKWRS14HrjKHbFAE7hdQaG8EIFqdVSmsb=
+g4jJ6V5Ftca8EuPUcICW target=3D_blank rel=3Dnoopener style=3Ddisplay:inline-=
+block;margin-right:32px;><img src=3Dhttps://images.chesscomfiles.com/upload=
+s/ad_image/14695.566a7d9d.png alt=3DFacebook style=3Ddisplay:inline-block;w=
+idth:40px;height:auto;vertical-align:middle; width=3D40></a><a href=3Dhttps=
+://links.chess.com/ls/click?upn=3Du001.p1cMHIykM1qChSY4fGxDtCj2k2IhmMCfqKG8=
+wmJ80-2BovQdZi-2FRCBTImpBdfacywUfWssMvL3qC3w5Ai43sCmBPFX0RMWOIc2ljEIN5-2Fof=
+uBlxFTIot9KwolXID2QBWBrvOi9QcYoIJKSLDnGLkfjCi6aCEMhmGbHwUVci-2FM4fXgK0RD4p-=
+2BrLNIzZOcy8AjToDn6PINLAajWDQ6z2FDija2VRDT23cKvvQVk5jtgtTYF29fQjQnNbZM3gGxM=
+1U-2BLKdzHkfDrnkS53rJfqu1uEdw-3D-3DmN7Q_YwDotihA9j-2Fi3H8ddYTy6ODFltMHjsgCz=
+NR73Ic7VAackgnrzDTtCx4lF7X7HWTmiRawoaRBFH8w-2BlE8dkfj1qWQhhS22R8LhNSV-2Fn4C=
+5DpB6rv-2FSjdidkUNauMUk-2FGlJw74dUFvrlFbxYQwWKzy5jBkc2fAPqgFWahPrf9mv1heRJR=
+GTLduNr10Sg8EcC5UKdz2N-2FCD8g4vo18oznEezl35btr7uZ9ngeJKOmViuOJ-2FQVht72WVMT=
+nKFSK2bGMkQGOGNAvqAkUbZpXjyezfl6qBKjqxZ8vJI-2FJaTvr7HykxHn5GItIqOpVJYMEU-2F=
+HR2DcK3foqmlF0B1DBIh1jPtU-2BXYmiqQ64x77AKlC4pjVgQj14qKzcs0IC4jBKzGEuGuMeinJ=
+wyewnEuIvKWJ0lGfazosruzzeMq1UQkFykGHhXa7T0pvfMhJQdQ0WecMkmmBx-2BUnd89Rpvs5l=
+WMJ7ij1tIcKPp5PPMjwZHFoB5BxVOnlmlJvz7hpiUNAHrOf-2FakzbGdZjv0ZPnPd2Pvnb39Jrq=
+vyFLFYgVFhR7DxGHJryYUmlB-2FuIEBXslOVJnNMUqpi4Bzvoe70W4B7pwM46T061-2BxvA2qe7=
+6c2-2BJG87HBUoVTl3pZDKFjT0Meq-2FrhDVjZ17plsNv1dBsn-2Bfheirb8JJ4B4lZAe0E2Vuq=
+VSyoIp-2BMg4glpmch72OU-2FlRKEk64mM2Gmxbg-2BUU171fvKao9LHbLsTLFRXJGsmLl0aH-2=
+BD0V6umqEgZ9aXe6s8NFSbdtQ0D-2B61FjX6uB2cvO5LbSIUkny3u2TTpYJoA00Vx03sAjPsWIk=
+wPUy4lc-2FBzQx2ezUwprg3R2YOJ-2BVqWxQ0ctgzbwEJqKcpBr8d5AQmycYCAizkuQ7l9yb-2B=
+-2Bk6ke13d6NHRAJc5FJl-2F1MC4lmilGVlz-2B4-2FhvEOoVwXopoDnXtsWAkTlg3XHn48cqvL=
+UkqEFEGa159-2BHgEVNQgQ02E-2Fh7jGFNv3Bk9zFtlKv77-2FVnycX3jv1xAs4DwfFk-2BKqE-=
+2BbKG-2Bxid-2BEbJ6cKgRpcuJTONycJJe-2Fy9mCsIReRG-2F1KR4lXNq20IDNBGr6IluqUlhd=
+P-2B8rh6lx68oalZlZLYeqvCDRi90Tvo7vN00O5RsVVw-2FuF3Qts-2Bu1hAb6JKKVtDFzGCk7-=
+2BLkWio1xniOZCXSbNNNUaCGe7bFuoeEqpV2xfksDcvfg7AU3M-2BjhEPCXGrXqxx6mf-2BsarA=
+mjGuO83sI4wZ10Hq30LV7TdkTIvLf-2BOKFJguzhNwRX2AivGCwKHsh-2BkkrFtgOhNV-2B4Rla=
+-2BOj-2FISnq9RL2j84SX-2Bfj5z16nZiECkYKWg7zZW7x0M3TMSU3JeHIsYCz4e545Din4D3Ft=
+Wkk52kL0KDkQtdDolaeIbVRg7jLB-2Bh6G2TlayOKi-2FpEUCrDdWIsjAYHlIkJlJwQOJMkY2N7=
+0OTZ0V9TOuofL1f3iQ7xMz1dwtWlekVf0FijkzYZm target=3D_blank rel=3Dnoopener st=
+yle=3Ddisplay:inline-block;><img src=3Dhttps://images.chesscomfiles.com/upl=
+oads/ad_image/14699.718e651c.png alt=3DInstagram style=3Ddisplay:inline-blo=
+ck;width:40px;height:auto;vertical-align:middle; width=3D40></a></div></td>=
+</tr></table></td></tr><tr><td><table align=3Dcenter><tr><td style=3Dpaddin=
+g-right:6px;><a href=3D"https://links.chess.com/ls/click?upn=3Du001.p1cMHIy=
+kM1qChSY4fGxDtIR85kI-2BqOy5NzqfNiRpIU55v6x9xtrW6zym2VHCZvAYOWZ07xabhb0wPx0f=
+-2FnWGgWeIy37xE4zF4a9FzXUNq2GglJaxnVtzJUaeEQmFUtSfqR2W4BgFY8Qqbfhol2NNEOKCK=
+NxY7b5Io-2FUbbrwyA003br3MSfiONugadlE2YRgR2qRz-2BzOFKa8axLaJ7codFO-2F7-2Fz8P=
+mdjjwJFS1DD4yxPGl2A5g0GtZI7gewY9OJdHZmphyj4sB0HSfg3OemgLXTMw1q0seJ02-2BOoMS=
+CuZv2iKWD1tohw91SPn7KayBGgB-cj5_YwDotihA9j-2Fi3H8ddYTy6ODFltMHjsgCzNR73Ic7V=
+AackgnrzDTtCx4lF7X7HWTmiRawoaRBFH8w-2BlE8dkfj1qWQhhS22R8LhNSV-2Fn4C5DpB6rv-=
+2FSjdidkUNauMUk-2FGlJw74dUFvrlFbxYQwWKzy5jBkc2fAPqgFWahPrf9mv1heRJRGTLduNr1=
+0Sg8EcC5UKdz2N-2FCD8g4vo18oznEezl35btr7uZ9ngeJKOmViuOJ-2FQVht72WVMTnKFSK2bG=
+MkQGOGNAvqAkUbZpXjyezfl6qBKjqxZ8vJI-2FJaTvr7HykxHn5GItIqOpVJYMEU-2FHR2DcK3f=
+oqmlF0B1DBIh1jPtU-2BXYmiqQ64x77AKlC4pjVgQj14qKzcs0IC4jBKzGEuGuMeinJwyewnEuI=
+vKWJ0lGfazosruzzeMq1UQkFykGHhXa7T0pvfMhJQdQ0WecMkmmBx-2BUnd89Rpvs5lWMJ7ij1t=
+IcKPp5PPMjwZHFoB5BxVOnlmlJvz7hpiUNAHrOf-2FakzbGdZjv0ZPnPd2Pvnb39JrqvyFLFYgV=
+FhR7DxGHJryYUmlB-2FuIEBXslOVJnNMUqpi4Bzvoe70W4B7pwM46T061-2BxvA2qe76c2-2BJG=
+87HBUoVTl3pZDKFjT0Meq-2FrhDVjZ17plsNv1dBsn-2Bfheirb8JJ4B4lZAe0E2VuqVSyoIp-2=
+BMg4glpmch72OU-2FlRKEk64mM2Gmxbg-2BUU171fvKao9LHbLsTLFRXJGsmLl0aH-2BD0V6umq=
+EgZ9aXe6s8NFSbdtQ0D-2B61FjX6uB2cvO5LbSIUkny3u2TTpYJoA00Vx03sAjPsWIkwPUy4lc-=
+2FBzQx2ezUwprg3R2YOJ-2BVqWxQ0ctgzbwEJqKcpBr8d5AQmycYCAizkuQ7l9yb-2B-2Bk6ke1=
+3d6NHRAJc5FJl-2F1MC4lmilGVlz-2B4-2FhvEOoVwXopoDnXtsWAkTlg3XHn48cqvLUkqEFEGa=
+159-2BHgEVNQgQ02E-2Fh7jGFNv3Bk9zFtlKv77-2FVnycX3jv1xAs4DwfFk-2BKqE-2BbKG-2B=
+xid-2BEbJ6cKgRpcuJTONycJJe-2Fy9mCsIReRG-2F1KR4lXNq20IDNBGr6IluqUlhdP-2B8rh6=
+lx68oalZlZLYeqvCDRi90Tvo7vN00O5RsVVw-2FuF3Qts-2Bu1hAb6JKKVtDFzGCk7-2BLkWio1=
+xniOZCXSbNNNUaCGe7bFuoeEqpV2xfksDcvfg7AU3M-2BjhEPCXGrXqxx6mf-2BsarAmjGuO83s=
+I4wZ10Hq30LV7TdkTIvLf-2BOKFJguzhNwRX2AivGCwKHsh-2BkkrFtgOhNV-2B4Rla-2BOj-2F=
+ISnq9RL2j84SX-2Bfj5z16nZiECkYLGLrIs5y9Qac9ky9tnvNFdLgeFChvsANj4DOZKkVOXx-2F=
+mutK1VGE-2BpS5R-2F98j658fYlBb6hPN3X3ATqsTrLtbZtXujNf1ShYFl-2BnELiUlMSBmtI2-=
+2BSHlJJJxD-2BN4kpU3Ekcp6nFfB0SpIAb2RK5zd1" target=3D_blank rel=3Dnoopener><=
+img class=3Dfooter-badge src=3Dhttps://images.chesscomfiles.com/uploads/ad_=
+image/14693.74dbdb62.png alt=3D"App Store badge" style=3Ddisplay:inline-blo=
+ck;width:135px; width=3D135></a></td><td style=3Dpadding-left:6px;><a href=
+=3D"https://links.chess.com/ls/click?upn=3Du001.p1cMHIykM1qChSY4fGxDtGU3NwA=
+nzF-2BDfFgjSEe-2BWIE9BP5n2zRDb6l6TP-2Bk9yZ71LVrcPofcGii9blr2Qqo-2BFAHtVdmJT=
+J1xvrsqKCeg9ZwnwjdoN6rqLbbFsTRo8baMtphkDxrQ6CwpV0MVUJGi-2BE4dnUMkSgUgW7OCgh=
+mLB3hL4waiKhr-2BeVxxqjSlNomeS4R-2BrgaP13psWD2rejDUvkDDNWzl-2BJV-2F8ullJ3ojn=
+ULrArR6njs-2BSYPut61phEAx8A1wHFhQ25pgiHvKtt3482wpaJ6gV7FB26CVV4nTgTagaTVe4Z=
+W9ppMvQNJvjGVQxsdSwFmvUFKqWPfGgeqTA-3D-3DoeRS_YwDotihA9j-2Fi3H8ddYTy6ODFltM=
+HjsgCzNR73Ic7VAackgnrzDTtCx4lF7X7HWTmiRawoaRBFH8w-2BlE8dkfj1qWQhhS22R8LhNSV=
+-2Fn4C5DpB6rv-2FSjdidkUNauMUk-2FGlJw74dUFvrlFbxYQwWKzy5jBkc2fAPqgFWahPrf9mv=
+1heRJRGTLduNr10Sg8EcC5UKdz2N-2FCD8g4vo18oznEezl35btr7uZ9ngeJKOmViuOJ-2FQVht=
+72WVMTnKFSK2bGMkQGOGNAvqAkUbZpXjyezfl6qBKjqxZ8vJI-2FJaTvr7HykxHn5GItIqOpVJY=
+MEU-2FHR2DcK3foqmlF0B1DBIh1jPtU-2BXYmiqQ64x77AKlC4pjVgQj14qKzcs0IC4jBKzGEuG=
+uMeinJwyewnEuIvKWJ0lGfazosruzzeMq1UQkFykGHhXa7T0pvfMhJQdQ0WecMkmmBx-2BUnd89=
+Rpvs5lWMJ7ij1tIcKPp5PPMjwZHFoB5BxVOnlmlJvz7hpiUNAHrOf-2FakzbGdZjv0ZPnPd2Pvn=
+b39JrqvyFLFYgVFhR7DxGHJryYUmlB-2FuIEBXslOVJnNMUqpi4Bzvoe70W4B7pwM46T061-2Bx=
+vA2qe76c2-2BJG87HBUoVTl3pZDKFjT0Meq-2FrhDVjZ17plsNv1dBsn-2Bfheirb8JJ4B4lZAe=
+0E2VuqVSyoIp-2BMg4glpmch72OU-2FlRKEk64mM2Gmxbg-2BUU171fvKao9LHbLsTLFRXJGsmL=
+l0aH-2BD0V6umqEgZ9aXe6s8NFSbdtQ0D-2B61FjX6uB2cvO5LbSIUkny3u2TTpYJoA00Vx03sA=
+jPsWIkwPUy4lc-2FBzQx2ezUwprg3R2YOJ-2BVqWxQ0ctgzbwEJqKcpBr8d5AQmycYCAizkuQ7l=
+9yb-2B-2Bk6ke13d6NHRAJc5FJl-2F1MC4lmilGVlz-2B4-2FhvEOoVwXopoDnXtsWAkTlg3XHn=
+48cqvLUkqEFEGa159-2BHgEVNQgQ02E-2Fh7jGFNv3Bk9zFtlKv77-2FVnycX3jv1xAs4DwfFk-=
+2BKqE-2BbKG-2Bxid-2BEbJ6cKgRpcuJTONycJJe-2Fy9mCsIReRG-2F1KR4lXNq20IDNBGr6Il=
+uqUlhdP-2B8rh6lx68oalZlZLYeqvCDRi90Tvo7vN00O5RsVVw-2FuF3Qts-2Bu1hAb6JKKVtDF=
+zGCk7-2BLkWio1xniOZCXSbNNNUaCGe7bFuoeEqpV2xfksDcvfg7AU3M-2BjhEPCXGrXqxx6mf-=
+2BsarAmjGuO83sI4wZ10Hq30LV7TdkTIvLf-2BOKFJguzhNwRX2AivGCwKHsh-2BkkrFtgOhNV-=
+2B4Rla-2BOj-2FISnq9RL2j84SX-2Bfj5z16nZiECkYI5my5hIVEKH0k0CtUFqY-2BTgHqMnVa0=
+Z1-2FTWnRihUl9bhQ0RsE36nGPdjTphsUHD6xZhts8yjw5-2Fm9B9TjviOayBrmHIyQxnnNBM-2=
+BzzdgaT5ylBZucUt7CBMLAQj2263wPNVlacmvMkqFoUhaRfXXRJ" target=3D_blank rel=3D=
+noopener><img class=3Dfooter-badge src=3Dhttps://images.chesscomfiles.com/u=
+ploads/ad_image/14697.68d25de5.png alt=3D"Google Play badge" style=3Ddispla=
+y:inline-block;width:135px; width=3D135></a></td></tr></table></td></tr><tr=
+><td class=3D"footer-link mobile-padding" style=3Dcolor:#8b8987;font-size:1=
+2px;line-height:1.2;padding-top:20px;text-align:center;margin:0;><span>Want=
+ to change your email preferences? Update your <a href=3Dhttps://links.ches=
+s.com/ls/click?upn=3Du001.p1cMHIykM1qChSY4fGxDtI6dQtOWSSIurVkJDdYIlXW2c3nF0=
+hfL724SYDJKUdjUpO6l4gO7exgSKIME-2FJdqaPT8r7gHit-2FnlCGnMlGQsNplVw8L0aEFx6B0=
+GRQqyLtuNM-2Fw2tGr9z-2BvZXOwwYwhhwpopCBT4cS8Z8CRd6U9jnGWCbBT6xRD6rNdzVRxh7x=
+vBKTV3Y7NgSkpfqH36Gg0FXE693LZ36UQpdh8-2BmNUhYOjuBCtDyBnwAtBRINTf5eFuFbaG1N-=
+2FVhl-2BOcCqsQXkmG03e0yn1A9d1RefH2-2FVcCo-3DnYCJ_YwDotihA9j-2Fi3H8ddYTy6ODF=
+ltMHjsgCzNR73Ic7VAackgnrzDTtCx4lF7X7HWTmiRawoaRBFH8w-2BlE8dkfj1qWQhhS22R8Lh=
+NSV-2Fn4C5DpB6rv-2FSjdidkUNauMUk-2FGlJw74dUFvrlFbxYQwWKzy5jBkc2fAPqgFWahPrf=
+9mv1heRJRGTLduNr10Sg8EcC5UKdz2N-2FCD8g4vo18oznEezl35btr7uZ9ngeJKOmViuOJ-2FQ=
+Vht72WVMTnKFSK2bGMkQGOGNAvqAkUbZpXjyezfl6qBKjqxZ8vJI-2FJaTvr7HykxHn5GItIqOp=
+VJYMEU-2FHR2DcK3foqmlF0B1DBIh1jPtU-2BXYmiqQ64x77AKlC4pjVgQj14qKzcs0IC4jBKzG=
+EuGuMeinJwyewnEuIvKWJ0lGfazosruzzeMq1UQkFykGHhXa7T0pvfMhJQdQ0WecMkmmBx-2BUn=
+d89Rpvs5lWMJ7ij1tIcKPp5PPMjwZHFoB5BxVOnlmlJvz7hpiUNAHrOf-2FakzbGdZjv0ZPnPd2=
+Pvnb39JrqvyFLFYgVFhR7DxGHJryYUmlB-2FuIEBXslOVJnNMUqpi4Bzvoe70W4B7pwM46T061-=
+2BxvA2qe76c2-2BJG87HBUoVTl3pZDKFjT0Meq-2FrhDVjZ17plsNv1dBsn-2Bfheirb8JJ4B4l=
+ZAe0E2VuqVSyoIp-2BMg4glpmch72OU-2FlRKEk64mM2Gmxbg-2BUU171fvKao9LHbLsTLFRXJG=
+smLl0aH-2BD0V6umqEgZ9aXe6s8NFSbdtQ0D-2B61FjX6uB2cvO5LbSIUkny3u2TTpYJoA00Vx0=
+3sAjPsWIkwPUy4lc-2FBzQx2ezUwprg3R2YOJ-2BVqWxQ0ctgzbwEJqKcpBr8d5AQmycYCAizku=
+Q7l9yb-2B-2Bk6ke13d6NHRAJc5FJl-2F1MC4lmilGVlz-2B4-2FhvEOoVwXopoDnXtsWAkTlg3=
+XHn48cqvLUkqEFEGa159-2BHgEVNQgQ02E-2Fh7jGFNv3Bk9zFtlKv77-2FVnycX3jv1xAs4Dwf=
+Fk-2BKqE-2BbKG-2Bxid-2BEbJ6cKgRpcuJTONycJJe-2Fy9mCsIReRG-2F1KR4lXNq20IDNBGr=
+6IluqUlhdP-2B8rh6lx68oalZlZLYeqvCDRi90Tvo7vN00O5RsVVw-2FuF3Qts-2Bu1hAb6JKKV=
+tDFzGCk7-2BLkWio1xniOZCXSbNNNUaCGe7bFuoeEqpV2xfksDcvfg7AU3M-2BjhEPCXGrXqxx6=
+mf-2BsarAmjGuO83sI4wZ10Hq30LV7TdkTIvLf-2BOKFJguzhNwRX2AivGCwKHsh-2BkkrFtgOh=
+NV-2B4Rla-2BOj-2FISnq9RL2j84SX-2Bfj5z16nZiECkYIN4-2BZhx13ThU3TJWTxvGi-2FQ2N=
+wa5JnaL2OmYi6DUvxm-2FkKVpNGPpZKxG6e0jSX1l49Y0aIHUjWiyH-2Fljb6s74FSwdGWICdZT=
+30hu369Hw1Lf0PIKbf3Zen2jlnvju7Jblp4ncHv21kf8G9t4w8DoUl target=3D_blank rel=
+=3Dnoopener style=3D"text-decoration:none;color: #0069AB">Notification Sett=
+ings</a>.</span></td></tr><tr><td class=3D"footer-link mobile-padding" styl=
+e=3Dcolor:#8b8987;font-size:12px;line-height:1.2;padding-top:10px;text-alig=
+n:center;margin:0;><span>Please do not reply to this email. Need help? Visi=
+t Chess.=E2=80=8C=E2=80=8Ccom <a href=3Dhttps://links.chess.com/ls/click?up=
+n=3Du001.p1cMHIykM1qChSY4fGxDtJAglRBfG5ab66-2BPgwVoB-2Be-2BFaxrE8RGR8cW5gE4=
+bGX97kHlOW4Zb1ap8ViMKUEAtIoHc3vxU1E32smVPxEtivbqElFL9IfFK8zRv41fkk-2FRmsMq7=
+SzgyDHbubOwZipwRzIX3conF7pz1-2Fo3WfZXYXnggzdCTwm1BE8gHxH8NVfVrFEXFLpWLKCrtQ=
+BI09pRxgEbDTlRFC9eeTziR7tLcYYbBmE5hT5rEOdJKEqVuiOuIzLa_YwDotihA9j-2Fi3H8ddY=
+Ty6ODFltMHjsgCzNR73Ic7VAackgnrzDTtCx4lF7X7HWTmiRawoaRBFH8w-2BlE8dkfj1qWQhhS=
+22R8LhNSV-2Fn4C5DpB6rv-2FSjdidkUNauMUk-2FGlJw74dUFvrlFbxYQwWKzy5jBkc2fAPqgF=
+WahPrf9mv1heRJRGTLduNr10Sg8EcC5UKdz2N-2FCD8g4vo18oznEezl35btr7uZ9ngeJKOmViu=
+OJ-2FQVht72WVMTnKFSK2bGMkQGOGNAvqAkUbZpXjyezfl6qBKjqxZ8vJI-2FJaTvr7HykxHn5G=
+ItIqOpVJYMEU-2FHR2DcK3foqmlF0B1DBIh1jPtU-2BXYmiqQ64x77AKlC4pjVgQj14qKzcs0IC=
+4jBKzGEuGuMeinJwyewnEuIvKWJ0lGfazosruzzeMq1UQkFykGHhXa7T0pvfMhJQdQ0WecMkmmB=
+x-2BUnd89Rpvs5lWMJ7ij1tIcKPp5PPMjwZHFoB5BxVOnlmlJvz7hpiUNAHrOf-2FakzbGdZjv0=
+ZPnPd2Pvnb39JrqvyFLFYgVFhR7DxGHJryYUmlB-2FuIEBXslOVJnNMUqpi4Bzvoe70W4B7pwM4=
+6T061-2BxvA2qe76c2-2BJG87HBUoVTl3pZDKFjT0Meq-2FrhDVjZ17plsNv1dBsn-2Bfheirb8=
+JJ4B4lZAe0E2VuqVSyoIp-2BMg4glpmch72OU-2FlRKEk64mM2Gmxbg-2BUU171fvKao9LHbLsT=
+LFRXJGsmLl0aH-2BD0V6umqEgZ9aXe6s8NFSbdtQ0D-2B61FjX6uB2cvO5LbSIUkny3u2TTpYJo=
+A00Vx03sAjPsWIkwPUy4lc-2FBzQx2ezUwprg3R2YOJ-2BVqWxQ0ctgzbwEJqKcpBr8d5AQmycY=
+CAizkuQ7l9yb-2B-2Bk6ke13d6NHRAJc5FJl-2F1MC4lmilGVlz-2B4-2FhvEOoVwXopoDnXtsW=
+AkTlg3XHn48cqvLUkqEFEGa159-2BHgEVNQgQ02E-2Fh7jGFNv3Bk9zFtlKv77-2FVnycX3jv1x=
+As4DwfFk-2BKqE-2BbKG-2Bxid-2BEbJ6cKgRpcuJTONycJJe-2Fy9mCsIReRG-2F1KR4lXNq20=
+IDNBGr6IluqUlhdP-2B8rh6lx68oalZlZLYeqvCDRi90Tvo7vN00O5RsVVw-2FuF3Qts-2Bu1hA=
+b6JKKVtDFzGCk7-2BLkWio1xniOZCXSbNNNUaCGe7bFuoeEqpV2xfksDcvfg7AU3M-2BjhEPCXG=
+rXqxx6mf-2BsarAmjGuO83sI4wZ10Hq30LV7TdkTIvLf-2BOKFJguzhNwRX2AivGCwKHsh-2Bkk=
+rFtgOhNV-2B4Rla-2BOj-2FISnq9RL2j84SX-2Bfj5z16nZiECkYL3AO-2BbbYyYWQd6Q3lmBlj=
+JBV6V3Xo8oaq9JT6t1Iu7epD3-2FeOMrADkD44CFGXsLoayrgA5-2B-2FuWO8Z-2Bm7GeAm6RSA=
+lPflwWSSLIZMUjg5pqyq2ET-2FYMDvrSLysIJslULX1UmrPUqyZQBEo2x1Q1jVLm target=3D_=
+blank rel=3Dnoopener style=3D"text-decoration:none;color: #0069AB">Customer=
+ Support.</a></span></td></tr><tr><td class=3D"footer-link mobile-padding" =
+style=3Dcolor:#8b8987;font-size:12px;line-height:1.2;padding-top:10px;text-=
+align:center;margin:0;>This email was sent to: newt0n00921@gmail.com</td></=
+tr><tr><td class=3Dfooter-link style=3Ddisplay:inline-block;font-size:12px;=
+line-height:1.2;padding-top:7px;text-align:center;width:100%;><table width=
+=3D100% align=3Dcenter><tr><td><table align=3Dcenter><tr><td style=3Dcolor:=
+#8b8987;font-size:12px;margin:0;><a href=3D"https://links.chess.com/ls/clic=
+k?upn=3Du001.p1cMHIykM1qChSY4fGxDtJJ7dPaoNq1sQvjYdQx6lJEOpt7layUxyfx1Ch3SZp=
+Y6cdPdxz1TxZW-2BfC4K0KQ-2BIEVG6ukqO5ozOoOWiF-2B2brYBVM-2F59ODKdKKuvq-2BQX-2=
+FghJFWOA3C2TkmKRgaCpgPyWLtiimkWC5XrdHwXYcS1uCLEZ7u8JOhqE8H0RV1FaePpB1xDrSLv=
+pQR5f65hdLj-2Fvy9KML6GWxScxvxtgRjPpWqZynsMPjdzFDA0ETaUTC8rCc-2F6iZ62OxomVAK=
+lUZ-2Fn3QGwz0UOHqvxeplEhXNSRVMJ8WEriFPGNVwHRdg5htZyH2RjavNk-2BcDC3SY2Whewgs=
+hNHVQWe6xNVn88UUbC0hxRiMjQXGsR-2Fa2YD-2F3IazE4SBzoTvUA7ULiFSzp1zVo57wmkAV4z=
+LmYmfCm6s-2BCzeNNiIsa0zobHiHsDNGc0mFmYPOmReEOOu-2F74g2Oc7ubJeySJOCjGxuNLC-2=
+B-2BcHIxuNHOEyK2rQgtFotXMJyrN36zd-2BDNQmD0nr1-2BecgMgO6LN85lB6I4c5cERPLGpC9=
+k8CLTryRtW3XX9-2F98ZNZHFc5fytzLZOMTb2nxGKR-2BGaMNkiSQ-2FQNt9g-2Ba5XPrXfWUDs=
+M-3DIdC4_YwDotihA9j-2Fi3H8ddYTy6ODFltMHjsgCzNR73Ic7VAackgnrzDTtCx4lF7X7HWTm=
+iRawoaRBFH8w-2BlE8dkfj1qWQhhS22R8LhNSV-2Fn4C5DpB6rv-2FSjdidkUNauMUk-2FGlJw7=
+4dUFvrlFbxYQwWKzy5jBkc2fAPqgFWahPrf9mv1heRJRGTLduNr10Sg8EcC5UKdz2N-2FCD8g4v=
+o18oznEezl35btr7uZ9ngeJKOmViuOJ-2FQVht72WVMTnKFSK2bGMkQGOGNAvqAkUbZpXjyezfl=
+6qBKjqxZ8vJI-2FJaTvr7HykxHn5GItIqOpVJYMEU-2FHR2DcK3foqmlF0B1DBIh1jPtU-2BXYm=
+iqQ64x77AKlC4pjVgQj14qKzcs0IC4jBKzGEuGuMeinJwyewnEuIvKWJ0lGfazosruzzeMq1UQk=
+FykGHhXa7T0pvfMhJQdQ0WecMkmmBx-2BUnd89Rpvs5lWMJ7ij1tIcKPp5PPMjwZHFoB5BxVOnl=
+mlJvz7hpiUNAHrOf-2FakzbGdZjv0ZPnPd2Pvnb39JrqvyFLFYgVFhR7DxGHJryYUmlB-2FuIEB=
+XslOVJnNMUqpi4Bzvoe70W4B7pwM46T061-2BxvA2qe76c2-2BJG87HBUoVTl3pZDKFjT0Meq-2=
+FrhDVjZ17plsNv1dBsn-2Bfheirb8JJ4B4lZAe0E2VuqVSyoIp-2BMg4glpmch72OU-2FlRKEk6=
+4mM2Gmxbg-2BUU171fvKao9LHbLsTLFRXJGsmLl0aH-2BD0V6umqEgZ9aXe6s8NFSbdtQ0D-2B6=
+1FjX6uB2cvO5LbSIUkny3u2TTpYJoA00Vx03sAjPsWIkwPUy4lc-2FBzQx2ezUwprg3R2YOJ-2B=
+VqWxQ0ctgzbwEJqKcpBr8d5AQmycYCAizkuQ7l9yb-2B-2Bk6ke13d6NHRAJc5FJl-2F1MC4lmi=
+lGVlz-2B4-2FhvEOoVwXopoDnXtsWAkTlg3XHn48cqvLUkqEFEGa159-2BHgEVNQgQ02E-2Fh7j=
+GFNv3Bk9zFtlKv77-2FVnycX3jv1xAs4DwfFk-2BKqE-2BbKG-2Bxid-2BEbJ6cKgRpcuJTONyc=
+JJe-2Fy9mCsIReRG-2F1KR4lXNq20IDNBGr6IluqUlhdP-2B8rh6lx68oalZlZLYeqvCDRi90Tv=
+o7vN00O5RsVVw-2FuF3Qts-2Bu1hAb6JKKVtDFzGCk7-2BLkWio1xniOZCXSbNNNUaCGe7bFuoe=
+EqpV2xfksDcvfg7AU3M-2BjhEPCXGrXqxx6mf-2BsarAmjGuO83sI4wZ10Hq30LV7TdkTIvLf-2=
+BOKFJguzhNwRX2AivGCwKHsh-2BkkrFtgOhNV-2B4Rla-2BOj-2FISnq9RL2j84SX-2Bfj5z16n=
+ZiECkYKLFPlTlmHF8khbjbdf3Xaa8IfuMhxg8DDmHP8fYTSFPvrhVaZer6-2BgJPGSefbexs4RJ=
+f77i-2F3JXqVAZz2IgcdpTVTmA1Jz0jFXXNGCnE6Km9J0Hck4FqIn3rXySvWDmx3vTWUjKk6-2B=
+wXjxWOL5HL4H" target=3D_blank rel=3Dnoopener style=3Ddisplay:inline-block;t=
+ext-decoration:none;vertical-align:middle;color:#0069AB;>Unsubscribe</a>=C2=
+=A0=C2=A0=C2=A0=C2=A0 | =C2=A0=C2=A0=C2=A0=C2=A0<a href=3Dhttps://links.che=
+ss.com/ls/click?upn=3Du001.p1cMHIykM1qChSY4fGxDtLDrE1QU2CkiyANzgv6tdl9smyko=
+uiSW1kl2-2BwCXjs3OczxxQGRCDc2C2VTomsF4qnfbefWFfc3iU1fIXWjETC0ykx-2BY6xeNKbH=
+ysMXaNZZ5442DL0LcZd-2BGcgW8dPBNUiLJ7hl-2B6EI-2BOIrfToF7DPm3SF9vNG7AN5Ju-2Fh=
+H00wmF0FpTRFPjQGm2eJUSbBKK-2F3gqtltW1ABFPvidubxvUstEUt7qXdy6vS2u4GXROJyPLg-=
+2Fh8BlwrlYl3ovZgxb6fg-3D-3DICXE_YwDotihA9j-2Fi3H8ddYTy6ODFltMHjsgCzNR73Ic7V=
+AackgnrzDTtCx4lF7X7HWTmiRawoaRBFH8w-2BlE8dkfj1qWQhhS22R8LhNSV-2Fn4C5DpB6rv-=
+2FSjdidkUNauMUk-2FGlJw74dUFvrlFbxYQwWKzy5jBkc2fAPqgFWahPrf9mv1heRJRGTLduNr1=
+0Sg8EcC5UKdz2N-2FCD8g4vo18oznEezl35btr7uZ9ngeJKOmViuOJ-2FQVht72WVMTnKFSK2bG=
+MkQGOGNAvqAkUbZpXjyezfl6qBKjqxZ8vJI-2FJaTvr7HykxHn5GItIqOpVJYMEU-2FHR2DcK3f=
+oqmlF0B1DBIh1jPtU-2BXYmiqQ64x77AKlC4pjVgQj14qKzcs0IC4jBKzGEuGuMeinJwyewnEuI=
+vKWJ0lGfazosruzzeMq1UQkFykGHhXa7T0pvfMhJQdQ0WecMkmmBx-2BUnd89Rpvs5lWMJ7ij1t=
+IcKPp5PPMjwZHFoB5BxVOnlmlJvz7hpiUNAHrOf-2FakzbGdZjv0ZPnPd2Pvnb39JrqvyFLFYgV=
+FhR7DxGHJryYUmlB-2FuIEBXslOVJnNMUqpi4Bzvoe70W4B7pwM46T061-2BxvA2qe76c2-2BJG=
+87HBUoVTl3pZDKFjT0Meq-2FrhDVjZ17plsNv1dBsn-2Bfheirb8JJ4B4lZAe0E2VuqVSyoIp-2=
+BMg4glpmch72OU-2FlRKEk64mM2Gmxbg-2BUU171fvKao9LHbLsTLFRXJGsmLl0aH-2BD0V6umq=
+EgZ9aXe6s8NFSbdtQ0D-2B61FjX6uB2cvO5LbSIUkny3u2TTpYJoA00Vx03sAjPsWIkwPUy4lc-=
+2FBzQx2ezUwprg3R2YOJ-2BVqWxQ0ctgzbwEJqKcpBr8d5AQmycYCAizkuQ7l9yb-2B-2Bk6ke1=
+3d6NHRAJc5FJl-2F1MC4lmilGVlz-2B4-2FhvEOoVwXopoDnXtsWAkTlg3XHn48cqvLUkqEFEGa=
+159-2BHgEVNQgQ02E-2Fh7jGFNv3Bk9zFtlKv77-2FVnycX3jv1xAs4DwfFk-2BKqE-2BbKG-2B=
+xid-2BEbJ6cKgRpcuJTONycJJe-2Fy9mCsIReRG-2F1KR4lXNq20IDNBGr6IluqUlhdP-2B8rh6=
+lx68oalZlZLYeqvCDRi90Tvo7vN00O5RsVVw-2FuF3Qts-2Bu1hAb6JKKVtDFzGCk7-2BLkWio1=
+xniOZCXSbNNNUaCGe7bFuoeEqpV2xfksDcvfg7AU3M-2BjhEPCXGrXqxx6mf-2BsarAmjGuO83s=
+I4wZ10Hq30LV7TdkTIvLf-2BOKFJguzhNwRX2AivGCwKHsh-2BkkrFtgOhNV-2B4Rla-2BOj-2F=
+ISnq9RL2j84SX-2Bfj5z16nZiECkYJ3cvnlD9YODepUAkwEP06k3-2F4dYhgfXb8NxOimRkTIuN=
+h1m3ET4EblPb5cYTA0smAq2I6lKwFT3JZ0MQSqxzC2JS3r11j4qEstmUhkonanJx2DsKF4fxNie=
+jr3SNoEw8KW2W9SAh-2Br0zmaaLYY6R1A target=3D_blank rel=3Dnoopener style=3Ddi=
+splay:inline-block;text-decoration:none;vertical-align:middle;color:#0069AB=
+;>Privacy Policy</a></td></tr></table></td></tr></table></td></tr><tr><td s=
+tyle=3Dpadding-top:7px;><table width=3D100% align=3Dcenter><tr><td class=3D=
+footer-link style=3Dcolor:#8b8987;font-size:12px;line-height:1.2;text-align=
+:center;margin:0;>Chess=E2=80=8C.=E2=80=8Ccom | PO Box 970397 Orem, UT 8409=
+7</td></tr></table></td></tr><tr><td><table width=3D100% align=3Dcenter><tr=
+><td style=3Dcolor:#8b8987;font-size:12px;line-height:1.2;padding-top:8px;t=
+ext-align:center;margin:0;>=C2=A9 2026</td></tr></table></td></tr></table><=
+/div></div></div><script></script><img src=3D"https://links.chess.com/wf/op=
+en?upn=3Du001.DLiUmtYVrhXkq-2Fn9dtXsIjqr1jV3kYTmYwv2kOCjY6Gvlwx3fu7MwRPzViz=
+FEv9xac0rF-2F-2FIZ11muiiM5V3tVzjhveoPYUp5nS-2Fpt6TDsfnbRzyd8xL5ajPs-2BgOP-2=
+FRa17RnXVCQL98WMoRrBXdX7Y8Gu2X1Vfyq3oqw2-2FZaU5cbmUn-2Bu0XpmQ0qb1cZYKXH1Ec-=
+2FCfxUPhuylkFpiCXMx8r9Zb5OFn0ohzY8hWTHz5MR8GaAky5hGsdmfaCB2mQO83wutHBsDyQM8=
+TgOmI6C6sBdyQihkAzT-2B62Rop-2FwqBCGhAVhNhgAIUpwqmwi-2ByU14a0fTjaiQu-2B-2Fi3=
+nqbNFn5R8lhdOgGRw-2FPnJJVCAtUD6V4806GWzHrDCHPvuUTSQZ6oq53FJtVb6s5LxEkgSVNWQ=
+6tC3H3L44mJ0yNfL5Wv51XCiN6u4znfRPdsOrDvyCXDzvm66f8V-2B7jbDy-2FOwnenk0SHoWnn=
+-2BExHKdtkteoST6ovgPVigLXUZxuHFgy4-2FVV6ovyP8l9IkvIwho4mxzez4QRNCOHWyBRbtZq=
+7lYcbqKsYIu-2F5nW305GeNcnmKDedSpsrnoVJkajH56qKrrBMWhIqRQRnPpziQSTqx2oKLjf6O=
+HMGnp85NNwJJfHsP6z1IAE-2Bdx-2Bj9AwZBDcg4aGNLRz5r2bRQKJpCqC1tleU5ZauLK4YG4oT=
+VdbWuqk4hFNgCcTZMUpB6fOVb5S1iUu5EYnJm-2FS99wZ3WXm4pWD-2BV82DvWDKi15JS5mm9EF=
+JxYeoXPHc-2F2dBkemO-2BdGa-2Bhr09guPo-2BEmyb0Wq0Tc9xdSW3tEL2HpAgU0Vz-2BhGvbd=
+HyqbZLoCpacHmCYRr7nGdv9HxqBPU2RMFJLUuXv7wEh1cdZEdP0P5orJGJfoh84yMJiBoDzAsAd=
+SeDag6La0sdgukdHGo18ue49aMNltmzsS4T92MyACfUcEYv-2BiRMIpGoCaed8ha6ymeB9AvkCx=
+6btVMKLoBR-2FKpkZJiEzk3W0ALvCp0cc6MuIpN7o8ZD4agMukEQ1rHmLunPue2jNEnTVjXMwv8=
+c751tIjyJ-2F1pRUCNaKGZxUz-2FZ9XNQrADZO-2BI14i4QMGUUG4SLsoqo6sWM-2FKv9sWaqW2=
+VPL1vhpnHDdTqPtgSpTkPqtfKN0nwTsgFycW1UHpA09z4-2BG1ubGgzBzpM57gcoN7QBQodahHd=
+3ZybFkJUQZxoy6j-2FpPRwkO9CVmbmCjjOFv8uhtmchuvauEKRdILSMrMueZ7EVrsLWwr5jPq0g=
+4X57ggGgaIh8j0DwjlivUSeReNECbd9j96qtZZ6wq-2FfMaHYnivGAqBOJy-2Bfff9xM9ojMAx6=
+rBsADWikr0dcRd6a4dfUo7COLuSmThdd1tIuo0bKYD5Zm1mEinDoGyyhfVyDxUBJM7EHcwLee7g=
+hbWhzSJvSIyg-2BDwB14GL87QBrH1jic29AMbBoOvp2DZTCIjxNArHus1HIPn6gmCD" alt=3D"=
+" width=3D"1" height=3D"1" border=3D"0" style=3D"height:1px !important;widt=
+h:1px !important;border-width:0 !important;margin-top:0 !important;margin-b=
+ottom:0 !important;margin-right:0 !important;margin-left:0 !important;paddi=
+ng-top:0 !important;padding-bottom:0 !important;padding-right:0 !important;=
+padding-left:0 !important;"/></body></html>

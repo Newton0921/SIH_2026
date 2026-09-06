@@ -1,0 +1,44 @@
+# AI-Powered Email Threat Detection Platform
+# PS ID 26106
+# Free/open-source tools only — no paid libraries
+
+# Web framework
+flask>=3.0.0
+python-dotenv>=1.0.0
+
+# Data processing
+pandas>=2.1.0
+numpy>=1.26.0
+
+# ML classifier
+scikit-learn>=1.3.0
+joblib>=1.3.0
+
+# Email / DNS
+dnspython>=2.4.0
+python-whois>=0.9.0
+checkdmarc>=5.6.0
+beautifulsoup4>=4.12.0
+lxml>=4.9.0
+
+# GeoIP (offline, uses downloaded .mmdb files)
+geoip2>=4.8.0
+maxminddb>=2.5.0
+
+# Graph correlation
+networkx>=3.2.0
+
+# Domain similarity
+rapidfuzz>=3.5.0
+
+# Threat feed / HTTP
+requests>=2.31.0
+
+# PDF report generation (NOT WeasyPrint — see README for rationale)
+xhtml2pdf>=0.2.11
+
+# Office macro detection
+oletools>=0.60.1
+
+# Testing
+pytest>=7.4.0
