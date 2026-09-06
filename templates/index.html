@@ -1,103 +1,304 @@
 {% extends "base.html" %}
-{% block title %}Analyze Email{% endblock %}
+
+{% block title %}Analyze Email | ROOT@SYS{% endblock %}
 {% block meta_description %}Upload an .eml file for AI-powered threat detection, geolocation and forensic analysis{% endblock %}
 
-{% block content %}
-<div class="container" style="max-width:900px;">
+{% block extra_head %}
+<style>
+  /* Advanced Hacker / Cyberpunk Theme Variables */
+  :root {
+    --bg-color: #030303;
+    --panel-bg: rgba(10, 10, 12, 0.85);
+    --term-green: #00ff41;
+    --term-green-dim: rgba(0, 255, 65, 0.2);
+    --term-green-glow: rgba(0, 255, 65, 0.5);
+    --term-cyan: #08f7fe;
+    --term-cyan-dim: rgba(8, 247, 254, 0.2);
+    --term-alert: #ff003c;
+    --font-mono: 'Courier New', Courier, monospace;
+  }
 
-  <!-- Hero -->
-  <div class="text-center pt-4 pb-5">
-    <div class="hero-icon mb-4">
-      <i class="bi bi-shield-shaded" style="font-size:4rem;background:linear-gradient(135deg,#00d4ff,#7b61ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;"></i>
+  /* Global Overrides */
+  body {
+    background-color: var(--bg-color) !important;
+    color: var(--term-green) !important;
+    font-family: var(--font-mono) !important;
+    /* Subtle Cyber Grid Background */
+    background-image: 
+      linear-gradient(var(--term-green-dim) 1px, transparent 1px),
+      linear-gradient(90deg, var(--term-green-dim) 1px, transparent 1px);
+    background-size: 30px 30px;
+    background-position: center center;
+  }
+
+  h1, h2, h3, h4, h5, h6, p, a, span {
+    font-family: var(--font-mono) !important;
+    text-transform: uppercase;
+  }
+
+  /* Container & Banner */
+  .cyber-container {
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    border-left: 2px solid var(--term-cyan);
+    border-right: 2px solid var(--term-cyan);
+    padding: 2rem;
+    box-shadow: 0 0 30px rgba(8, 247, 254, 0.1);
+  }
+
+  .cyber-banner {
+    position: relative;
+    padding: 2rem;
+    border: 1px solid var(--term-green-dim);
+    background: linear-gradient(180deg, rgba(0,255,65,0.05) 0%, rgba(0,0,0,0) 100%);
+    overflow: hidden;
+  }
+  
+  /* CRT Scanline Effect */
+  .cyber-banner::after {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    z-index: 2;
+    background-size: 100% 2px, 3px 100%;
+    pointer-events: none;
+  }
+
+  /* Cyber Card with Angled Cut-Corners */
+  .cyber-card {
+    background: var(--panel-bg);
+    border: none;
+    clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px);
+    position: relative;
+    padding: 2px;
+  }
+  .cyber-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--term-green);
+    z-index: -1;
+    clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px);
+  }
+  .cyber-card-inner {
+    background: #050505;
+    height: 100%;
+    clip-path: polygon(19px 0, 100% 0, 100% calc(100% - 19px), calc(100% - 19px) 100%, 0 100%, 0 19px);
+  }
+
+  /* Upload Zone */
+  .upload-zone {
+    background: transparent;
+    border: 1px solid var(--term-green-dim);
+    min-height: 220px;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+  .upload-zone::before, .upload-zone::after {
+    content: ''; position: absolute; width: 20px; height: 20px; border-color: var(--term-cyan); border-style: solid;
+  }
+  .upload-zone::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+  .upload-zone::after { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+
+  .upload-zone:hover, .upload-zone.drag-over {
+    background: var(--term-green-dim);
+    box-shadow: inset 0 0 20px var(--term-green-dim);
+  }
+  .upload-zone.file-selected {
+    border-color: var(--term-cyan);
+    background: rgba(8, 247, 254, 0.05);
+    box-shadow: inset 0 0 30px var(--term-cyan-dim);
+  }
+  .upload-icon {
+    font-size: 3rem;
+    color: var(--term-green);
+    text-shadow: 0 0 10px var(--term-green);
+  }
+  .upload-zone.file-selected .upload-icon {
+    color: var(--term-cyan);
+    text-shadow: 0 0 10px var(--term-cyan);
+  }
+
+  /* Cyber Buttons */
+  .btn-cyber {
+    position: relative;
+    background: rgba(0, 255, 65, 0.1);
+    color: var(--term-green);
+    border: 1px solid var(--term-green);
+    font-weight: bold;
+    letter-spacing: 2px;
+    clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+    transition: all 0.2s ease;
+    overflow: hidden;
+  }
+  .btn-cyber:hover {
+    background: var(--term-green);
+    color: #000;
+    box-shadow: 0 0 20px var(--term-green);
+  }
+  .btn-cyber::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%; width: 50%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+    transform: skewX(-20deg);
+    transition: none;
+  }
+  .btn-cyber:hover::after {
+    left: 150%;
+    transition: left 0.6s ease-in-out;
+  }
+  .btn-cyber:disabled {
+    border-color: #333; color: #555; background: #111; cursor: not-allowed;
+  }
+
+  /* Feature Grid Adjustments */
+  .feature-card {
+    border: 1px solid #333;
+    border-left: 4px solid var(--term-cyan);
+    background: linear-gradient(90deg, rgba(8,247,254,0.05) 0%, transparent 100%);
+    padding: 20px;
+    height: 100%;
+    transition: all 0.3s;
+  }
+  .feature-card:hover {
+    border-left-color: var(--term-green);
+    background: linear-gradient(90deg, rgba(0,255,65,0.1) 0%, transparent 100%);
+    transform: translateX(5px);
+  }
+
+  .blink { animation: blinker 1s linear infinite; }
+  @keyframes blinker { 50% { opacity: 0; } }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="container cyber-container mb-5 mt-4" style="max-width:1000px;">
+
+  <div class="text-center cyber-banner mb-5">
+    <div class="mb-3 position-relative z-3">
+      <i class="bi bi-radar" style="font-size:3.5rem; color: var(--term-green); text-shadow: 0 0 20px var(--term-green);"></i>
     </div>
-    <h1 class="display-5 fw-bold mb-2">Email Threat Intelligence</h1>
-    <p class="lead text-muted mb-0">AI-powered phishing detection &middot; Geolocation tracing &middot; Forensic reporting</p>
-    <p class="text-muted small mt-2"><i class="bi bi-info-circle me-1"></i>All attribution outputs are probabilistic indicators, never certainties. See disclaimer in footer.</p>
+    <h1 class="display-6 fw-bold mb-2 position-relative z-3">>_ THREAT_INTEL_MATRIX</h1>
+    <p class="mb-0 text-muted position-relative z-3">MODULES: [ HEURISTICS | GEO_TRACE | FORENSICS ]</p>
+    <div class="mt-4 p-2 d-inline-block position-relative z-3" style="background: rgba(255,0,60,0.1); border: 1px dashed var(--term-alert);">
+      <p class="small m-0" style="color: var(--term-alert);">
+        <i class="bi bi-exclamation-octagon-fill me-1"></i> LOG ALERT: ATTRIBUTION IS PROBABILISTIC.
+      </p>
+    </div>
   </div>
 
-  <!-- Upload Card -->
-  <div class="card glass-card mb-5" id="upload-card">
-    <div class="card-body p-5">
+  <div class="cyber-card mb-5" id="upload-card">
+    <div class="cyber-card-inner p-4 p-sm-5">
+      
+      <div class="d-flex justify-content-between mb-3 border-bottom border-secondary pb-2">
+        <span class="text-muted small">INPUT_STREAM: <span class="text-white">LOCAL_DISK</span></span>
+        <span class="text-muted small">SEC_PROTOCOL: <span style="color:var(--term-cyan);">ACTIVE</span></span>
+      </div>
+
       <form action="{{ url_for('analyze') }}" method="post" enctype="multipart/form-data" id="upload-form">
-        <div class="upload-zone mb-4" id="drop-zone">
+        
+        <div class="upload-zone mb-4 d-flex align-items-center justify-content-center" id="drop-zone">
           <input type="file" name="email_file" id="email_file" accept=".eml" class="d-none" required/>
-          <label for="email_file" class="upload-label d-flex flex-column align-items-center justify-content-center h-100 w-100" style="cursor:pointer;">
-            <i class="bi bi-envelope-arrow-up upload-icon mb-3"></i>
-            <h5 class="fw-semibold mb-1" id="file-label">Drop .eml file here or click to browse</h5>
-            <small class="text-muted">RFC 5322 email files only &middot; Max 10 MB</small>
+          <label for="email_file" class="upload-label d-flex flex-column align-items-center justify-content-center h-100 w-100 m-0 py-5" style="cursor:pointer; z-index: 2;">
+            <i class="bi bi-cpu-fill upload-icon mb-3" id="dynamic-icon"></i>
+            <h5 class="fw-bold mb-2" id="file-label">AWAITING .EML INJECTION...</h5>
+            <span class="text-muted small">[ CLICK OR DRAG TO UPLOAD PAYLOAD ]</span>
+            <div class="mt-3 px-3 py-1" style="background: rgba(255,255,255,0.05); border-left: 2px solid var(--term-cyan);">
+              <span class="text-muted small" style="font-size: 0.75rem;">MAX_SIZE: 10MB | FORMAT: RFC_5322</span>
+            </div>
           </label>
         </div>
 
-        <div class="d-grid">
-          <button type="submit" class="btn btn-analyze btn-lg py-3" id="analyze-btn">
-            <i class="bi bi-cpu me-2"></i>Run Full Threat Analysis
+        <div class="d-grid mt-4">
+          <button type="submit" class="btn btn-cyber btn-lg py-3" id="analyze-btn">
+            > INITIALIZE_SCAN_SEQUENCE
           </button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- Feature Cards -->
   <div class="row g-4 mb-5">
     {% set features = [
-      ("bi-cpu-fill","#00d4ff","ML Classifier","TF-IDF + Logistic Regression trained on 13K+ phishing samples with 97.7% accuracy"),
-      ("bi-geo-alt-fill","#7b61ff","GeoIP Tracing","Parse Received chain, plot hop-by-hop geolocation with Leaflet.js"),
-      ("bi-diagram-3-fill","#ff6b35","Campaign Graph","NetworkX correlation across all emails — detect coordinated campaigns"),
-      ("bi-file-earmark-pdf-fill","#00ff88","Forensic Report","One-click PDF export with full signal breakdown and attribution indicators"),
+      ("bi-code-square", "var(--term-cyan)", "ML_CLASSIFIER", "TF-IDF + Logistic Regression trained on 13K+ phishing samples. ACCURACY: 97.7%"),
+      ("bi-geo-alt", "var(--term-green)", "GEO_IP_TRACING", "Parsing Received chain headers. Hop-by-hop geolocation plotted via Leaflet.js"),
+      ("bi-bezier2", "var(--term-cyan)", "CAMPAIGN_GRAPH", "NetworkX correlation across datastore. Detecting coordinated threat actor nodes."),
+      ("bi-file-earmark-pdf", "var(--term-green)", "FORENSIC_EXPORT", "Generates static PDF brief with full signal breakdown and IOC indicators.")
     ] %}
     {% for icon, color, title, desc in features %}
     <div class="col-md-6">
-      <div class="feature-card h-100">
-        <div class="feature-icon mb-3" style="color:{{ color }};">
-          <i class="bi {{ icon }}"></i>
+      <div class="feature-card">
+        <div class="d-flex align-items-center mb-2">
+          <div class="me-3" style="color:{{ color }}; font-size: 1.5rem;">
+            <i class="bi {{ icon }}" style="text-shadow: 0 0 8px currentColor;"></i>
+          </div>
+          <h6 class="fw-bold m-0" style="color: {{ color }};">>_ {{ title }}</h6>
         </div>
-        <h6 class="fw-semibold mb-2">{{ title }}</h6>
-        <p class="text-muted small mb-0">{{ desc }}</p>
+        <p class="text-muted small mb-0 text-lowercase lh-lg" style="font-size: 0.8rem;">{{ desc }}</p>
       </div>
     </div>
     {% endfor %}
   </div>
 
-  <!-- Quick link to dashboard -->
-  <div class="text-center">
-    <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary px-4">
-      <i class="bi bi-grid-3x3-gap me-2"></i>View Analysis Dashboard
+  <div class="text-center pt-4 border-top border-secondary">
+    <a href="{{ url_for('dashboard') }}" class="btn btn-cyber px-5 py-2 text-decoration-none d-inline-block mt-2">
+      <i class="bi bi-display me-2"></i>ACCESS_DASHBOARD
     </a>
   </div>
+
 </div>
 {% endblock %}
 
 {% block extra_scripts %}
 <script>
-const dropZone = document.getElementById('drop-zone');
-const fileInput = document.getElementById('email_file');
-const fileLabel = document.getElementById('file-label');
-const form      = document.getElementById('upload-form');
-const btn       = document.getElementById('analyze-btn');
+document.addEventListener("DOMContentLoaded", function() {
+  
+  // --- File Upload Logic ---
+  const dropZone = document.getElementById('drop-zone');
+  const fileInput = document.getElementById('email_file');
+  const fileLabel = document.getElementById('file-label');
+  const dynamicIcon = document.getElementById('dynamic-icon');
+  const form = document.getElementById('upload-form');
+  const btn = document.getElementById('analyze-btn');
 
-// Highlight drag
-['dragenter','dragover'].forEach(e => dropZone.addEventListener(e, ev => { ev.preventDefault(); dropZone.classList.add('drag-over'); }));
-['dragleave','drop'].forEach(e => dropZone.addEventListener(e, ev => { ev.preventDefault(); dropZone.classList.remove('drag-over'); }));
+  // Drag & Drop UX
+  ['dragenter','dragover'].forEach(e => dropZone.addEventListener(e, ev => { 
+    ev.preventDefault(); 
+    dropZone.classList.add('drag-over'); 
+  }));
+  
+  ['dragleave','drop'].forEach(e => dropZone.addEventListener(e, ev => { 
+    ev.preventDefault(); 
+    dropZone.classList.remove('drag-over'); 
+  }));
 
-dropZone.addEventListener('drop', ev => {
-  const files = ev.dataTransfer.files;
-  if (files.length > 0) {
-    fileInput.files = files;
-    fileLabel.textContent = files[0].name;
-    dropZone.classList.add('file-selected');
+  function handleFiles(files) {
+    if (files.length > 0) {
+      fileInput.files = files;
+      // Cyberpunk style file acquired message
+      fileLabel.innerHTML = `<span style="color: var(--term-cyan);">[+] PAYLOAD MOUNTED:<br/>${files[0].name}</span>`;
+      dropZone.classList.add('file-selected');
+      dynamicIcon.classList.replace('bi-cpu-fill', 'bi-shield-lock-fill');
+    }
   }
-});
 
-fileInput.addEventListener('change', () => {
-  if (fileInput.files.length > 0) {
-    fileLabel.textContent = fileInput.files[0].name;
-    dropZone.classList.add('file-selected');
-  }
-});
+  dropZone.addEventListener('drop', ev => handleFiles(ev.dataTransfer.files));
+  fileInput.addEventListener('change', () => handleFiles(fileInput.files));
 
-form.addEventListener('submit', () => {
-  btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Analyzing...';
-  btn.disabled = true;
+  // Loading execution state
+  form.addEventListener('submit', (e) => {
+    if (fileInput.files.length === 0) {
+      e.preventDefault();
+      alert("ERR: NULL_PAYLOAD. MOUNT .EML FILE TO PROCEED.");
+      return;
+    }
+    btn.innerHTML = '> EXECUTING_ANALYSIS... <span class="blink">_</span>';
+    btn.disabled = true;
+  });
 });
 </script>
 {% endblock %}

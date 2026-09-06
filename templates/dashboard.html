@@ -1,38 +1,233 @@
 {% extends "base.html" %}
-{% block title %}Dashboard{% endblock %}
+{% block title %}Dashboard | SYS.SEC_OPS{% endblock %}
+
+{% block extra_head %}
+<style>
+  /* Advanced Hacker / Cyberpunk Theme Variables */
+  :root {
+    --bg-color: #030303;
+    --panel-bg: rgba(10, 10, 12, 0.85);
+    --term-green: #00ff41;
+    --term-green-dim: rgba(0, 255, 65, 0.2);
+    --term-cyan: #08f7fe;
+    --term-cyan-dim: rgba(8, 247, 254, 0.2);
+    --term-alert: #ff003c;
+    --term-alert-dim: rgba(255, 0, 60, 0.2);
+    --term-warn: #ffaa00;
+    --term-purple: #7b61ff;
+    --font-mono: 'Courier New', Courier, monospace;
+  }
+
+  /* Global Overrides */
+  body {
+    background-color: var(--bg-color) !important;
+    color: var(--term-green) !important;
+    font-family: var(--font-mono) !important;
+    background-image: 
+      linear-gradient(var(--term-green-dim) 1px, transparent 1px),
+      linear-gradient(90deg, var(--term-green-dim) 1px, transparent 1px);
+    background-size: 30px 30px;
+    background-position: center center;
+  }
+
+  h1, h2, h3, h4, h5, h6, p, a, span, label, th, td {
+    font-family: var(--font-mono) !important;
+    text-transform: uppercase;
+  }
+
+  /* Buttons */
+  .btn-cyber {
+    position: relative;
+    background: rgba(0, 255, 65, 0.1);
+    color: var(--term-green);
+    border: 1px solid var(--term-green);
+    font-weight: bold;
+    letter-spacing: 1px;
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+  }
+  .btn-cyber:hover {
+    background: var(--term-green);
+    color: #000;
+    box-shadow: 0 0 15px var(--term-green);
+  }
+  .btn-cyber-alt {
+    border-color: var(--term-cyan);
+    color: var(--term-cyan);
+    background: rgba(8, 247, 254, 0.1);
+  }
+  .btn-cyber-alt:hover {
+    background: var(--term-cyan);
+    color: #000;
+    box-shadow: 0 0 15px var(--term-cyan);
+  }
+
+  /* Cyber Panel / Card */
+  .cyber-panel {
+    background: var(--panel-bg);
+    border: 1px solid var(--term-green-dim);
+    position: relative;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.8);
+    margin-bottom: 1.5rem;
+  }
+  .cyber-panel::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--term-green), transparent);
+  }
+
+  /* Stat Cards */
+  .stat-card-cyber {
+    background: #050505;
+    border: 1px solid #333;
+    clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+    padding: 1rem;
+    height: 100%;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+  .stat-card-cyber:hover {
+    border-color: currentColor;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+  }
+  .stat-number { font-size: 1.8rem; font-weight: bold; line-height: 1; margin-bottom: 0.2rem; }
+  .stat-label { font-size: 0.75rem; letter-spacing: 1px; color: rgba(255,255,255,0.5); }
+
+  /* Forms & Inputs */
+  .cyber-input {
+    background-color: rgba(0, 0, 0, 0.8) !important;
+    border: 1px solid var(--term-green-dim) !important;
+    color: var(--term-green) !important;
+    border-radius: 0 !important;
+    font-size: 0.85rem;
+  }
+  .cyber-input:focus {
+    border-color: var(--term-cyan) !important;
+    box-shadow: 0 0 10px var(--term-cyan-dim) !important;
+    outline: none;
+  }
+  .cyber-input::placeholder {
+    color: rgba(0, 255, 65, 0.4) !important;
+  }
+
+  /* Table Styles */
+  .table-cyber {
+    color: var(--term-green);
+    margin-bottom: 0;
+  }
+  .table-cyber th {
+    background-color: rgba(0, 255, 65, 0.05);
+    border-bottom: 2px solid var(--term-green-dim);
+    color: var(--term-cyan);
+    font-weight: bold;
+    letter-spacing: 1px;
+    font-size: 0.8rem;
+  }
+  .table-cyber td {
+    background-color: transparent;
+    border-bottom: 1px solid #222;
+    vertical-align: middle;
+    font-size: 0.85rem;
+  }
+  .table-cyber tr:hover td {
+    background-color: rgba(0, 255, 65, 0.08);
+    cursor: crosshair;
+  }
+  
+  /* specific row alerts */
+  .row-quarantine td { background-color: rgba(255, 0, 60, 0.03); border-bottom-color: rgba(255, 0, 60, 0.2); }
+  .row-quarantine:hover td { background-color: rgba(255, 0, 60, 0.1); }
+  
+  .row-review td { background-color: rgba(255, 170, 0, 0.03); border-bottom-color: rgba(255, 170, 0, 0.2); }
+  .row-review:hover td { background-color: rgba(255, 170, 0, 0.1); }
+
+  /* Badges */
+  .cyber-badge {
+    border-radius: 0;
+    border: 1px solid currentColor;
+    background: rgba(0,0,0,0.5);
+    padding: 0.35em 0.65em;
+    font-weight: bold;
+    letter-spacing: 1px;
+    font-size: 0.7rem;
+  }
+  .outcome-quarantine { color: var(--term-alert); background: var(--term-alert-dim); }
+  .outcome-review { color: var(--term-warn); background: rgba(255, 170, 0, 0.2); }
+  .outcome-deliver { color: var(--term-green); background: var(--term-green-dim); }
+  .badge-campaign { color: var(--term-cyan); border-color: var(--term-cyan); background: rgba(8, 247, 254, 0.1); text-decoration: none;}
+  .badge-campaign:hover { background: var(--term-cyan); color: #000; }
+
+  /* Mini Score Bar Override */
+  .score-mini-bar {
+    width: 60px; height: 6px; background: #222; border: 1px solid #444; position: relative;
+  }
+  .score-mini-fill {
+    height: 100%; background: var(--score-color); width: var(--score-pct);
+    box-shadow: 0 0 8px var(--score-color);
+  }
+
+  /* DataTables Cyber Overrides */
+  .dataTables_wrapper .dataTables_length select,
+  .dataTables_wrapper .dataTables_filter input {
+    background-color: #000; border: 1px solid var(--term-green-dim); color: var(--term-green); border-radius: 0;
+  }
+  .dataTables_wrapper .dataTables_info, 
+  .dataTables_wrapper .dataTables_length, 
+  .dataTables_wrapper .dataTables_filter {
+    color: var(--term-green) !important;
+    font-size: 0.8rem;
+  }
+  .dataTables_wrapper .dataTables_paginate .paginate_button {
+    color: var(--term-green) !important;
+    border: 1px solid transparent;
+  }
+  .dataTables_wrapper .dataTables_paginate .paginate_button.current, 
+  .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background: var(--term-green-dim) !important;
+    border-color: var(--term-green) !important;
+    color: var(--term-cyan) !important;
+  }
+
+  .blink { animation: blinker 1s linear infinite; }
+  @keyframes blinker { 50% { opacity: 0; } }
+</style>
+{% endblock %}
 
 {% block content %}
-<div class="container-fluid px-4">
+<div class="container-fluid px-4 py-4" style="max-width: 1400px;">
 
-  <!-- Page Header -->
-  <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
+  <!-- Tactical Header -->
+  <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3 border-bottom border-secondary pb-3" style="border-color: var(--term-green-dim) !important;">
     <div>
-      <h1 class="h3 fw-bold mb-0"><i class="bi bi-grid-3x3-gap me-2 text-primary"></i>Case Dashboard</h1>
-      <small class="text-muted">All analyzed emails &mdash; ordered by risk severity</small>
+      <h1 class="h3 fw-bold mb-1">>_ DATA_STREAM: <span style="color:var(--term-cyan);">DASHBOARD</span><span class="blink">_</span></h1>
+      <small class="text-muted" style="color: rgba(0, 255, 65, 0.6) !important;">STATUS: AGGREGATING HEURISTIC LOGS</small>
     </div>
-    <a href="{{ url_for('index') }}" class="btn btn-primary btn-sm px-3">
-      <i class="bi bi-plus-lg me-1"></i>New Analysis
+    <a href="{{ url_for('index') }}" class="btn btn-cyber px-4 py-2 text-decoration-none">
+      <i class="bi bi-terminal me-2"></i>INITIATE_NEW_SCAN
     </a>
   </div>
 
-  <!-- Stats Cards -->
+  <!-- Stats Grid -->
   <div class="row g-3 mb-4">
     {% set stat_cards = [
-      ("total",      "bi-envelope-fill",         stats.total,      "#00d4ff", "Total Analyzed"),
-      ("quarantine", "bi-shield-x-fill",          stats.quarantine, "#ff4444", "Quarantine"),
-      ("review",     "bi-exclamation-triangle-fill", stats.review,  "#ffaa00", "Manual Review"),
-      ("deliver",    "bi-check-circle-fill",       stats.deliver,   "#00ff88", "Delivered"),
-      ("campaigns",  "bi-diagram-3-fill",          stats.campaigns, "#7b61ff", "Campaigns"),
+      ("total",      "bi-hdd-network",            stats.total,      "var(--term-cyan)",   "TOTAL_LOGS"),
+      ("quarantine", "bi-shield-x",               stats.quarantine, "var(--term-alert)",  "QUARANTINED"),
+      ("review",     "bi-exclamation-triangle",   stats.review,     "var(--term-warn)",   "MANUAL_REVIEW"),
+      ("deliver",    "bi-check-circle",           stats.deliver,    "var(--term-green)",  "CLEAN_DELIVER"),
+      ("campaigns",  "bi-bezier2",                stats.campaigns,  "var(--term-purple)", "CAMPAIGN_NODES"),
     ] %}
     {% for key, icon, count, color, label in stat_cards %}
     <div class="col-6 col-md-4 col-xl-2-4">
-      <div class="stat-card h-100" onclick="filterOutcome('{{ key }}')" style="cursor:pointer;" id="stat-{{ key }}">
+      <div class="stat-card-cyber h-100" onclick="filterOutcome('{{ key }}')" style="cursor:pointer; color:{{ color }}; --hover-color:{{ color }};" id="stat-{{ key }}">
         <div class="d-flex align-items-center gap-3">
-          <div class="stat-icon" style="color:{{ color }};">
+          <div class="stat-icon" style="font-size: 2rem; text-shadow: 0 0 10px {{ color }};">
             <i class="bi {{ icon }}"></i>
           </div>
           <div>
-            <div class="stat-number" style="color:{{ color }};">{{ count }}</div>
+            <div class="stat-number">{{ count }}</div>
             <div class="stat-label">{{ label }}</div>
           </div>
         </div>
@@ -41,66 +236,65 @@
     {% endfor %}
   </div>
 
-  <!-- Filters -->
-  <div class="card glass-card mb-4">
-    <div class="card-body py-3 px-4">
-      <form method="get" action="{{ url_for('dashboard') }}" class="row g-2 align-items-end" id="filter-form">
-        <div class="col-auto">
-          <label class="form-label small text-muted mb-1">Outcome</label>
-          <select name="outcome" class="form-select form-select-sm" style="min-width:160px;" onchange="this.form.submit()">
-            <option value="">All outcomes</option>
-            <option value="quarantine" {% if filters.outcome == 'quarantine' %}selected{% endif %}>Quarantine</option>
-            <option value="flag-for-manual-review" {% if filters.outcome == 'flag-for-manual-review' %}selected{% endif %}>Review</option>
-            <option value="deliver" {% if filters.outcome == 'deliver' %}selected{% endif %}>Deliver</option>
-          </select>
-        </div>
-        <div class="col-auto">
-          <label class="form-label small text-muted mb-1">Domain</label>
-          <input type="text" name="domain" class="form-control form-control-sm" placeholder="e.g. paypal.com"
-                 value="{{ filters.domain or '' }}" style="min-width:160px;"/>
-        </div>
-        <div class="col-auto">
-          <label class="form-label small text-muted mb-1">Campaign ID</label>
-          <input type="number" name="campaign" class="form-control form-control-sm" placeholder="e.g. 1"
-                 value="{{ filters.campaign or '' }}" style="width:110px;"/>
-        </div>
-        <div class="col-auto">
-          <label class="form-label small text-muted mb-1">Date From</label>
-          <input type="date" name="date_from" class="form-control form-control-sm" value="{{ filters.date_from or '' }}"/>
-        </div>
-        <div class="col-auto">
-          <label class="form-label small text-muted mb-1">Date To</label>
-          <input type="date" name="date_to" class="form-control form-control-sm" value="{{ filters.date_to or '' }}"/>
-        </div>
-        <div class="col-auto d-flex gap-2">
-          <button type="submit" class="btn btn-sm btn-primary px-3"><i class="bi bi-funnel me-1"></i>Filter</button>
-          <a href="{{ url_for('dashboard') }}" class="btn btn-sm btn-outline-secondary px-3"><i class="bi bi-x me-1"></i>Clear</a>
-        </div>
-      </form>
-    </div>
+  <!-- Tactical Filter Panel -->
+  <div class="cyber-panel p-3 px-4 mb-4">
+    <form method="get" action="{{ url_for('dashboard') }}" class="row g-3 align-items-end" id="filter-form">
+      <div class="col-auto">
+        <label class="form-label small text-muted mb-1">>_ OUTCOME_FILTER</label>
+        <select name="outcome" class="form-select cyber-input form-select-sm" style="min-width:180px;" onchange="this.form.submit()">
+          <option value="">[*] ALL_OUTCOMES</option>
+          <option value="quarantine" {% if filters.outcome == 'quarantine' %}selected{% endif %}>[X] QUARANTINE</option>
+          <option value="flag-for-manual-review" {% if filters.outcome == 'flag-for-manual-review' %}selected{% endif %}>[!] REVIEW</option>
+          <option value="deliver" {% if filters.outcome == 'deliver' %}selected{% endif %}>[+] DELIVER</option>
+        </select>
+      </div>
+      <div class="col-auto">
+        <label class="form-label small text-muted mb-1">>_ DOMAIN_TARGET</label>
+        <input type="text" name="domain" class="form-control cyber-input form-control-sm" placeholder="e.g. paypal.com"
+               value="{{ filters.domain or '' }}" style="min-width:160px;"/>
+      </div>
+      <div class="col-auto">
+        <label class="form-label small text-muted mb-1">>_ CAMPAIGN_ID</label>
+        <input type="number" name="campaign" class="form-control cyber-input form-control-sm" placeholder="ID#"
+               value="{{ filters.campaign or '' }}" style="width:110px;"/>
+      </div>
+      <div class="col-auto">
+        <label class="form-label small text-muted mb-1">>_ TIME_T0</label>
+        <input type="date" name="date_from" class="form-control cyber-input form-control-sm" value="{{ filters.date_from or '' }}"/>
+      </div>
+      <div class="col-auto">
+        <label class="form-label small text-muted mb-1">>_ TIME_T1</label>
+        <input type="date" name="date_to" class="form-control cyber-input form-control-sm" value="{{ filters.date_to or '' }}"/>
+      </div>
+      <div class="col-auto d-flex gap-2">
+        <button type="submit" class="btn btn-sm btn-cyber px-4">>_ EXEC_FILTER</button>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-sm btn-outline-secondary px-3" style="border-radius: 0; color: #888;">RESET</a>
+      </div>
+    </form>
   </div>
 
-  <!-- Emails Table -->
-  <div class="card glass-card">
-    <div class="card-header py-3 px-4 d-flex align-items-center justify-content-between">
-      <h6 class="mb-0 fw-semibold"><i class="bi bi-table me-2"></i>Email Cases</h6>
-      <small class="text-muted">{{ emails|length }} records</small>
+  <!-- Data Grid -->
+  <div class="cyber-panel" style="clip-path: none; border-top: 3px solid var(--term-cyan);">
+    <div class="p-3 px-4 d-flex align-items-center justify-content-between border-bottom" style="border-color: #222 !important;">
+      <h6 class="mb-0 fw-bold" style="color: var(--term-cyan);">[ INTERCEPTED_PAYLOADS ]</h6>
+      <small class="text-muted">RECORDS: {{ emails|length }}</small>
     </div>
-    <div class="card-body p-0">
+    
+    <div class="p-0">
       {% if emails %}
       <div class="table-responsive">
-        <table id="emails-table" class="table table-dark table-hover align-middle mb-0">
+        <table id="emails-table" class="table table-cyber align-middle w-100">
           <thead>
             <tr>
-              <th style="width:50px;">#</th>
-              <th>Subject</th>
-              <th>From Domain</th>
-              <th style="width:100px;">Score</th>
-              <th style="width:130px;">Outcome</th>
-              <th style="width:110px;">Attribution</th>
-              <th style="width:100px;">Campaign</th>
-              <th style="width:140px;">Analyzed</th>
-              <th style="width:80px;"></th>
+              <th style="width:60px;">SEQ#</th>
+              <th>SUBJECT_HEADER</th>
+              <th>ORIGIN_DOMAIN</th>
+              <th style="width:120px;">THREAT_LVL</th>
+              <th style="width:130px;">ACTION_TAKEN</th>
+              <th style="width:150px;">ATTRIBUTION_TAG</th>
+              <th style="width:100px;">LINK_NODE</th>
+              <th style="width:150px;">TIMESTAMP</th>
+              <th style="width:80px;">INSPECT</th>
             </tr>
           </thead>
           <tbody>
@@ -108,66 +302,67 @@
             {% set sig = email.signals %}
             <tr class="table-row-clickable {% if email.outcome == 'quarantine' %}row-quarantine{% elif email.outcome == 'flag-for-manual-review' %}row-review{% endif %}"
                 data-href="{{ url_for('detail', email_id=email.id) }}">
-              <td class="text-muted small">{{ email.id }}</td>
+              <td class="text-muted small">0x{{ "%04d"|format(email.id) }}</td>
               <td>
-                <div class="text-truncate" style="max-width:280px;" title="{{ email.subject or '(no subject)' }}">
+                <div class="text-truncate fw-bold" style="max-width:260px;" title="{{ email.subject or 'NULL_SUBJECT' }}">
                   {% if email.outcome == 'quarantine' %}<i class="bi bi-shield-x text-danger me-1"></i>{% endif %}
-                  {{ email.subject or '(no subject)' }}
+                  {{ email.subject or 'NULL_SUBJECT' }}
                 </div>
-                <small class="text-muted text-truncate d-block" style="max-width:280px;">{{ email.from_addr or email.from_domain }}</small>
+                <small class="text-muted text-truncate d-block" style="max-width:260px; font-size: 0.7rem;">SRC: {{ email.from_addr or email.from_domain }}</small>
               </td>
               <td>
-                <span class="font-mono">{{ email.from_domain or '—' }}</span>
+                <span class="text-white">{{ email.from_domain or 'UNKNOWN' }}</span>
               </td>
               <td>
                 <div class="d-flex align-items-center gap-2">
                   <div class="score-mini-bar" style="--score-pct:{{ email.score or 0 }}%;--score-color:{{ email.score|score_color if email.score else '#888' }};">
                     <div class="score-mini-fill"></div>
                   </div>
-                  <span class="fw-semibold font-mono" style="color:{{ email.score|score_color if email.score else '#888' }}">
+                  <span class="fw-bold" style="color:{{ email.score|score_color if email.score else '#888' }}; text-shadow: 0 0 5px currentColor;">
                     {{ "%.0f"|format(email.score or 0) }}
                   </span>
                 </div>
               </td>
               <td>
-                <span class="badge outcome-badge outcome-{{ email.outcome|replace(' ','-') }}">
+                <span class="badge cyber-badge outcome-{{ email.outcome|replace(' ','-') }}">
                   {% if email.outcome == 'quarantine' %}
-                    <i class="bi bi-shield-x me-1"></i>Quarantine
+                    [X] QUARANTINE
                   {% elif email.outcome == 'flag-for-manual-review' %}
-                    <i class="bi bi-exclamation-triangle me-1"></i>Review
+                    [!] REVIEW
                   {% else %}
-                    <i class="bi bi-check-circle me-1"></i>Deliver
+                    [+] DELIVER
                   {% endif %}
                 </span>
               </td>
               <td>
-                <small class="text-muted font-mono">
-                  {{ sig.get('attribution_flag', '—')|replace('likely-','') }}
+                <small class="text-muted">
+                  {{ sig.get('attribution_flag', 'UNDETERMINED')|replace('likely-','') }}
                   {% if sig.get('attribution_confidence') %}
-                  <span class="text-warning">({{ "%.0f%%"|format(sig.attribution_confidence * 100) }})</span>
+                  <span style="color: var(--term-warn);">({{ "%.0f%%"|format(sig.attribution_confidence * 100) }})</span>
                   {% endif %}
                 </small>
               </td>
               <td>
                 {% if email.campaign_id %}
                   <a href="{{ url_for('dashboard', campaign=email.campaign_id) }}"
-                     class="badge bg-purple text-decoration-none"
+                     class="badge cyber-badge badge-campaign"
                      onclick="event.stopPropagation()">
-                    <i class="bi bi-diagram-3 me-1"></i>C{{ email.campaign_id }}
+                    <i class="bi bi-diagram-3 me-1"></i>C_ID:{{ email.campaign_id }}
                     {% if email.campaign_size and email.campaign_size > 1 %}
-                    &times;{{ email.campaign_size }}
+                    <span class="ms-1 text-white">x{{ email.campaign_size }}</span>
                     {% endif %}
                   </a>
                 {% else %}
-                  <span class="text-muted small">—</span>
+                  <span class="text-muted small">ISOLATED</span>
                 {% endif %}
               </td>
               <td><small class="text-muted">{{ (email.analyzed_at or '')[:16]|replace('T',' ') }}</small></td>
               <td>
                 <a href="{{ url_for('detail', email_id=email.id) }}"
-                   class="btn btn-sm btn-outline-primary py-1 px-2"
+                   class="btn btn-sm btn-cyber btn-cyber-alt py-1 px-2"
+                   style="clip-path: none;"
                    onclick="event.stopPropagation()">
-                  <i class="bi bi-eye"></i>
+                  <i class="bi bi-terminal-split"></i>
                 </a>
               </td>
             </tr>
@@ -177,10 +372,11 @@
       </div>
       {% else %}
       <div class="text-center py-5">
-        <i class="bi bi-inbox text-muted" style="font-size:3rem;"></i>
-        <p class="text-muted mt-3 mb-3">No emails analyzed yet</p>
-        <a href="{{ url_for('index') }}" class="btn btn-primary px-4">
-          <i class="bi bi-upload me-2"></i>Upload Your First .eml
+        <i class="bi bi-cpu text-muted mb-3 d-block" style="font-size:4rem; opacity: 0.3;"></i>
+        <h4 class="text-muted mb-2">>_ ERR: NO_RECORDS_FOUND</h4>
+        <p class="text-muted small mb-4">DATABANK IS EMPTY FOR GIVEN PARAMETERS.</p>
+        <a href="{{ url_for('index') }}" class="btn btn-cyber px-4 py-2 text-decoration-none">
+          <i class="bi bi-upload me-2"></i>MOUNT_FIRST_PAYLOAD
         </a>
       </div>
       {% endif %}
@@ -192,22 +388,29 @@
 
 {% block extra_scripts %}
 <script>
-// Make rows clickable
-document.querySelectorAll('.table-row-clickable').forEach(row => {
-  row.addEventListener('click', () => window.location = row.dataset.href);
-  row.style.cursor = 'pointer';
-});
-
-// DataTables
-if (document.getElementById('emails-table') && document.querySelector('#emails-table tbody tr')) {
-  $('#emails-table').DataTable({
-    pageLength: 25,
-    order: [[3, 'desc']],
-    columnDefs: [{ orderable: false, targets: [8] }],
-    dom: '<"d-flex justify-content-between align-items-center px-3 py-2"lf>t<"d-flex justify-content-between px-3 py-2"ip>',
-    language: { search: '<i class="bi bi-search me-1"></i>', searchPlaceholder: 'Search...', lengthMenu: 'Show _MENU_' },
+document.addEventListener("DOMContentLoaded", function() {
+  // Make rows clickable
+  document.querySelectorAll('.table-row-clickable').forEach(row => {
+    row.addEventListener('click', () => window.location = row.dataset.href);
   });
-}
+
+  // Initialize DataTables with tactical theme integration
+  if (document.getElementById('emails-table') && document.querySelector('#emails-table tbody tr')) {
+    $('#emails-table').DataTable({
+      pageLength: 25,
+      order: [[3, 'desc']],
+      columnDefs: [{ orderable: false, targets: [8] }],
+      dom: '<"d-flex justify-content-between align-items-center px-4 py-3 border-bottom border-secondary"lf>t<"d-flex justify-content-between px-4 py-3 border-top border-secondary"ip>',
+      language: { 
+        search: '>_ QUERY:', 
+        searchPlaceholder: 'ENTER_KEYWORD...', 
+        lengthMenu: 'DISPLAY _MENU_ LOGS',
+        info: "SHOWING LOG _START_ TO _END_ OF _TOTAL_",
+        infoEmpty: "NO_LOGS_AVAILABLE"
+      },
+    });
+  }
+});
 
 function filterOutcome(key) {
   if (key === 'campaigns') return;

@@ -1,44 +1,90 @@
-# AI-Powered Email Threat Detection Platform
-# PS ID 26106
-# Free/open-source tools only — no paid libraries
-
-# Web framework
-flask>=3.0.0
-python-dotenv>=1.0.0
-
-# Data processing
-pandas>=2.1.0
-numpy>=1.26.0
-
-# ML classifier
-scikit-learn>=1.3.0
-joblib>=1.3.0
-
-# Email / DNS
-dnspython>=2.4.0
-python-whois>=0.9.0
-checkdmarc>=5.6.0
-beautifulsoup4>=4.12.0
-lxml>=4.9.0
-
-# GeoIP (offline, uses downloaded .mmdb files)
-geoip2>=4.8.0
-maxminddb>=2.5.0
-
-# Graph correlation
-networkx>=3.2.0
-
-# Domain similarity
-rapidfuzz>=3.5.0
-
-# Threat feed / HTTP
-requests>=2.31.0
-
-# PDF report generation (NOT WeasyPrint — see README for rationale)
-xhtml2pdf>=0.2.11
-
-# Office macro detection
-oletools>=0.60.1
-
-# Testing
-pytest>=7.4.0
+aiohappyeyeballs==2.7.1
+aiohttp==3.14.3
+aiosignal==1.4.0
+anyio==4.15.1
+arabic-reshaper==3.0.1
+asn1crypto==1.5.1
+attrs==26.1.0
+beautifulsoup4==4.15.0
+blinker==1.9.0
+certifi==2026.7.22
+cffi==2.1.1
+charset-normalizer==3.5.1
+checkdmarc==6.0.1
+click==8.5.0
+cloudpickle==3.1.2
+colorama==0.4.6
+colorclass==2.2.2
+cryptography==50.0.1
+cssselect2==0.10.1
+dnspython==2.8.0
+easygui==0.98.3
+expiringdict==1.2.2
+Flask==3.1.3
+frozenlist==1.8.0
+geoip2==5.3.0
+h11==0.16.0
+h2==4.4.1
+hpack==4.2.0
+html5lib==1.1
+httpcore==1.0.9
+httpx==0.28.1
+hyperframe==6.1.0
+idna==3.19
+importlib_resources==7.1.0
+iniconfig==2.3.0
+itsdangerous==2.2.0
+Jinja2==3.1.6
+joblib==1.6.0
+lxml==6.1.3
+MarkupSafe==3.0.3
+maxminddb==3.1.1
+msoffcrypto-tool==6.0.0
+multidict==6.7.1
+narwhals==2.25.0
+networkx==3.6.1
+numpy==2.5.3
+olefile==0.47
+oletools==0.60.2
+oscrypto==1.3.0
+packaging==26.3
+pandas==3.0.5
+pcodedmp==1.2.6
+pem==23.1.0
+pillow==12.3.0
+pluggy==1.6.0
+propcache==0.5.2
+publicsuffixlist==1.0.2.20260906
+pycparser==3.0
+Pygments==2.21.0
+pyHanko==0.37.0
+pyhanko-certvalidator==0.32.0
+pyleri==1.5.1
+pyparsing==3.3.2
+pypdf==6.17.0
+pytest==9.1.1
+python-bidi==0.6.11
+python-dateutil==2.9.0.post0
+python-dotenv==1.2.3
+python-whois==0.9.6
+RapidFuzz==3.14.6
+reportlab==5.0.1
+requests==2.34.2
+scikit-learn==1.9.0
+scipy==1.18.1
+six==1.17.0
+soupsieve==2.9.2
+svglib==2.2.0
+threadpoolctl==3.6.0
+tinycss2==1.5.1
+typing_extensions==4.16.0
+tzdata==2026.3
+tzlocal==5.4.4
+uritools==6.1.3
+urllib3==2.7.0
+webencodings==0.6.1
+Werkzeug==3.1.8
+win_unicode_console==0.5
+xhtml2pdf==0.2.18
+xmltodict==1.0.4
+yarl==1.24.5

@@ -1,58 +1,212 @@
 {% extends "base.html" %}
-{% block title %}Audit Log{% endblock %}
+{% block title %}Audit Log | SYS.SEC_OPS{% endblock %}
+
+{% block extra_head %}
+<style>
+  /* Advanced Hacker / Cyberpunk Theme Variables */
+  :root {
+    --bg-color: #030303;
+    --panel-bg: rgba(10, 10, 12, 0.85);
+    --term-green: #00ff41;
+    --term-green-dim: rgba(0, 255, 65, 0.2);
+    --term-cyan: #08f7fe;
+    --term-cyan-dim: rgba(8, 247, 254, 0.2);
+    --term-alert: #ff003c;
+    --term-purple: #7b61ff;
+    --font-mono: 'Courier New', Courier, monospace;
+  }
+
+  /* Global Overrides */
+  body {
+    background-color: var(--bg-color) !important;
+    color: var(--term-green) !important;
+    font-family: var(--font-mono) !important;
+    background-image: 
+      linear-gradient(var(--term-green-dim) 1px, transparent 1px),
+      linear-gradient(90deg, var(--term-green-dim) 1px, transparent 1px);
+    background-size: 30px 30px;
+    background-position: center center;
+  }
+
+  h1, h2, h3, h4, h5, h6, p, a, span, label, th, td {
+    font-family: var(--font-mono) !important;
+    text-transform: uppercase;
+  }
+
+  /* Cyber Panel / Card */
+  .cyber-panel {
+    background: var(--panel-bg);
+    border: 1px solid var(--term-green-dim);
+    position: relative;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.8);
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Cyber Buttons */
+  .btn-cyber {
+    position: relative;
+    background: rgba(0, 255, 65, 0.1);
+    color: var(--term-green);
+    border: 1px solid var(--term-green);
+    font-weight: bold;
+    letter-spacing: 1px;
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    overflow: hidden;
+  }
+  .btn-cyber:hover {
+    background: var(--term-green);
+    color: #000;
+    box-shadow: 0 0 15px var(--term-green);
+  }
+  .btn-cyber::after {
+    content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+    transform: skewX(-20deg); transition: none;
+  }
+  .btn-cyber:hover::after { left: 150%; transition: left 0.6s ease-in-out; }
+
+  /* Danger Button Variant */
+  .btn-cyber-danger {
+    background: rgba(255, 0, 60, 0.1);
+    color: var(--term-alert);
+    border-color: var(--term-alert);
+  }
+  .btn-cyber-danger:hover {
+    background: var(--term-alert);
+    color: #000;
+    box-shadow: 0 0 15px var(--term-alert);
+  }
+
+  /* Forms & Inputs */
+  .cyber-input {
+    background-color: rgba(0, 0, 0, 0.8) !important;
+    border: 1px solid var(--term-green-dim) !important;
+    color: var(--term-green) !important;
+    border-radius: 0 !important;
+    font-size: 0.85rem;
+    text-align: center;
+  }
+  .cyber-input:focus {
+    border-color: var(--term-cyan) !important;
+    box-shadow: 0 0 10px var(--term-cyan-dim) !important;
+    outline: none;
+  }
+
+  /* Table Styles */
+  .table-cyber {
+    color: var(--term-green);
+    margin-bottom: 0;
+  }
+  .table-cyber th {
+    background-color: rgba(0, 255, 65, 0.05);
+    border-bottom: 2px solid var(--term-green-dim);
+    color: var(--term-cyan);
+    font-weight: bold;
+    letter-spacing: 1px;
+    font-size: 0.8rem;
+    padding: 12px 16px;
+  }
+  .table-cyber td {
+    background-color: transparent;
+    border-bottom: 1px solid #222;
+    vertical-align: middle;
+    font-size: 0.85rem;
+    padding: 10px 16px;
+  }
+  .table-cyber tr:hover td {
+    background-color: rgba(0, 255, 65, 0.08);
+  }
+
+  .blink { animation: blinker 1s linear infinite; }
+  @keyframes blinker { 50% { opacity: 0; } }
+</style>
+{% endblock %}
 
 {% block content %}
-<div class="container-fluid px-4">
-  <div class="d-flex align-items-center justify-content-between mb-4">
+<div class="container-fluid px-4 py-4" style="max-width: 1400px;">
+
+  <!-- Tactical Header -->
+  <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3 border-bottom border-secondary pb-3" style="border-color: var(--term-green-dim) !important;">
     <div>
-      <h1 class="h3 fw-bold mb-0"><i class="bi bi-journal-check me-2 text-primary"></i>Audit Log</h1>
-      <small class="text-muted">Chain-of-custody record &mdash; append-only</small>
+      <h1 class="h3 fw-bold mb-1">>_ SYS.AUDIT_LOG <span class="blink">_</span></h1>
+      <small class="text-muted" style="color: rgba(0, 255, 65, 0.6) !important;">STATUS: CHAIN-OF-CUSTODY IMMUTABLE RECORD</small>
     </div>
-    <form action="{{ url_for('admin_purge') }}" method="post" class="d-flex gap-2 align-items-end" onsubmit="return confirm('Purge email bodies older than this many days?')">
+    
+    <!-- Cyber Purge Form -->
+    <form action="{{ url_for('admin_purge') }}" method="post" class="d-flex gap-3 align-items-end p-2" style="background: rgba(255,0,60,0.05); border: 1px dashed rgba(255,0,60,0.3);" onsubmit="return confirm('WARNING: PURGING DATA OVERRIDES RETENTION POLICY. PROCEED?')">
       <div>
-        <label class="form-label small text-muted mb-1">Retention Days</label>
-        <input type="number" name="days" class="form-control form-control-sm" value="90" style="width:90px;"/>
+        <label class="form-label small text-muted mb-1" style="color: var(--term-alert) !important;">>_ RETENTION_DAYS</label>
+        <input type="number" name="days" class="form-control cyber-input form-control-sm" value="90" style="width:100px; color: var(--term-alert) !important; border-color: var(--term-alert) !important;"/>
       </div>
-      <button type="submit" class="btn btn-sm btn-outline-danger px-3">
-        <i class="bi bi-trash me-1"></i>Purge Bodies
+      <button type="submit" class="btn btn-sm btn-cyber btn-cyber-danger px-4 py-2">
+        <i class="bi bi-trash me-2"></i>EXECUTE_PURGE
       </button>
     </form>
   </div>
 
-  <div class="card glass-card">
-    <div class="card-body p-0">
+  <!-- Audit Data Grid -->
+  <div class="cyber-panel" style="border-top: 3px solid var(--term-cyan);">
+    <div class="p-3 px-4 d-flex align-items-center justify-content-between border-bottom" style="border-color: #222 !important;">
+      <h6 class="mb-0 fw-bold" style="color: var(--term-cyan);">[ EVENT_STREAM ]</h6>
+      <small class="text-muted">MODE: APPEND_ONLY</small>
+    </div>
+    
+    <div class="p-0">
       {% if entries %}
       <div class="table-responsive">
-        <table class="table table-dark table-sm table-hover mb-0">
+        <table class="table table-cyber table-sm w-100">
           <thead>
             <tr>
-              <th>ID</th><th>Action</th><th>Record</th><th>Actor (IP)</th><th>Timestamp</th>
+              <th style="width: 80px;">SEQ#</th>
+              <th style="width: 250px;">ACTION_TYPE</th>
+              <th style="width: 150px;">RECORD_REF</th>
+              <th>ACTOR_IP</th>
+              <th style="width: 250px;">TIMESTAMP_UTC</th>
             </tr>
           </thead>
           <tbody>
             {% for e in entries %}
             <tr>
-              <td class="text-muted small">{{ e.id }}</td>
+              <td class="text-muted small">0x{{ "%04d"|format(e.id) }}</td>
               <td>
                 {% set action_icons = {
-                  'upload_email': 'upload',
-                  'view_detail': 'eye',
-                  'export_pdf': 'file-earmark-pdf',
-                  'view_dashboard': 'grid-3x3-gap',
-                  'purge_body': 'trash',
+                  'upload_email': 'cloud-arrow-up-fill',
+                  'view_detail': 'terminal-split',
+                  'export_pdf': 'file-earmark-pdf-fill',
+                  'view_dashboard': 'grid-1x2-fill',
+                  'purge_body': 'trash-fill',
                 } %}
-                <i class="bi bi-{{ action_icons.get(e.action, 'circle') }} me-1 text-info"></i>
-                <small class="font-mono">{{ e.action }}</small>
+                
+                {% set action_colors = {
+                  'upload_email': 'var(--term-cyan)',
+                  'view_detail': 'var(--term-green)',
+                  'export_pdf': 'var(--term-purple)',
+                  'view_dashboard': 'var(--term-green)',
+                  'purge_body': 'var(--term-alert)',
+                } %}
+                
+                <i class="bi bi-{{ action_icons.get(e.action, 'circle-fill') }} me-2" style="color: {{ action_colors.get(e.action, 'var(--term-cyan)') }}; text-shadow: 0 0 5px currentColor;"></i>
+                <span class="fw-bold" style="color: {{ action_colors.get(e.action, 'var(--term-cyan)') }};">
+                  {{ e.action }}
+                </span>
               </td>
               <td>
                 {% if e.record_id %}
-                  <a href="{{ url_for('detail', email_id=e.record_id) }}" class="text-muted small">#{{ e.record_id }}</a>
+                  <a href="{{ url_for('detail', email_id=e.record_id) }}" class="text-decoration-none" style="color: var(--term-cyan);">
+                    [ NODE_{{ e.record_id }} ]
+                  </a>
                 {% else %}
-                  <span class="text-muted small">—</span>
+                  <span class="text-muted small">NULL_REF</span>
                 {% endif %}
               </td>
-              <td><small class="font-mono text-muted">{{ e.actor }}</small></td>
-              <td><small class="text-muted">{{ (e.timestamp or '')[:19]|replace('T',' ') }} UTC</small></td>
+              <td>
+                <span class="text-white">{{ e.actor }}</span>
+              </td>
+              <td>
+                <small class="text-muted">{{ (e.timestamp or '')[:19]|replace('T',' ') }}</small>
+              </td>
             </tr>
             {% endfor %}
           </tbody>
@@ -60,11 +214,13 @@
       </div>
       {% else %}
       <div class="text-center py-5">
-        <i class="bi bi-journal text-muted" style="font-size:3rem;"></i>
-        <p class="text-muted mt-3">No audit entries yet</p>
+        <i class="bi bi-journal-code text-muted mb-3 d-block" style="font-size:4rem; opacity: 0.3;"></i>
+        <h4 class="text-muted mb-2">>_ ERR: NO_AUDIT_LOGS</h4>
+        <p class="text-muted small">SYSTEM EVENT STREAM IS CURRENTLY EMPTY.</p>
       </div>
       {% endif %}
     </div>
   </div>
+
 </div>
 {% endblock %}

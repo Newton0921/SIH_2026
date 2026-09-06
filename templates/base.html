@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>{% block title %}Email Threat Intelligence{% endblock %} | ThreatLens</title>
+  <title>{% block title %}Email Threat Intelligence{% endblock %} | SYS.SEC_OPS</title>
   <meta name="description" content="{% block meta_description %}AI-powered email threat detection, geolocation and forensic intelligence platform{% endblock %}"/>
 
-  <!-- Google Fonts -->
+  <!-- Google Fonts: Strictly Monospace for Tactical Vibe -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
 
   <!-- Bootstrap 5 Dark -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
@@ -19,41 +19,218 @@
   <!-- DataTables -->
   <link href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" rel="stylesheet"/>
 
+  <!-- Core Tactical / Cyberpunk Base CSS -->
+  <style>
+    :root {
+      --bg-color: #030303;
+      --panel-bg: rgba(10, 10, 12, 0.85);
+      --term-green: #00ff41;
+      --term-green-dim: rgba(0, 255, 65, 0.15);
+      --term-cyan: #08f7fe;
+      --term-cyan-dim: rgba(8, 247, 254, 0.2);
+      --term-alert: #ff003c;
+      --term-warn: #ffaa00;
+      --term-purple: #7b61ff;
+      --font-mono: 'JetBrains Mono', 'Courier New', Courier, monospace;
+    }
+
+    /* Global Body styling applied to all pages */
+    body {
+      background-color: var(--bg-color) !important;
+      color: var(--term-green) !important;
+      font-family: var(--font-mono) !important;
+      background-image: 
+        linear-gradient(var(--term-green-dim) 1px, transparent 1px),
+        linear-gradient(90deg, var(--term-green-dim) 1px, transparent 1px);
+      background-size: 30px 30px;
+      background-position: center center;
+      background-attachment: fixed;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    h1, h2, h3, h4, h5, h6, a, span, p, div {
+      font-family: var(--font-mono);
+    }
+
+    /* Base Navbar */
+    .cyber-nav-base {
+      border-bottom: 2px solid var(--term-green);
+      background: rgba(3, 3, 3, 0.95) !important;
+      box-shadow: 0 4px 20px rgba(0, 255, 65, 0.1);
+      backdrop-filter: blur(10px);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .nav-status-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background-color: var(--term-green);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--term-green);
+      animation: blinker 1.5s infinite;
+    }
+    
+    .navbar-brand {
+      font-weight: bold;
+      color: #fff !important;
+      text-shadow: 0 0 5px rgba(255,255,255,0.5);
+    }
+
+    .cyber-nav-link {
+      color: var(--term-green) !important;
+      transition: all 0.2s ease;
+      font-size: 0.85rem;
+      border: 1px solid transparent;
+      padding: 0.5rem 1rem !important;
+    }
+    
+    .cyber-nav-link:hover, .cyber-nav-link.active {
+      color: var(--term-cyan) !important;
+      text-shadow: 0 0 8px var(--term-cyan);
+      background: rgba(8, 247, 254, 0.05);
+      border: 1px solid var(--term-cyan-dim);
+    }
+
+    .navbar-toggler {
+      border: 1px solid var(--term-green) !important;
+      border-radius: 0;
+    }
+    .navbar-toggler:focus {
+      box-shadow: 0 0 10px var(--term-green-dim) !important;
+    }
+
+    /* System Flash Alerts */
+    .alert {
+      border-radius: 0;
+      border: 1px solid transparent;
+      border-left: 4px solid transparent;
+      background: #000;
+      color: #fff;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    }
+    .alert-danger {
+      border-color: rgba(255, 0, 60, 0.3);
+      border-left-color: var(--term-alert);
+      color: var(--term-alert);
+    }
+    .alert-warning {
+      border-color: rgba(255, 170, 0, 0.3);
+      border-left-color: var(--term-warn);
+      color: var(--term-warn);
+    }
+    .alert-info, .alert-primary {
+      border-color: rgba(8, 247, 254, 0.3);
+      border-left-color: var(--term-cyan);
+      color: var(--term-cyan);
+    }
+    .alert-success {
+      border-color: rgba(0, 255, 65, 0.3);
+      border-left-color: var(--term-green);
+      color: var(--term-green);
+    }
+    .btn-close {
+      filter: invert(1) grayscale(100%) brightness(200%);
+      opacity: 0.5;
+    }
+    .btn-close:hover { opacity: 1; }
+
+    /* Footer */
+    .cyber-footer {
+      border-top: 1px solid var(--term-green-dim);
+      background: rgba(3, 3, 3, 0.9);
+      color: rgba(0, 255, 65, 0.6);
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 1px;
+    }
+
+    /* Utilities */
+    .blink { animation: blinker 1s linear infinite; }
+    @keyframes blinker { 50% { opacity: 0; } }
+    .font-mono { font-family: var(--font-mono) !important; }
+
+    /* Cyber Dropdown Menu */
+    .dropdown-menu {
+      background-color: #050505 !important; /* Pitch black background */
+      border: 1px solid var(--term-cyan) !important; /* Neon cyan border */
+      border-radius: 0 !important; /* Sharp edges */
+      box-shadow: 0 8px 25px rgba(8, 247, 254, 0.15); /* Soft cyan glow */
+      padding: 0; /* Remove default padding for edge-to-edge items */
+      margin-top: 5px; /* Slight offset from the nav bar */
+    }
+    
+    .dropdown-item {
+      color: var(--term-green) !important;
+      font-family: var(--font-mono) !important;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      padding: 10px 15px;
+      transition: all 0.2s ease;
+      border-bottom: 1px dashed rgba(0, 255, 65, 0.1);
+    }
+    
+    .dropdown-item:last-child {
+      border-bottom: none;
+    }
+    
+    /* Glitch/Terminal hover effect for dropdown items */
+    .dropdown-item:hover, .dropdown-item:focus {
+      background-color: rgba(8, 247, 254, 0.1) !important;
+      color: var(--term-cyan) !important;
+      text-shadow: 0 0 5px var(--term-cyan);
+      padding-left: 20px; /* Slight indent on hover */
+    }
+    
+    /* Divider line styling */
+    .dropdown-divider {
+      border-top: 1px solid var(--term-cyan-dim) !important;
+      opacity: 1 !important;
+      margin: 0;
+    }
+  </style>
+  
   <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet"/>
   {% block extra_head %}{% endblock %}
 </head>
 <body>
 
-<!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark sticky-top" id="main-nav">
-  <div class="container-fluid px-4">
+<!-- Command Line Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top cyber-nav-base" id="main-nav">
+  <div class="container-fluid px-4" style="max-width: 1400px;">
+    
     <a class="navbar-brand d-flex align-items-center gap-2" href="{{ url_for('index') }}">
-      <div class="brand-icon">
-        <i class="bi bi-shield-shaded"></i>
-      </div>
-      <span class="brand-text">ThreatLens</span>
-      <span class="badge bg-primary ms-1" style="font-size:0.6rem;letter-spacing:1px;">PS 26106</span>
+      <div class="nav-status-dot"></div>
+      <span class="brand-text">SYS.THREAT_LENS</span>
+      <span class="badge border border-secondary text-secondary ms-2 rounded-0" style="font-size:0.6rem; background: transparent;">PS: 26106</span>
     </a>
 
-    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
-      <span class="navbar-toggler-icon"></span>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
+      <i class="bi bi-list" style="color: var(--term-green); font-size: 1.5rem;"></i>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarMain">
-      <ul class="navbar-nav ms-auto align-items-lg-center gap-1">
+      <ul class="navbar-nav ms-auto align-items-lg-center gap-2 mt-3 mt-lg-0">
         <li class="nav-item">
-          <a class="nav-link {% if request.endpoint == 'index' %}active{% endif %}" href="{{ url_for('index') }}">
-            <i class="bi bi-upload me-1"></i>Analyze
+          <a class="nav-link cyber-nav-link auto-close-link {% if request.endpoint == 'index' %}active{% endif %}" href="{{ url_for('index') }}">
+            <i class="bi bi-terminal me-1"></i>>_ ANALYZE_NODE
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link {% if request.endpoint == 'dashboard' %}active{% endif %}" href="{{ url_for('dashboard') }}">
-            <i class="bi bi-grid-3x3-gap me-1"></i>Dashboard
+          <a class="nav-link cyber-nav-link auto-close-link {% if request.endpoint == 'dashboard' %}active{% endif %}" href="{{ url_for('dashboard') }}">
+            <i class="bi bi-display me-1"></i>>_ DASHBOARD
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link {% if request.endpoint == 'audit_log' %}active{% endif %}" href="{{ url_for('audit_log') }}">
-            <i class="bi bi-journal-check me-1"></i>Audit Log
+          <a class="nav-link cyber-nav-link auto-close-link {% if request.endpoint == 'audit_log' %}active{% endif %}" href="{{ url_for('audit_log') }}">
+            <i class="bi bi-journal-code me-1"></i>>_ AUDIT_LOG
           </a>
         </li>
       </ul>
@@ -61,32 +238,41 @@
   </div>
 </nav>
 
-<!-- Flash Messages -->
+<!-- Diagnostic Alerts (Flash Messages) -->
 {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
-    <div class="container-fluid px-4 mt-3">
+    <div class="container-fluid px-4 mt-4" style="max-width: 1400px;">
       {% for category, message in messages %}
-        <div class="alert alert-{{ category }} alert-dismissible fade show d-flex align-items-center gap-2" role="alert">
-          <i class="bi bi-{% if category == 'danger' %}exclamation-triangle-fill{% elif category == 'warning' %}exclamation-circle-fill{% else %}info-circle-fill{% endif %}"></i>
-          {{ message }}
-          <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert"></button>
+        <div class="alert alert-{{ category }} alert-dismissible fade show d-flex align-items-center gap-3" role="alert">
+          <i class="bi bi-{% if category == 'danger' %}shield-x fs-4{% elif category == 'warning' %}exclamation-triangle fs-4{% else %}info-square fs-4{% endif %}" style="text-shadow: 0 0 8px currentColor;"></i>
+          <div>
+            <strong>>_ SYS.LOG_{{ category|upper }}:</strong> {{ message }}
+          </div>
+          <button type="button" class="btn-close ms-auto rounded-0" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
       {% endfor %}
     </div>
   {% endif %}
 {% endwith %}
 
-<!-- Page Content -->
-<main class="py-4 px-2">
+<!-- Core System Output -->
+<main class="py-4 px-2 grow">
   {% block content %}{% endblock %}
 </main>
 
-<!-- Footer -->
-<footer class="text-center py-4 mt-auto">
-  <small class="text-muted">
-    ThreatLens &mdash; AI Email Forensics Platform &middot; PS ID 26106 &middot;
-    <span class="text-warning"><i class="bi bi-exclamation-triangle"></i> Attribution outputs are probabilistic indicators only, never certainties.</span>
-  </small>
+<!-- End-of-file Footer -->
+<footer class="text-center py-4 mt-auto cyber-footer">
+  <div class="container-fluid px-4" style="max-width: 1400px;">
+    <div class="mb-2">
+      <span class="text-white">SYS.THREAT_LENS</span> &mdash; AI FORENSICS PLATFORM &middot; <span style="color: var(--term-cyan);">PS ID 26106</span>
+    </div>
+    <div class="d-inline-block p-2 mt-1" style="border: 1px dashed var(--term-warn); background: rgba(255, 170, 0, 0.05);">
+      <span style="color: var(--term-warn);">
+        <i class="bi bi-exclamation-triangle-fill me-1"></i> 
+        WARNING: ATTRIBUTION OUTPUTS ARE PROBABILISTIC INDICATORS ONLY, NEVER ABSOLUTE CERTAINTIES.
+      </span>
+    </div>
+  </div>
 </footer>
 
 <!-- Scripts -->
@@ -96,6 +282,26 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+
+<!-- Global Cyberpunk UI Scripts -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  // --- Navbar Auto-Collapse Logic for Mobile ---
+  // Automatically close the mobile menu when any non-dropdown link is clicked
+  const navLinks = document.querySelectorAll('.auto-close-link');
+  const menuToggle = document.getElementById('navbarMain');
+  
+  navLinks.forEach(function(link) {
+    link.addEventListener('click', function() {
+      if (menuToggle.classList.contains('show')) {
+        let bsCollapse = new bootstrap.Collapse(menuToggle, { toggle: false });
+        bsCollapse.hide();
+      }
+    });
+  });
+});
+</script>
+
 {% block extra_scripts %}{% endblock %}
 </body>
 </html>

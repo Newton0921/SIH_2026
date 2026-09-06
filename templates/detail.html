@@ -1,35 +1,225 @@
 {% extends "base.html" %}
-{% block title %}Email #{{ email.id }} — Forensic Detail{% endblock %}
+{% block title %}Email #{{ email.id }} | SYS.SEC_OPS{% endblock %}
+
+{% block extra_head %}
+<style>
+  /* Advanced Hacker / Cyberpunk Theme Variables */
+  :root {
+    --bg-color: #030303;
+    --panel-bg: rgba(10, 10, 12, 0.85);
+    --term-green: #00ff41;
+    --term-green-dim: rgba(0, 255, 65, 0.2);
+    --term-cyan: #08f7fe;
+    --term-cyan-dim: rgba(8, 247, 254, 0.2);
+    --term-alert: #ff003c;
+    --term-alert-dim: rgba(255, 0, 60, 0.15);
+    --term-warn: #ffaa00;
+    --term-purple: #7b61ff;
+    --font-mono: 'Courier New', Courier, monospace;
+  }
+
+  /* Global Overrides */
+  body {
+    background-color: var(--bg-color) !important;
+    color: var(--term-green) !important;
+    font-family: var(--font-mono) !important;
+    background-image: 
+      linear-gradient(var(--term-green-dim) 1px, transparent 1px),
+      linear-gradient(90deg, var(--term-green-dim) 1px, transparent 1px);
+    background-size: 30px 30px;
+    background-position: center center;
+  }
+
+  h1, h2, h3, h4, h5, h6, label, th {
+    font-family: var(--font-mono) !important;
+    text-transform: uppercase;
+  }
+
+  /* Cyber Buttons */
+  .btn-cyber {
+    position: relative;
+    background: rgba(0, 255, 65, 0.1);
+    color: var(--term-green);
+    border: 1px solid var(--term-green);
+    font-weight: bold;
+    letter-spacing: 1px;
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+  .btn-cyber:hover {
+    background: var(--term-green);
+    color: #000;
+    box-shadow: 0 0 15px var(--term-green);
+  }
+  .btn-cyber-alt {
+    border-color: var(--term-cyan);
+    color: var(--term-cyan);
+    background: rgba(8, 247, 254, 0.1);
+  }
+  .btn-cyber-alt:hover {
+    background: var(--term-cyan);
+    color: #000;
+    box-shadow: 0 0 15px var(--term-cyan);
+  }
+  .btn-cyber-alert {
+    border-color: var(--term-alert);
+    color: var(--term-alert);
+    background: var(--term-alert-dim);
+  }
+  .btn-cyber-alert:hover {
+    background: var(--term-alert);
+    color: #000;
+    box-shadow: 0 0 15px var(--term-alert);
+  }
+
+  /* Cyber Panel */
+  .cyber-panel {
+    background: var(--panel-bg);
+    border: 1px solid var(--term-green-dim);
+    position: relative;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.8);
+    margin-bottom: 1.5rem;
+  }
+  .cyber-panel-header {
+    background: rgba(0, 255, 65, 0.05);
+    border-bottom: 1px solid var(--term-green-dim);
+    padding: 10px 15px;
+    font-weight: bold;
+    color: var(--term-cyan);
+    display: flex;
+    align-items: center;
+  }
+
+  /* Badges */
+  .cyber-badge {
+    border-radius: 0;
+    border: 1px solid currentColor;
+    background: rgba(0,0,0,0.5);
+    padding: 0.35em 0.65em;
+    font-weight: bold;
+    letter-spacing: 1px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+  }
+  .outcome-quarantine { color: var(--term-alert); background: var(--term-alert-dim); box-shadow: 0 0 10px var(--term-alert-dim);}
+  .outcome-review { color: var(--term-warn); background: rgba(255, 170, 0, 0.1); box-shadow: 0 0 10px rgba(255, 170, 0, 0.2);}
+  .outcome-deliver { color: var(--term-green); background: rgba(0, 255, 65, 0.1); box-shadow: 0 0 10px var(--term-green-dim);}
+  
+  /* Cyber Progress Bars */
+  .cyber-progress {
+    height: 6px;
+    background: #111;
+    border: 1px solid #333;
+    overflow: visible;
+  }
+  .cyber-progress-bar {
+    height: 100%;
+    position: relative;
+  }
+  .cyber-progress-bar::after {
+    content: ''; position: absolute; top: -2px; bottom: -2px; right: 0; width: 2px;
+    background: #fff; box-shadow: 0 0 5px currentColor;
+  }
+
+  /* Data Row Matrix */
+  .matrix-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px dashed #333;
+    padding: 8px 0;
+  }
+  .matrix-label {
+    color: rgba(0, 255, 65, 0.6);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+  }
+  .matrix-value {
+    color: #fff;
+    font-size: 0.85rem;
+    text-align: right;
+  }
+
+  /* Score Gauge Layout */
+  .score-gauge-wrap {
+    position: relative;
+    display: inline-block;
+  }
+  .score-gauge-center {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+  .score-big {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 0 10px currentColor;
+    line-height: 1;
+  }
+  .score-sub {
+    font-size: 0.65rem;
+    color: var(--term-green);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* Table Styles */
+  .table-cyber { color: var(--term-green); margin-bottom: 0; }
+  .table-cyber th { background-color: rgba(0, 255, 65, 0.05); border-bottom: 2px solid var(--term-green-dim); color: var(--term-cyan); font-size: 0.75rem; }
+  .table-cyber td { background-color: transparent; border-bottom: 1px solid #222; vertical-align: middle; font-size: 0.8rem; }
+  .table-cyber tr:hover td { background-color: rgba(0, 255, 65, 0.08); }
+
+  /* Map Cyber Overrides */
+  #geo-map { border: 1px solid var(--term-green-dim); border-top: none; }
+  .leaflet-popup-content-wrapper, .leaflet-popup-tip {
+    background: #050505 !important;
+    border: 1px solid var(--term-cyan) !important;
+    color: var(--term-green) !important;
+    box-shadow: 0 0 15px var(--term-cyan-dim) !important;
+    border-radius: 0 !important;
+    font-family: var(--font-mono) !important;
+  }
+  .leaflet-popup-content strong { color: var(--term-cyan) !important; }
+
+  .blink { animation: blinker 1s linear infinite; }
+  @keyframes blinker { 50% { opacity: 0; } }
+</style>
+{% endblock %}
 
 {% block content %}
-<div class="container-fluid px-4">
+<div class="container-fluid px-4 py-4" style="max-width: 1400px;">
 
-  <!-- Breadcrumb + Actions -->
-  <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb mb-0">
-        <li class="breadcrumb-item"><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
-        <li class="breadcrumb-item active">Email #{{ email.id }}</li>
-      </ol>
-    </nav>
+  <!-- Tactical Header & Breadcrumb -->
+  <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3 border-bottom border-secondary pb-3" style="border-color: var(--term-green-dim) !important;">
+    <div>
+      <div class="text-muted small mb-1">>_ PATH: <a href="{{ url_for('dashboard') }}" class="text-decoration-none" style="color:var(--term-cyan);">SYS.DASHBOARD</a> / <span class="text-white">NODE_{{ email.id }}</span></div>
+      <h1 class="h4 fw-bold mb-0">>_ FORENSIC_REPORT: <span style="color:var(--term-cyan);">PAYLOAD_0x{{ "%04d"|format(email.id) }}</span><span class="blink">_</span></h1>
+    </div>
+    
+    <!-- Action Console -->
     <div class="d-flex gap-2 flex-wrap">
       {% if not masked %}
-        <a href="{{ url_for('detail', email_id=email.id, masked=1) }}" class="btn btn-sm btn-outline-secondary">
-          <i class="bi bi-eye-slash me-1"></i>Masked View
+        <a href="{{ url_for('detail', email_id=email.id, masked=1) }}" class="btn btn-sm btn-cyber btn-cyber-alert px-3 py-2">
+          <i class="bi bi-eye-slash me-1"></i>ENABLE_MASKING
         </a>
       {% else %}
-        <a href="{{ url_for('detail', email_id=email.id) }}" class="btn btn-sm btn-outline-secondary">
-          <i class="bi bi-eye me-1"></i>Full View
+        <a href="{{ url_for('detail', email_id=email.id) }}" class="btn btn-sm btn-cyber btn-cyber-alt px-3 py-2">
+          <i class="bi bi-eye me-1"></i>DISABLE_MASKING
         </a>
       {% endif %}
-      <a href="{{ url_for('export_pdf', email_id=email.id) }}" class="btn btn-sm btn-outline-primary" target="_blank">
-        <i class="bi bi-file-earmark-pdf me-1"></i>Export PDF
+      
+      <a href="{{ url_for('export_pdf', email_id=email.id) }}" class="btn btn-sm btn-cyber btn-cyber-alt px-3 py-2" target="_blank">
+        <i class="bi bi-file-earmark-pdf me-1"></i>DUMP_PDF
       </a>
-      <a href="{{ url_for('export_pdf', email_id=email.id, masked=1) }}" class="btn btn-sm btn-outline-secondary" target="_blank">
-        <i class="bi bi-file-earmark-pdf me-1"></i>PDF (Masked)
+      <a href="{{ url_for('export_pdf', email_id=email.id, masked=1) }}" class="btn btn-sm btn-cyber btn-cyber-alt px-3 py-2" target="_blank">
+        <i class="bi bi-shield-lock me-1"></i>DUMP_PDF (MASKED)
       </a>
-      <a href="{{ url_for('index') }}" class="btn btn-sm btn-primary">
-        <i class="bi bi-plus-lg me-1"></i>New
+      <a href="{{ url_for('index') }}" class="btn btn-sm btn-cyber px-4 py-2 ms-2">
+        <i class="bi bi-plus-lg me-1"></i>NEW_SCAN
       </a>
     </div>
   </div>
@@ -37,220 +227,247 @@
   <!-- Top Row: Score + Outcome + Subject -->
   <div class="row g-4 mb-4">
 
-    <!-- Score Gauge -->
+    <!-- Threat Score Module -->
     <div class="col-md-3">
-      <div class="card glass-card h-100 text-center py-4">
-        <div class="score-gauge-wrap mb-2">
+      <div class="cyber-panel h-100 text-center py-4 d-flex flex-column justify-content-center border-top border-warning" style="border-top-width: 3px !important;">
+        <div class="score-gauge-wrap mx-auto mb-3">
           <canvas id="scoreGauge" width="160" height="160"></canvas>
           <div class="score-gauge-center">
-            <div class="score-big" id="score-display">{{ "%.0f"|format(email.score or 0) }}</div>
-            <div class="score-sub">Risk Score</div>
+            {% set score_color = '#ff4444' if email.score >= 70 else ('#ffaa00' if email.score >= 40 else '#00ff88') %}
+            <div class="score-big" id="score-display" style="color: {{ score_color }};">{{ "%.0f"|format(email.score or 0) }}</div>
+            <div class="score-sub">THREAT_LVL</div>
           </div>
         </div>
         <div class="mt-2">
-          <span class="badge outcome-badge outcome-{{ email.outcome|replace(' ','-') }} fs-6 px-3 py-2">
+          <span class="cyber-badge outcome-{{ email.outcome|replace(' ','-') }} fs-6 px-3 py-2 w-75 d-inline-block">
             {% if email.outcome == 'quarantine' %}
-              <i class="bi bi-shield-x me-1"></i>QUARANTINE
+              [X] QUARANTINE
             {% elif email.outcome == 'flag-for-manual-review' %}
-              <i class="bi bi-exclamation-triangle me-1"></i>MANUAL REVIEW
+              [!] MANUAL REVIEW
             {% else %}
-              <i class="bi bi-check-circle me-1"></i>DELIVER
+              [+] DELIVER
             {% endif %}
           </span>
         </div>
-        {% if masked %}<div class="mt-2"><span class="badge bg-secondary"><i class="bi bi-eye-slash me-1"></i>Masked View</span></div>{% endif %}
+        {% if masked %}<div class="mt-3"><span class="badge" style="background: var(--term-alert-dim); color: var(--term-alert); border: 1px solid var(--term-alert);"><i class="bi bi-eye-slash me-1"></i>MASKED_VIEW_ACTIVE</span></div>{% endif %}
       </div>
     </div>
 
-    <!-- Email Identity -->
+    <!-- Payload Identity Matrix -->
     <div class="col-md-5">
-      <div class="card glass-card h-100 p-4">
-        <h6 class="text-muted mb-3 small fw-semibold text-uppercase tracking-wide">Email Identity</h6>
-        {% macro row(label, value, mono=False) %}
-        <div class="mb-2 pb-2 border-bottom border-secondary">
-          <div class="text-muted small">{{ label }}</div>
-          <div class="{% if mono %}font-mono{% endif %} text-truncate" title="{{ value or '—' }}">{{ value or '—' }}</div>
+      <div class="cyber-panel h-100 p-0 border-top border-cyan" style="border-top-width: 3px !important; border-top-color: var(--term-cyan) !important;">
+        <div class="cyber-panel-header">
+          <i class="bi bi-fingerprint me-2"></i>[ IDENTITY_MATRIX ]
         </div>
-        {% endmacro %}
-        {{ row("Subject", email.subject) }}
-        {{ row("From", email.from_addr, mono=True) }}
-        {{ row("From Domain", email.from_domain, mono=True) }}
-        {{ row("Filename", email.filename) }}
-        {{ row("Received", (email.date_received or '')[:25]) }}
-        {{ row("Analyzed", (email.analyzed_at or '')[:19]|replace('T',' ') + ' UTC') }}
-      </div>
-    </div>
-
-    <!-- Auth + Classification -->
-    <div class="col-md-4">
-      <div class="card glass-card h-100 p-4">
-        <h6 class="text-muted mb-3 small fw-semibold text-uppercase tracking-wide">Classification & Auth</h6>
-        {% set sig = signals %}
-        {% macro auth_badge(label, value) %}
-        <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary">
-          <span class="text-muted small">{{ label }}</span>
-          <span class="badge auth-badge auth-{{ value|lower|replace('_policy_','-')|truncate(12,True,'') }}">{{ value or '—' }}</span>
-        </div>
-        {% endmacro %}
-        {{ auth_badge("ML Label", sig.get('final_label','—')) }}
-        {{ auth_badge("ML Confidence", "%.1f%%"|format((sig.get('ml_confidence',0) or 0)*100)) }}
-        {{ auth_badge("SPF", sig.get('spf','—')) }}
-        {{ auth_badge("DKIM", sig.get('dkim','—')) }}
-        {{ auth_badge("DMARC", sig.get('dmarc','—')) }}
-        <div class="d-flex justify-content-between align-items-center">
-          <span class="text-muted small">Auth Source</span>
-          <span class="font-mono small text-muted">{{ sig.get('auth_source','—') }}</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Score Breakdown -->
-  <div class="row g-4 mb-4">
-    <div class="col-md-6">
-      <div class="card glass-card h-100 p-4">
-        <h6 class="text-muted mb-3 small fw-semibold text-uppercase tracking-wide">Score Breakdown</h6>
-        {% set breakdown = signals.get('breakdown', {}) %}
-        {% set components = [
-          ("ML Classifier",    breakdown.get('ml_contribution', 0),   "#00d4ff"),
-          ("SPF",              breakdown.get('spf_contribution', 0),   "#ff4444"),
-          ("DKIM",             breakdown.get('dkim_contribution', 0),  "#ff6b35"),
-          ("DMARC",            breakdown.get('dmarc_contribution', 0), "#ffaa00"),
-          ("Anomalies",        breakdown.get('anom_contribution', 0),  "#7b61ff"),
-          ("Geo/TOR/Botnet",   breakdown.get('geo_contribution', 0),   "#ff4444"),
-          ("Domain Intel",     breakdown.get('dom_contribution', 0),   "#ff6b35"),
-          ("Campaign",         breakdown.get('camp_contribution', 0),  "#00d4ff"),
-          ("Attribution",      breakdown.get('attr_contribution', 0),  "#7b61ff"),
-        ] %}
-        {% for label, val, color in components %}
-        <div class="mb-2">
-          <div class="d-flex justify-content-between mb-1">
-            <small class="text-muted">{{ label }}</small>
-            <small class="font-mono" style="color:{{ color }}">{{ "%.2f"|format(val) }}</small>
-          </div>
-          <div class="progress" style="height:5px;background:#1e2533;">
-            <div class="progress-bar" style="width:{{ [val*100, 100]|min|int }}%;background:{{ color }};"></div>
-          </div>
-        </div>
-        {% endfor %}
-      </div>
-    </div>
-
-    <!-- Attribution + Infrastructure -->
-    <div class="col-md-6">
-      <div class="card glass-card h-100 p-4">
-        <h6 class="text-muted mb-3 small fw-semibold text-uppercase tracking-wide">Attribution Assessment</h6>
-
-        <div class="attribution-box p-3 mb-3 rounded">
-          <div class="d-flex align-items-center gap-2 mb-2">
-            <i class="bi bi-person-badge-fill text-warning fs-5"></i>
-            <span class="fw-semibold text-warning">{{ signals.get('attribution_flag', 'insufficient-data') }}</span>
-            {% if signals.get('attribution_confidence') %}
-            <span class="ms-auto badge bg-warning text-dark">{{ "%.0f%%"|format(signals.attribution_confidence * 100) }} confidence</span>
-            {% endif %}
-          </div>
-          <p class="small text-muted mb-0">{{ signals.get('attribution_note', '') }}</p>
-        </div>
-
-        <h6 class="text-muted mb-2 small fw-semibold text-uppercase tracking-wide">Infrastructure Flags</h6>
-        {% if signals.get('infrastructure_flags') %}
-          {% for flag in signals.infrastructure_flags %}
-          <div class="d-flex align-items-start gap-2 mb-1">
-            <i class="bi bi-exclamation-circle-fill text-danger mt-1 flex-shrink-0"></i>
-            <small class="text-danger">{{ flag }}</small>
-          </div>
-          {% endfor %}
-        {% else %}
-          <small class="text-muted"><i class="bi bi-check-circle me-1"></i>No infrastructure flags</small>
-        {% endif %}
-
-        <hr class="border-secondary my-3"/>
-        <div class="row g-2">
-          {% macro info_chip(label, value, color="#00d4ff") %}
-          <div class="col-6">
-            <div class="small text-muted">{{ label }}</div>
-            <div class="font-mono small" style="color:{{ color }}">{{ value or '—' }}</div>
+        <div class="p-3 px-4">
+          {% macro row(label, value, is_mono=False) %}
+          <div class="matrix-row">
+            <div class="matrix-label">>_ {{ label }}</div>
+            <div class="matrix-value {% if is_mono %}font-mono{% endif %} text-truncate ms-3" style="max-width: 250px;" title="{{ value or 'NULL' }}">{{ value or 'NULL' }}</div>
           </div>
           {% endmacro %}
-          {{ info_chip("Origin IP", signals.get('origin_ip')) }}
-          {{ info_chip("ASN / Org", signals.get('asn_org')) }}
-          {{ info_chip("Domain Age", (signals.get('domain_age_days')|string + ' days') if signals.get('domain_age_days') else signals.get('domain_age_status','—')) }}
-          {{ info_chip("Is TOR", 'YES' if signals.get('is_tor') else 'No', '#ff4444' if signals.get('is_tor') else '#888') }}
-          {{ info_chip("Botnet C2", 'YES' if signals.get('is_botnet_c2') else 'No', '#ff4444' if signals.get('is_botnet_c2') else '#888') }}
-          {{ info_chip("Cloud Host", 'YES' if signals.get('is_cloud_host') else 'No', '#ffaa00' if signals.get('is_cloud_host') else '#888') }}
+          
+          {{ row("SUBJECT_STR", email.subject) }}
+          {{ row("ORIGIN_ADDR", email.from_addr, is_mono=True) }}
+          {{ row("ORIGIN_DOM", email.from_domain, is_mono=True) }}
+          {{ row("FILE_BLOB", email.filename) }}
+          {{ row("TIME_RCVD", (email.date_received or '')[:25]) }}
+          {{ row("TIME_SCAN", (email.analyzed_at or '')[:19]|replace('T',' ') + ' UTC') }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Auth & Logic Classification -->
+    <div class="col-md-4">
+      <div class="cyber-panel h-100 p-0 border-top border-green" style="border-top-width: 3px !important; border-top-color: var(--term-green) !important;">
+        <div class="cyber-panel-header">
+          <i class="bi bi-shield-check me-2"></i>[ AUTH_PROTOCOLS ]
+        </div>
+        <div class="p-3 px-4">
+          {% set sig = signals %}
+          {% macro auth_badge(label, value) %}
+          <div class="matrix-row">
+            <div class="matrix-label">>_ {{ label }}</div>
+            <div class="matrix-value">
+              <span class="cyber-badge auth-{{ value|lower|replace('_policy_','-')|truncate(12,True,'') }}">{{ value or 'NULL' }}</span>
+            </div>
+          </div>
+          {% endmacro %}
+          
+          {{ auth_badge("HEURISTIC_LBL", sig.get('final_label','NULL')) }}
+          {{ auth_badge("HEURISTIC_CONF", "%.1f%%"|format((sig.get('ml_confidence',0) or 0)*100)) }}
+          {{ auth_badge("SPF_STATUS", sig.get('spf','NULL')) }}
+          {{ auth_badge("DKIM_STATUS", sig.get('dkim','NULL')) }}
+          {{ auth_badge("DMARC_STATUS", sig.get('dmarc','NULL')) }}
+          
+          <div class="matrix-row border-0 mb-0 pb-0 pt-2">
+            <div class="matrix-label">>_ AUTH_SOURCE</div>
+            <div class="matrix-value font-mono text-muted">{{ sig.get('auth_source','NULL') }}</div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Geolocation Map -->
-  {% if signals.get('lat') and signals.get('lon') %}
-  <div class="card glass-card mb-4">
-    <div class="card-header py-3 px-4">
-      <h6 class="mb-0 fw-semibold"><i class="bi bi-geo-alt-fill me-2 text-primary"></i>Origin Geolocation</h6>
-    </div>
-    <div class="card-body p-0">
-      <div id="geo-map" style="height:320px;border-radius:0 0 12px 12px;"></div>
-    </div>
-    <div class="card-footer py-2 px-4">
-      <small class="text-muted">
-        <i class="bi bi-pin-map me-1"></i>
-        {{ signals.city or 'Unknown city' }}, {{ signals.country or 'Unknown country' }} &middot;
-        IP: <span class="font-mono">{{ signals.origin_ip }}</span>
-        {% if signals.asn_org %}&middot; ASN: {{ signals.asn_org }}{% endif %}
-      </small>
-    </div>
-  </div>
-  {% else %}
-  <div class="card glass-card mb-4">
-    <div class="card-body py-3 px-4">
-      <i class="bi bi-geo-alt text-muted me-2"></i>
-      <span class="text-muted small">
-        No geolocation data available — no external IP found in Received chain.
-        This is expected for synthetic .eml samples without routing headers.
-      </span>
-    </div>
-  </div>
-  {% endif %}
-
-  <!-- Indicators + Anomalies -->
+  <!-- Diagnostic Breakdown Row -->
   <div class="row g-4 mb-4">
+    <!-- Algorithmic Weights -->
     <div class="col-md-6">
-      <div class="card glass-card h-100">
-        <div class="card-header py-3 px-4">
-          <h6 class="mb-0 fw-semibold"><i class="bi bi-flag-fill me-2 text-warning"></i>Detection Indicators</h6>
+      <div class="cyber-panel h-100 p-0">
+        <div class="cyber-panel-header">
+          <i class="bi bi-cpu me-2"></i>[ THREAT_WEIGHT_DISTRIBUTION ]
         </div>
-        <div class="card-body p-3">
-          {% for ind in signals.get('indicators', []) %}
-          <div class="indicator-item mb-1 p-2 rounded d-flex align-items-start gap-2">
-            <i class="bi bi-dot fs-4 text-warning mt-n1 flex-shrink-0"></i>
-            <small class="font-mono text-muted">{{ ind }}</small>
+        <div class="p-4">
+          {% set breakdown = signals.get('breakdown', {}) %}
+          {% set components = [
+            ("ML_CLASSIFIER",   breakdown.get('ml_contribution', 0),   "var(--term-cyan)"),
+            ("SPF_FAIL",        breakdown.get('spf_contribution', 0),  "var(--term-alert)"),
+            ("DKIM_FAIL",       breakdown.get('dkim_contribution', 0), "var(--term-warn)"),
+            ("DMARC_FAIL",      breakdown.get('dmarc_contribution', 0),"var(--term-warn)"),
+            ("HEADER_ANOMALIES",breakdown.get('anom_contribution', 0), "var(--term-purple)"),
+            ("GEO/TOR/BOTNET",  breakdown.get('geo_contribution', 0),  "var(--term-alert)"),
+            ("DOMAIN_INTEL",    breakdown.get('dom_contribution', 0),  "var(--term-warn)"),
+            ("CAMPAIGN_CORREL", breakdown.get('camp_contribution', 0), "var(--term-cyan)"),
+            ("ATTRIBUTION_IDX", breakdown.get('attr_contribution', 0), "var(--term-purple)"),
+          ] %}
+          
+          <div class="row g-3">
+            {% for label, val, color in components %}
+            <div class="col-12 col-sm-6">
+              <div class="d-flex justify-content-between mb-1">
+                <small class="matrix-label">{{ label }}</small>
+                <small class="font-mono" style="color:{{ color }}; text-shadow: 0 0 5px {{ color }};">{{ "%.2f"|format(val) }}</small>
+              </div>
+              <div class="cyber-progress">
+                <div class="cyber-progress-bar" style="width:{{ [val*100, 100]|min|int }}%; background:{{ color }}; color:{{ color }};"></div>
+              </div>
+            </div>
+            {% endfor %}
           </div>
-          {% else %}
-          <small class="text-muted">No indicators recorded.</small>
-          {% endfor %}
         </div>
       </div>
     </div>
 
+    <!-- Infrastructure & Attribution -->
     <div class="col-md-6">
-      <div class="card glass-card h-100">
-        <div class="card-header py-3 px-4">
-          <h6 class="mb-0 fw-semibold"><i class="bi bi-exclamation-triangle-fill me-2 text-danger"></i>Header Anomalies</h6>
+      <div class="cyber-panel h-100 p-0">
+        <div class="cyber-panel-header">
+          <i class="bi bi-radar me-2"></i>[ INFRA_&_ATTRIBUTION ]
         </div>
-        <div class="card-body p-3">
-          {% for anom in signals.get('anomalies', []) %}
-          <div class="indicator-item mb-1 p-2 rounded d-flex align-items-start gap-2">
-            <i class="bi bi-x-circle-fill text-danger mt-1 flex-shrink-0"></i>
-            <small class="font-mono text-danger-subtle">{{ anom }}</small>
+        <div class="p-4">
+          
+          <!-- Attribution Box -->
+          <div class="p-3 mb-4" style="background: rgba(255,170,0,0.05); border: 1px dashed var(--term-warn);">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <i class="bi bi-person-bounding-box" style="color: var(--term-warn); font-size: 1.2rem;"></i>
+              <span class="fw-bold text-uppercase" style="color: var(--term-warn);">>_ {{ signals.get('attribution_flag', 'INSUFFICIENT-DATA') }}</span>
+              {% if signals.get('attribution_confidence') %}
+              <span class="ms-auto cyber-badge" style="color: #000; background: var(--term-warn); border: none;">
+                CONF: {{ "%.0f%%"|format(signals.attribution_confidence * 100) }}
+              </span>
+              {% endif %}
+            </div>
+            <p class="small mb-0 font-mono" style="color: rgba(255,170,0,0.8);">{{ signals.get('attribution_note', 'NO FURTHER DATA AVALIABLE.') }}</p>
           </div>
-          {% else %}
-          <small class="text-muted"><i class="bi bi-check-circle me-1 text-success"></i>No anomalies detected.</small>
-          {% endfor %}
 
+          <!-- Network Chips -->
+          <div class="row g-3 mb-4 border-bottom border-secondary pb-4">
+            {% macro info_chip(label, value, color="var(--term-cyan)") %}
+            <div class="col-6 col-sm-4">
+              <div class="matrix-label" style="font-size: 0.7rem;">>_ {{ label }}</div>
+              <div class="font-mono text-truncate" style="color:{{ color }}; font-size: 0.85rem;" title="{{ value or 'NULL' }}">{{ value or 'NULL' }}</div>
+            </div>
+            {% endmacro %}
+            
+            {{ info_chip("ORIGIN_IP", signals.get('origin_ip')) }}
+            {{ info_chip("ASN_ORG", signals.get('asn_org')) }}
+            {{ info_chip("DOMAIN_AGE", (signals.get('domain_age_days')|string + ' DAYS') if signals.get('domain_age_days') else signals.get('domain_age_status','UNKNOWN')) }}
+            {{ info_chip("TOR_NODE", 'TRUE' if signals.get('is_tor') else 'FALSE', 'var(--term-alert)' if signals.get('is_tor') else 'rgba(0,255,65,0.4)') }}
+            {{ info_chip("BOTNET_C2", 'TRUE' if signals.get('is_botnet_c2') else 'FALSE', 'var(--term-alert)' if signals.get('is_botnet_c2') else 'rgba(0,255,65,0.4)') }}
+            {{ info_chip("CLOUD_HOST", 'TRUE' if signals.get('is_cloud_host') else 'FALSE', 'var(--term-warn)' if signals.get('is_cloud_host') else 'rgba(0,255,65,0.4)') }}
+          </div>
+
+          <!-- Infra Flags -->
+          <div class="matrix-label mb-2">>_ INFRASTRUCTURE_WARNINGS</div>
+          <div class="px-2 border-start border-danger" style="border-left-width: 2px !important;">
+            {% if signals.get('infrastructure_flags') %}
+              {% for flag in signals.infrastructure_flags %}
+              <div class="d-flex align-items-start gap-2 mb-1">
+                <span style="color: var(--term-alert);">[!]</span>
+                <small class="font-mono" style="color: var(--term-alert);">{{ flag }}</small>
+              </div>
+              {% endfor %}
+            {% else %}
+              <small class="font-mono text-muted">[*] SYSTEM NOMINAL. NO INFRA FLAGS.</small>
+            {% endif %}
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GeoMap & Indicators -->
+  <div class="row g-4 mb-4">
+    <!-- Map -->
+    <div class="col-lg-7">
+      <div class="cyber-panel h-100 p-0">
+        <div class="cyber-panel-header">
+          <i class="bi bi-globe me-2"></i>[ TRACE_ROUTE_GEO ]
+        </div>
+        {% if signals.get('lat') and signals.get('lon') %}
+        <div class="p-0">
+          <div id="geo-map" style="height:300px; width:100%;"></div>
+        </div>
+        <div class="p-2 px-3 border-top border-secondary" style="background: rgba(0,0,0,0.5);">
+          <small class="font-mono text-muted">
+            <i class="bi bi-crosshair me-1"></i> LOC: {{ signals.city or 'UNKNOWN' }}, {{ signals.country or 'UNKNOWN' }} | IP: {{ signals.origin_ip }}
+            {% if signals.asn_org %} | ASN: {{ signals.asn_org }}{% endif %}
+          </small>
+        </div>
+        {% else %}
+        <div class="p-5 text-center d-flex flex-column justify-content-center h-100">
+          <i class="bi bi-geo-alt mb-3" style="font-size: 3rem; color: #333;"></i>
+          <span class="matrix-label mb-2">NO_GEO_DATA_FOUND</span>
+          <span class="text-muted small font-mono">NO EXTERNAL IP FOUND IN RECEIVED CHAIN. EXPECTED FOR SYNTHETIC PAYLOADS.</span>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Indicators -->
+    <div class="col-lg-5">
+      <div class="cyber-panel h-100 p-0">
+        <div class="cyber-panel-header">
+          <i class="bi bi-terminal-split me-2"></i>[ ANOMALY_LOGS ]
+        </div>
+        <div class="p-4" style="max-height: 340px; overflow-y: auto;">
+          
+          <div class="matrix-label mb-2">>_ DETECTION_INDICATORS</div>
+          <div class="mb-4">
+            {% for ind in signals.get('indicators', []) %}
+            <div class="mb-1 font-mono small text-muted">
+              <span style="color: var(--term-warn);">[*]</span> {{ ind }}
+            </div>
+            {% else %}
+            <small class="font-mono text-muted">[-] NO INDICATORS LOGGED.</small>
+            {% endfor %}
+          </div>
+
+          <div class="matrix-label mb-2">>_ HEADER_ANOMALIES</div>
+          <div>
+            {% for anom in signals.get('anomalies', []) %}
+            <div class="mb-1 font-mono small text-muted">
+              <span style="color: var(--term-alert);">[X]</span> <span style="color: var(--term-alert-dim);">{{ anom }}</span>
+            </div>
+            {% else %}
+            <small class="font-mono text-muted">[-] NO ANOMALIES DETECTED.</small>
+            {% endfor %}
+          </div>
+          
           {% if signals.get('auth_note') %}
-          <div class="mt-3 p-2 rounded bg-dark">
-            <small class="text-muted"><i class="bi bi-info-circle me-1"></i>{{ signals.auth_note }}</small>
+          <div class="mt-4 p-2" style="border-left: 2px solid var(--term-cyan); background: rgba(8,247,254,0.05);">
+            <small class="font-mono text-muted">MSG: {{ signals.auth_note }}</small>
           </div>
           {% endif %}
         </div>
@@ -258,92 +475,94 @@
     </div>
   </div>
 
-  <!-- Campaign Members -->
-  {% if email.campaign_id and campaign_members %}
-  <div class="card glass-card mb-4">
-    <div class="card-header py-3 px-4 d-flex align-items-center justify-content-between">
-      <h6 class="mb-0 fw-semibold">
-        <i class="bi bi-diagram-3-fill me-2 text-purple"></i>
-        Campaign C{{ email.campaign_id }} &mdash; {{ campaign_members|length }} linked emails
-      </h6>
-      <a href="{{ url_for('dashboard', campaign=email.campaign_id) }}" class="btn btn-sm btn-outline-secondary">View All</a>
-    </div>
-    <div class="card-body p-0">
-      <div class="table-responsive">
-        <table class="table table-dark table-sm mb-0">
-          <thead><tr><th>#</th><th>Subject</th><th>From</th><th>Score</th><th>Outcome</th><th>Analyzed</th></tr></thead>
-          <tbody>
-            {% for m in campaign_members[:8] %}
-            <tr onclick="window.location='{{ url_for('detail', email_id=m.id) }}'" style="cursor:pointer;">
-              <td class="text-muted small">{{ m.id }}</td>
-              <td class="text-truncate" style="max-width:200px;">{{ m.subject or '(no subject)' }}</td>
-              <td class="font-mono small text-muted">{{ m.from_addr or '—' }}</td>
-              <td class="font-mono" style="color:{{ m.score|score_color if m.score else '#888' }}">{{ "%.0f"|format(m.score or 0) }}</td>
-              <td><span class="badge outcome-badge outcome-{{ (m.outcome or '')|replace(' ','-') }}">{{ m.outcome or '—' }}</span></td>
-              <td class="text-muted small">{{ (m.analyzed_at or '')[:16]|replace('T',' ') }}</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+  <!-- Bottom Data Dumps: Campaigns, URLs, URLHaus -->
+  <div class="row g-4 mb-4">
+    
+    {% if email.campaign_id and campaign_members %}
+    <div class="col-12">
+      <div class="cyber-panel p-0 border-top border-purple" style="border-top-width:3px !important; border-top-color: var(--term-purple) !important;">
+        <div class="cyber-panel-header justify-content-between">
+          <span><i class="bi bi-diagram-3-fill me-2" style="color: var(--term-purple);"></i>[ CAMPAIGN_NODE: C_{{ email.campaign_id }} ]</span>
+          <a href="{{ url_for('dashboard', campaign=email.campaign_id) }}" class="btn btn-sm btn-cyber btn-cyber-alt py-0 px-2" style="font-size:0.7rem;">VIEW_CLUSTER</a>
+        </div>
+        <div class="p-0 table-responsive">
+          <table class="table table-cyber table-sm mb-0 w-100">
+            <thead><tr><th>SEQ#</th><th>SUBJECT_STR</th><th>ORIGIN_ADDR</th><th>THREAT_LVL</th><th>ACTION</th><th>TIME_SCAN</th></tr></thead>
+            <tbody>
+              {% for m in campaign_members[:8] %}
+              <tr onclick="window.location='{{ url_for('detail', email_id=m.id) }}'" style="cursor:pointer;">
+                <td class="text-muted small font-mono">0x{{ "%04d"|format(m.id) }}</td>
+                <td class="text-truncate" style="max-width:200px;">{{ m.subject or 'NULL' }}</td>
+                <td class="font-mono text-muted">{{ m.from_addr or 'NULL' }}</td>
+                <td class="font-mono fw-bold" style="color:{{ m.score|score_color if m.score else '#888' }}">{{ "%.0f"|format(m.score or 0) }}</td>
+                <td><span class="cyber-badge outcome-{{ (m.outcome or '')|replace(' ','-') }} py-1 px-2" style="font-size:0.6rem;">{{ m.outcome or 'NULL' }}</span></td>
+                <td class="text-muted small font-mono">{{ (m.analyzed_at or '')[:16]|replace('T',' ') }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
-  </div>
-  {% endif %}
+    {% endif %}
 
-  <!-- URLhaus Hits -->
-  {% if signals.get('urlhaus_hits') %}
-  <div class="card glass-card mb-4 border-danger">
-    <div class="card-header py-3 px-4 bg-danger bg-opacity-10">
-      <h6 class="mb-0 fw-semibold text-danger"><i class="bi bi-virus me-2"></i>URLhaus Malware URL Hits</h6>
-    </div>
-    <div class="card-body p-3">
-      {% for url in signals.urlhaus_hits %}
-      <div class="mb-1 font-mono small text-danger">{{ url }}</div>
-      {% endfor %}
-    </div>
-  </div>
-  {% endif %}
-
-  <!-- URLs Extracted -->
-  {% if signals.get('urls') %}
-  <div class="card glass-card mb-4">
-    <div class="card-header py-3 px-4">
-      <h6 class="mb-0 fw-semibold"><i class="bi bi-link-45deg me-2 text-info"></i>Extracted URLs ({{ signals.urls|length }})</h6>
-    </div>
-    <div class="card-body p-3">
-      <div style="max-height:200px;overflow-y:auto;">
-        {% for url in signals.urls %}
-        <div class="mb-1 font-mono small text-muted text-truncate" title="{{ url }}">{{ url }}</div>
-        {% endfor %}
+    {% if signals.get('urlhaus_hits') %}
+    <div class="col-md-6">
+      <div class="cyber-panel p-0 h-100 border-top border-danger" style="border-top-width: 3px !important;">
+        <div class="cyber-panel-header text-danger" style="background: rgba(255,0,60,0.1);">
+          <i class="bi bi-bug-fill me-2"></i>[ URLHAUS_MALWARE_HITS ]
+        </div>
+        <div class="p-3" style="max-height: 200px; overflow-y:auto; background: #000;">
+          {% for url in signals.urlhaus_hits %}
+          <div class="mb-1 font-mono small" style="color: var(--term-alert);">{{ url }}</div>
+          {% endfor %}
+        </div>
       </div>
     </div>
-  </div>
-  {% endif %}
+    {% endif %}
 
+    {% if signals.get('urls') %}
+    <div class="col-md-6">
+      <div class="cyber-panel p-0 h-100">
+        <div class="cyber-panel-header">
+          <i class="bi bi-link-45deg me-2"></i>[ EXTRACTED_URLS :: COUNT={{ signals.urls|length }} ]
+        </div>
+        <div class="p-3" style="max-height: 200px; overflow-y:auto; background: #000;">
+          {% for url in signals.urls %}
+          <div class="mb-1 font-mono small text-muted text-truncate" title="{{ url }}">{{ url }}</div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+  </div>
 </div>
 {% endblock %}
 
 {% block extra_scripts %}
 <script>
-// Score gauge (Chart.js doughnut)
+// Score gauge (Chart.js doughnut) - customized for Hacker Theme
 const score = {{ email.score or 0 }};
-const color = score >= 70 ? '#ff4444' : (score >= 40 ? '#ffaa00' : '#00ff88');
+const color = score >= 70 ? '#ff003c' : (score >= 40 ? '#ffaa00' : '#00ff41');
 const ctx = document.getElementById('scoreGauge').getContext('2d');
 new Chart(ctx, {
   type: 'doughnut',
   data: {
     datasets: [{
       data: [score, 100 - score],
-      backgroundColor: [color, '#1e2533'],
-      borderWidth: 0,
+      backgroundColor: [color, '#111'],
+      borderWidth: 1,
+      borderColor: '#333',
       circumference: 270,
       rotation: 225,
+      hoverOffset: 0
     }]
   },
   options: {
-    cutout: '78%',
+    cutout: '80%',
     plugins: { legend: { display: false }, tooltip: { enabled: false } },
-    animation: { duration: 1200, easing: 'easeInOutQuart' },
+    animation: { duration: 1500, easing: 'easeOutExpo' },
   }
 });
 
@@ -357,7 +576,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
 
 const markerIcon = L.divIcon({
   className: '',
-  html: '<div style="width:16px;height:16px;background:#ff4444;border-radius:50%;border:3px solid #fff;box-shadow:0 0 12px #ff4444;"></div>',
+  html: '<div style="width:16px;height:16px;background:var(--term-alert);border-radius:50%;border:2px solid var(--term-cyan);box-shadow:0 0 15px var(--term-alert);"></div>',
   iconSize: [16, 16],
   iconAnchor: [8, 8],
 });
@@ -365,10 +584,10 @@ const markerIcon = L.divIcon({
 L.marker([{{ signals.lat }}, {{ signals.lon }}], { icon: markerIcon })
   .addTo(map)
   .bindPopup(`
-    <strong>{{ signals.get('city','') }}, {{ signals.get('country','') }}</strong><br>
-    IP: <code>{{ signals.get('origin_ip','') }}</code><br>
-    ASN: {{ signals.get('asn_org','—') }}
-  `, { className: 'map-popup' })
+    <strong class="font-mono text-uppercase">${ "{{ signals.get('city','') }}, {{ signals.get('country','') }}" || 'UNKNOWN_LOC' }</strong><br>
+    <span class="text-muted font-mono">IP:</span> <code>{{ signals.get('origin_ip','') }}</code><br>
+    <span class="text-muted font-mono">ASN:</span> <span class="font-mono">{{ signals.get('asn_org','NULL') }}</span>
+  `, { className: 'cyber-popup' })
   .openPopup();
 {% endif %}
 </script>
